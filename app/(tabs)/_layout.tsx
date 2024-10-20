@@ -59,7 +59,7 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="pan"
+        name="explore"
         options={{
           title: '发现',
           tabBarIcon: ({ color, focused }) => (
