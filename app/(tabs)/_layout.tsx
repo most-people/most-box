@@ -17,9 +17,20 @@ import IconExploreActive from '@/assets/icon/explore-active.svg'
 import IconMine from '@/assets/icon/mine.svg'
 import IconMineActive from '@/assets/icon/mine-active.svg'
 
+// 定义图标组件
+const TabIcon: React.FC<{
+  focused: boolean
+  color: string
+  icon: React.ComponentType<any>
+  activeIcon: React.ComponentType<any>
+  size?: number
+}> = ({ focused, color, activeIcon, icon, size = 24 }) => {
+  const Icon = focused ? activeIcon : icon
+  return <Icon width={size} height={size} fill={color} />
+}
+
 export default function TabLayout() {
   const colorScheme = useColorScheme()
-
   return (
     <Tabs
       screenOptions={{
@@ -27,13 +38,13 @@ export default function TabLayout() {
         headerShown: false,
       }}
     >
-      {25}
       <Tabs.Screen
         name="index"
         options={{
           title: '聊天',
-          tabBarIcon: ({ color, focused }) =>
-            focused ? <IconChatActive fill={color} /> : <IconChat fill={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcon focused={focused} color={color} icon={IconChat} activeIcon={IconChatActive} />
+          ),
         }}
       />
 
@@ -41,32 +52,34 @@ export default function TabLayout() {
         name="note"
         options={{
           title: '笔记',
-          tabBarIcon: ({ color, focused }) =>
-            focused ? <IconNoteActive fill={color} /> : <IconNote fill={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcon focused={focused} color={color} icon={IconNote} activeIcon={IconNoteActive} />
+          ),
         }}
       />
+
       <Tabs.Screen
         name="pan"
         options={{
           title: '发现',
-          tabBarIcon: ({ color, focused, size }) =>
-            focused ? (
-              <IconExploreActive width={size} height={size} fill={color} />
-            ) : (
-              <IconExplore width={size} height={size} fill={color} />
-            ),
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcon
+              focused={focused}
+              color={color}
+              icon={IconExplore}
+              activeIcon={IconExploreActive}
+            />
+          ),
         }}
       />
+
       <Tabs.Screen
         name="mine"
         options={{
           title: '我',
-          tabBarIcon: ({ color, focused, size }) =>
-            focused ? (
-              <IconMineActive width={size} height={size} fill={color} />
-            ) : (
-              <IconMine width={size} height={size} fill={color} />
-            ),
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcon focused={focused} color={color} icon={IconMine} activeIcon={IconMineActive} />
+          ),
         }}
       />
     </Tabs>
