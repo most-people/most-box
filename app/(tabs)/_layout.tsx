@@ -5,6 +5,7 @@ import { TabBarIcon } from '@/components/navigation/TabBarIcon'
 import { Colors } from '@/constants/Colors'
 import { useColorScheme } from '@/hooks/useColorScheme'
 
+// https://www.flaticon.com/free-icon-font/message-star
 export default function TabLayout() {
   const colorScheme = useColorScheme()
 
@@ -37,7 +38,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="pan"
         options={{
-          title: '工具箱',
+          title: '发现',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
           ),
@@ -46,7 +47,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="mine"
         options={{
-          title: '云盘',
+          title: '我',
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
           ),
