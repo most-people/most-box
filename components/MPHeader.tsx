@@ -1,10 +1,12 @@
 import React from 'react'
-import { StyleSheet, SafeAreaView } from 'react-native'
+import { StyleSheet, SafeAreaView, StatusBar } from 'react-native'
 import { MPView } from '@/components/MPView'
 import { MPText } from '@/components/MPText'
+import { Colors } from '@/constants/Colors'
 const MPHeader = (props: { title: string }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="dark-content" />
       <MPView style={styles.header}>
         <MPText style={styles.title}>{props.title}</MPText>
       </MPView>
@@ -15,11 +17,11 @@ const MPHeader = (props: { title: string }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 0,
-    // backgroundColor: '#f8f8f8',
+    backgroundColor: Colors.background,
   },
   header: {
-    // backgroundColor: '#f8f8f8',
-    height: 60,
+    backgroundColor: Colors.background,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
   },

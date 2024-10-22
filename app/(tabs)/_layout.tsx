@@ -2,7 +2,6 @@ import { Tabs } from 'expo-router'
 import React from 'react'
 
 import { Colors } from '@/constants/Colors'
-import { useColorScheme } from '@/hooks/useColorScheme'
 
 // https://www.flaticon.com/free-icon-font/message-star_16866110?page=1&position=3&term=message-star&origin=search&related_id=16866110
 import IconChat from '@/assets/icon/chat.svg'
@@ -30,11 +29,10 @@ const TabIcon: React.FC<{
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme()
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors.tint,
         headerShown: false,
       }}
     >

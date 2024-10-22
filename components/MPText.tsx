@@ -1,6 +1,5 @@
 import { Text, type TextProps, StyleSheet } from 'react-native'
-
-import { useThemeColor } from '@/hooks/useThemeColor'
+import { Colors } from '@/constants/Colors'
 
 export type MPTextProps = TextProps & {
   lightColor?: string
@@ -9,12 +8,10 @@ export type MPTextProps = TextProps & {
 }
 
 export function MPText({ style, lightColor, darkColor, type = 'default', ...rest }: MPTextProps) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text')
-
   return (
     <Text
       style={[
-        { color },
+        { color: Colors.text },
         type === 'default' ? styles.default : undefined,
         type === 'title' ? styles.title : undefined,
         type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,
