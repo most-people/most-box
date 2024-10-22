@@ -1,11 +1,13 @@
 import React from 'react'
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
+import { StyleSheet, SafeAreaView } from 'react-native'
+import { MPView } from '@/components/MPView'
+import { MPText } from '@/components/MPText'
 const MPHeader = (props: { title: string }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
-      <View style={styles.header}>
-        <Text style={styles.title}>{props.title}</Text>
-      </View>
+      <MPView style={styles.header}>
+        <MPText style={styles.title}>{props.title}</MPText>
+      </MPView>
     </SafeAreaView>
   )
 }
@@ -13,10 +15,11 @@ const MPHeader = (props: { title: string }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 0,
-    backgroundColor: '#f8f8f8',
+    // backgroundColor: '#f8f8f8',
   },
   header: {
-    height: 40,
+    // backgroundColor: '#f8f8f8',
+    height: 60,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -2,8 +2,8 @@ import { Image, StyleSheet, Platform } from 'react-native'
 
 import { HelloWave } from '@/components/HelloWave'
 import ParallaxScrollView from '@/components/ParallaxScrollView'
-import { ThemedText } from '@/components/ThemedText'
-import { ThemedView } from '@/components/ThemedView'
+import { MPText } from '@/components/MPText'
+import { MPView } from '@/components/MPView'
 
 export default function HomeScreen() {
   return (
@@ -16,37 +16,35 @@ export default function HomeScreen() {
         />
       }
     >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+      <MPView style={styles.titleContainer}>
+        <MPText type="title">Welcome!</MPText>
         <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
+      </MPView>
+      <MPView style={styles.stepContainer}>
+        <MPText type="subtitle">Step 1: Try it</MPText>
+        <MPText>
+          Edit <MPText type="defaultSemiBold">app/(tabs)/index.tsx</MPText> to see changes. Press{' '}
+          <MPText type="defaultSemiBold">
             {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
+          </MPText>{' '}
           to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
+        </MPText>
+      </MPView>
+      <MPView style={styles.stepContainer}>
+        <MPText type="subtitle">Step 2: Explore</MPText>
+        <MPText>
           Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
+        </MPText>
+      </MPView>
+      <MPView style={styles.stepContainer}>
+        <MPText type="subtitle">Step 3: Get a fresh start</MPText>
+        <MPText>
+          When you're ready, run <MPText type="defaultSemiBold">npm run reset-project</MPText> to
+          get a fresh <MPText type="defaultSemiBold">app</MPText> directory. This will move the
+          current <MPText type="defaultSemiBold">app</MPText> to{' '}
+          <MPText type="defaultSemiBold">app-example</MPText>.
+        </MPText>
+      </MPView>
     </ParallaxScrollView>
   )
 }
