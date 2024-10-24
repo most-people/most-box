@@ -4,26 +4,12 @@ import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import api from '@/constants/Api'
 import mmkv from '@/stores/mmkv'
+import { Note, noteAtom } from '@/stores/noteStore'
+import { useAtom } from 'jotai'
 import 'react-native-reanimated'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
-
-export interface NoteAuthor {
-  user_id: number
-  password_hash: string
-}
-export interface Note {
-  id: number
-  title: string
-  content: string
-  updated_time: string
-  user_id: number
-  authors?: NoteAuthor[]
-  address?: string
-  openly?: boolean
-  isEncrypt?: boolean
-}
 
 const initKnowledge = async () => {
   const list = mmkv.getItem('KnowledgeCache') as Note[] | null
@@ -49,22 +35,26 @@ const initKnowledge = async () => {
   }
 }
 const fetchKnowledge = async () => {
-  const res = await api({ method: 'post', url: '/db/get/Notes' })
-  if (res.ok) {
-    const list = res.data as Note[]
+  api({ method: 'post', url: '/db/get/Notes' })
+    .then((res) => {
+      if (res.ok) {
+        const list = res.data as Note[]
 
-    // this.notes = list
-    // this.inited = true
+        // this.notes = list
+        // this.inited = true
 
-    // save
-    const KnowledgeCache = JSON.stringify(list)
-    const KnowledgeHash = mmkv.getHash(KnowledgeCache)
-    mmkv.setItem('KnowledgeCache', KnowledgeCache)
-    mmkv.setItem('KnowledgeHash', KnowledgeHash)
-  }
+        // save
+        const KnowledgeCache = JSON.stringify(list)
+        const KnowledgeHash = mmkv.getHash(KnowledgeCache)
+        mmkv.setItem('KnowledgeCache', KnowledgeCache)
+        mmkv.setItem('KnowledgeHash', KnowledgeHash)
+      }
+    })
+    .catch(() => {})
 }
 
 export default function RootLayout() {
+  // const [] = useAtom(noteStore)
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   })

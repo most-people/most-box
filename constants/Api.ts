@@ -58,8 +58,8 @@ const setInterceptors = (api: AxiosInstance) => {
 }
 
 const api = Axios.create({
-  baseURL: 'http://localhost:8001',
-  // baseURL: 'https://api.most.red',
+  // baseURL: 'http://localhost:8001',
+  baseURL: 'https://api.most.red',
 })
 
 setInterceptors(api)
