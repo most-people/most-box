@@ -3,24 +3,23 @@ import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import api from '@/constants/Api'
-import mmkv from '@/stores/mmkv'
-import { Note, noteAtom } from '@/stores/noteStore'
-import { useAtom } from 'jotai'
+import asyncStorage from '@/stores/asyncStorage'
+import { Note, useNoteStore } from '@/stores/noteStore'
 import 'react-native-reanimated'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
 
 const initKnowledge = async () => {
-  const list = mmkv.getItem('KnowledgeCache') as Note[] | null
+  const list = (await asyncStorage.getItem('KnowledgeCache')) as Note[] | null
   if (list && list[0].id) {
-    // this.notes = list
-    // this.inited = true
+    useNoteStore.getState().setItem('notes', list)
+    useNoteStore.getState().setItem('inited', true)
 
     // 检查 KnowledgeHash
     const res = await api({
       url: '/db/check/hash/Notes',
-      params: { hash: mmkv.getItem('KnowledgeHash') },
+      params: { hash: asyncStorage.getItem('KnowledgeHash') },
     })
     if (res.ok) {
       if (res.data === true) {
@@ -40,28 +39,28 @@ const fetchKnowledge = async () => {
       if (res.ok) {
         const list = res.data as Note[]
 
-        // this.notes = list
-        // this.inited = true
+        useNoteStore.getState().setItem('notes', list)
+        useNoteStore.getState().setItem('inited', true)
 
         // save
         const KnowledgeCache = JSON.stringify(list)
-        const KnowledgeHash = mmkv.getHash(KnowledgeCache)
-        mmkv.setItem('KnowledgeCache', KnowledgeCache)
-        mmkv.setItem('KnowledgeHash', KnowledgeHash)
+        const KnowledgeHash = asyncStorage.getHash(KnowledgeCache)
+        asyncStorage.setItem('KnowledgeCache', KnowledgeCache)
+        asyncStorage.setItem('KnowledgeHash', KnowledgeHash)
       }
     })
     .catch(() => {})
 }
 
 export default function RootLayout() {
-  // const [] = useAtom(noteStore)
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  })
-
   useEffect(() => {
     initKnowledge()
   }, [])
+
+  // Load the fonts
+  const [loaded] = useFonts({
+    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+  })
 
   useEffect(() => {
     if (loaded) {

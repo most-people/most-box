@@ -3,7 +3,7 @@ import { StyleSheet, SafeAreaView, StatusBar } from 'react-native'
 import { MPView } from '@/components/MPView'
 import { MPText } from '@/components/MPText'
 import { Colors } from '@/constants/Colors'
-const MPHeader = (props: { title: string }) => {
+export const MPHeader = (props: { title: string }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" />
@@ -29,5 +29,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 })
-
-export default MPHeader

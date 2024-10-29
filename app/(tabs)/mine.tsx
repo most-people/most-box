@@ -5,7 +5,7 @@ import ParallaxScrollView from '@/components/ParallaxScrollView'
 import { MPText } from '@/components/MPText'
 import { MPView } from '@/components/MPView'
 
-export default function HomeScreen() {
+export default function MineScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={'#A1CEDC'}

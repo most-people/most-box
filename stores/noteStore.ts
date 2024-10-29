@@ -1,5 +1,4 @@
-// atoms.js
-import { atom, useAtom } from 'jotai'
+import { create, StoreApi } from 'zustand'
 
 export interface NoteAuthor {
   user_id: number
@@ -24,16 +23,16 @@ interface NoteStore {
   authorsInited: boolean
 }
 
-const noteAtom = atom<NoteStore>({
+interface State extends NoteStore {
+  setItem: <K extends keyof State>(key: K, value: State[K]) => void
+}
+
+export const useNoteStore = create<State>((set: StoreApi<State>['setState']) => ({
   notes: [],
   authorsNotes: [],
-  authorsInited: false,
   inited: false,
-})
+  authorsInited: false,
+  setItem: (key, value) => set((state) => ({ ...state, [key]: value })),
+}))
 
-export const useNoteStore = () => {
-  const [noteStore, setNoteStore] = useAtom(noteAtom)
-  return {
-    noteStore,
-  }
-}
+// setItem("notes", newNotes)

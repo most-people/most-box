@@ -1,5 +1,5 @@
 import { View } from 'react-native'
-import MPHeader from '@/components/MPHeader'
+import { MPHeader } from '@/components/MPHeader'
 export default function HomeScreen() {
   return (
     <View>

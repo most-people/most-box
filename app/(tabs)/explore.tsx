@@ -7,7 +7,7 @@ import ParallaxScrollView from '@/components/ParallaxScrollView'
 import { MPText } from '@/components/MPText'
 import { MPView } from '@/components/MPView'
 
-export default function TabTwoScreen() {
+export default function ExploreScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={'#D0D0D0'}
