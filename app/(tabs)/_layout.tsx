@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router'
 import React from 'react'
+import { Text } from 'react-native'
 
 import { Colors } from '@/constants/Colors'
 
@@ -15,6 +16,8 @@ import IconExploreActive from '@/assets/icon/explore-active.svg'
 // https://www.flaticon.com/free-icon-font/user_3917711?page=1&position=1&term=user&origin=search&related_id=3917711
 import IconMine from '@/assets/icon/mine.svg'
 import IconMineActive from '@/assets/icon/mine-active.svg'
+// https://www.flaticon.com/free-icon-font/add_15861077?page=1&position=1&term=add&origin=search&related_id=15861077
+import IconAdd from '@/assets/icon/add.svg'
 
 // 定义图标组件
 const TabIcon: React.FC<{
@@ -33,7 +36,10 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors.tint,
-        headerShown: false,
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          fontSize: 16,
+        },
       }}
     >
       <Tabs.Screen
@@ -42,6 +48,9 @@ export default function TabLayout() {
           title: '聊天',
           tabBarIcon: ({ color, focused }) => (
             <TabIcon focused={focused} color={color} icon={IconChat} activeIcon={IconChatActive} />
+          ),
+          headerRight: () => (
+            <IconAdd style={{ marginRight: 16 }} width={20} height={20} fill={Colors.text} />
           ),
         }}
       />
@@ -53,6 +62,9 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <TabIcon focused={focused} color={color} icon={IconNote} activeIcon={IconNoteActive} />
           ),
+          headerRight: () => (
+            <IconAdd style={{ marginRight: 16 }} width={20} height={20} fill={Colors.text} />
+          ),
         }}
       />
 
@@ -60,6 +72,7 @@ export default function TabLayout() {
         name="explore"
         options={{
           title: '探索',
+          headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
               focused={focused}
@@ -75,6 +88,7 @@ export default function TabLayout() {
         name="mine"
         options={{
           title: '我',
+          headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcon focused={focused} color={color} icon={IconMine} activeIcon={IconMineActive} />
           ),
