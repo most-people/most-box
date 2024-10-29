@@ -1,5 +1,8 @@
-import { View } from 'react-native'
-// import { MPHeader } from '@/components/MPHeader'
+import { View, Text } from 'react-native'
 export default function HomeScreen() {
-  return <View>{/* <MPHeader title="加密聊天" /> */}</View>
+  return (
+    <View>
+      <Text>首页</Text>
+    </View>
+  )
 }

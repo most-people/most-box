@@ -11,15 +11,17 @@ import 'react-native-reanimated'
 SplashScreen.preventAutoHideAsync()
 
 const initKnowledge = async () => {
-  const list = (await asyncStorage.getItem('KnowledgeCache')) as Note[] | null
+  const list: Note[] | null = await asyncStorage.getItem('KnowledgeCache')
   if (list && list[0].id) {
     useNoteStore.getState().setItem('notes', list)
     useNoteStore.getState().setItem('inited', true)
 
+    const KnowledgeHash = await asyncStorage.getItem('KnowledgeHash')
+
     // 检查 KnowledgeHash
     const res = await api({
       url: '/db/check/hash/Notes',
-      params: { hash: asyncStorage.getItem('KnowledgeHash') },
+      params: { hash: KnowledgeHash },
     })
     if (res.ok) {
       if (res.data === true) {
