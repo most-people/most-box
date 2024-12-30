@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "build": "expo export",
+    "build": "expo export && cp _redirects dist",
     "preview": "npx serve dist",
     "npm": "npm install",
     "lint": "expo lint"
