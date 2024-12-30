@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList } from 'react-native'
+import { FlatList } from 'react-native'
 import { useNoteStore } from '@/stores/noteStore'
 import { MPText } from '@/components/MPText'
 // import { Colors } from '@/constants/Colors'
@@ -16,9 +16,3 @@ export default function NoteScreen() {
     />
   )
 }
-
-const styles = StyleSheet.create({
-  body: {
-    paddingBottom: 40,
-  },
-})
