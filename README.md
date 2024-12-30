@@ -55,3 +55,7 @@ Join our community of developers creating universal apps.
 
 sudo npm config set proxy http://127.0.0.1:7890
 sudo npm config set https-proxy http://127.0.0.1:7890
+
+## 最新模板 app-example
+
+npx create-expo-app@latest
