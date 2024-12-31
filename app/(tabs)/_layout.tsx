@@ -39,6 +39,12 @@ export default function TabLayout() {
         headerTitleStyle: {
           fontSize: 16,
         },
+        tabBarStyle: {
+          minHeight: 56,
+        },
+        tabBarLabelStyle: {
+          width: '100%',
+        },
       }}
     >
       <Tabs.Screen
