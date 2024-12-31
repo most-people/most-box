@@ -4,9 +4,12 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
     "build": "expo export && cp _redirects dist",
     "preview": "npx serve dist",
     "npm": "npm install",
+    "doctor": "npx expo-doctor",
     "lint": "expo lint"
   },
   "devDependencies": {
@@ -45,11 +48,22 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "@dicebear/collection": "^9.2.2",
+    "@dicebear/core": "^9.2.2",
     "@react-native-async-storage/async-storage": "1.23.1",
+    "@types/libsodium-wrappers": "^0.7.14",
     "axios": "^1.7.9",
     "dayjs": "^1.11.13",
     "ethers": "^6.13.4",
+    "libsodium-wrappers": "^0.7.15",
     "zustand": "^5.0.2"
   },
-  "private": true
+  "private": true,
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "listUnknownPackages": false
+      }
+    }
+  }
 }
