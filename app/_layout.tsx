@@ -2,9 +2,9 @@
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
-import api from '@/constants/Api'
-import asyncStorage from '@/stores/asyncStorage'
-import { Note, useNoteStore } from '@/stores/noteStore'
+// import api from '@/constants/Api'
+// import asyncStorage from '@/stores/asyncStorage'
+// import { Note, useNoteStore } from '@/stores/noteStore'
 import 'react-native-reanimated'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.

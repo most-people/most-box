@@ -40,11 +40,10 @@ export default function TabLayout() {
           fontSize: 16,
         },
         tabBarStyle: {
-          minHeight: 56,
+          minHeight: 54,
         },
         tabBarLabelStyle: {
-          flexDirection: 'column',
-          width: '100%',
+          minWidth: 36,
         },
       }}
     >
@@ -56,7 +55,12 @@ export default function TabLayout() {
             <TabIcon focused={focused} color={color} icon={IconChat} activeIcon={IconChatActive} />
           ),
           headerRight: () => (
-            <IconAdd style={{ marginRight: 16 }} width={20} height={20} fill={Colors.text} />
+            <IconAdd
+              style={{ marginRight: 16, cursor: 'pointer' }}
+              width={20}
+              height={20}
+              fill={Colors.text}
+            />
           ),
         }}
       />
@@ -69,7 +73,12 @@ export default function TabLayout() {
             <TabIcon focused={focused} color={color} icon={IconNote} activeIcon={IconNoteActive} />
           ),
           headerRight: () => (
-            <IconAdd style={{ marginRight: 16 }} width={20} height={20} fill={Colors.text} />
+            <IconAdd
+              style={{ marginRight: 16, cursor: 'pointer' }}
+              width={20}
+              height={20}
+              fill={Colors.text}
+            />
           ),
         }}
       />
@@ -93,7 +102,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="mine"
         options={{
-          title: '我',
+          title: '我的',
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcon focused={focused} color={color} icon={IconMine} activeIcon={IconMineActive} />
