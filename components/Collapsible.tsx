@@ -1,10 +1,8 @@
-import Ionicons from '@expo/vector-icons/Ionicons'
 import { PropsWithChildren, useState } from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 
 import { MPText } from '@/components/MPText'
 import { MPView } from '@/components/MPView'
-import { Colors } from '@/constants/Colors'
 
 export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -16,11 +14,6 @@ export function Collapsible({ children, title }: PropsWithChildren & { title: st
         onPress={() => setIsOpen((value) => !value)}
         activeOpacity={0.8}
       >
-        <Ionicons
-          name={isOpen ? 'chevron-down' : 'chevron-forward-outline'}
-          size={18}
-          color={Colors.icon}
-        />
         <MPText type="defaultSemiBold">{title}</MPText>
       </TouchableOpacity>
       {isOpen && <MPView style={styles.content}>{children}</MPView>}

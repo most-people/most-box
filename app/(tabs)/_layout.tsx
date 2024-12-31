@@ -43,6 +43,7 @@ export default function TabLayout() {
           minHeight: 56,
         },
         tabBarLabelStyle: {
+          flexDirection: 'column',
           width: '100%',
         },
       }}
