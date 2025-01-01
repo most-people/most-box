@@ -5,7 +5,7 @@ import { Platform } from 'react-native'
 import { HapticTab } from '@/components/HapticTab'
 import TabBarBackground from '@/components/ui/TabBarBackground'
 import { Colors } from '@/constants/Colors'
-import { useTheme } from '@/hooks/useTheme'
+import { useColorScheme } from 'react-native'
 
 // https://www.flaticon.com/free-icon-font/message-star_16866110?page=1&position=3&term=message-star&origin=search&related_id=16866110
 import IconChat from '@/assets/icon/chat.svg'
@@ -35,7 +35,7 @@ const TabIcon: React.FC<{
 }
 
 export default function TabLayout() {
-  const colorScheme = useTheme()
+  const colorScheme = useColorScheme() ?? 'light'
 
   return (
     <Tabs

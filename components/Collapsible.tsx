@@ -4,12 +4,12 @@ import { StyleSheet, TouchableOpacity } from 'react-native'
 import { ThemedText } from '@/components/ThemedText'
 import { ThemedView } from '@/components/ThemedView'
 import { Colors } from '@/constants/Colors'
-import { useTheme } from '@/hooks/useTheme'
+import { useColorScheme } from '@/hooks/useTheme'
 import IconAngle from '@/assets/icon/angle.svg'
 
 export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
   const [isOpen, setIsOpen] = useState(false)
-  const theme = useTheme()
+  const theme = useColorScheme() ?? 'light'
 
   return (
     <ThemedView>

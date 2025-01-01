@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 // import { Note, useNoteStore } from '@/stores/noteStore'
 import 'react-native-reanimated'
 
-import { useTheme } from '@/hooks/useTheme'
+import { useColorScheme } from 'react-native'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -61,7 +61,7 @@ SplashScreen.preventAutoHideAsync()
 // initKnowledge()
 // }, [])
 export default function RootLayout() {
-  const colorScheme = useTheme()
+  const colorScheme = useColorScheme() ?? 'light'
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   })
