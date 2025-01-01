@@ -1,21 +1,17 @@
 import { FlatList } from 'react-native'
 import { useNoteStore } from '@/stores/noteStore'
 import { ThemedText } from '@/components/ThemedText'
-import { ThemedView } from '@/components/ThemedView'
+import PageView from '@/components/PageView'
 export default function NoteScreen() {
   const notes = useNoteStore((state) => state.notes)
   return (
-    <ThemedView>
+    <PageView>
       <ThemedText>笔记</ThemedText>
       <FlatList
         data={notes}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => (
-          <ThemedText>
-            {item.title} {item.id}
-          </ThemedText>
-        )}
+        renderItem={({ item }) => <ThemedText>{item.title}</ThemedText>}
       />
-    </ThemedView>
+    </PageView>
   )
 }

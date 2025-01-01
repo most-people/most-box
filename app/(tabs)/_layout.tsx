@@ -102,7 +102,7 @@ export default function TabLayout() {
         name="explore"
         options={{
           title: '探索',
-          headerShown: false,
+          // headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
               focused={focused}
@@ -118,7 +118,7 @@ export default function TabLayout() {
         name="mine"
         options={{
           title: '我的',
-          headerShown: false,
+          // headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcon focused={focused} color={color} icon={IconMine} activeIcon={IconMineActive} />
           ),
