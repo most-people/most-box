@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "app-example",
-    "slug": "app-example",
+    "name": "most.box",
+    "slug": "most-box",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "most.box",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
