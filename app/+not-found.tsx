@@ -1,20 +1,19 @@
-import React from 'react'
 import { Link, Stack } from 'expo-router'
 import { StyleSheet } from 'react-native'
 
-import { MPText } from '@/components/MPText'
-import { MPView } from '@/components/MPView'
+import { ThemedText } from '@/components/ThemedText'
+import { ThemedView } from '@/components/ThemedView'
 
 export default function NotFoundScreen() {
   return (
     <>
       <Stack.Screen options={{ title: 'Oops!' }} />
-      <MPView style={styles.container}>
-        <MPText type="title">This screen doesn't exist.</MPText>
+      <ThemedView style={styles.container}>
+        <ThemedText type="title">This screen doesn't exist.</ThemedText>
         <Link href="/" style={styles.link}>
-          <MPText type="link">Go to home screen!</MPText>
+          <ThemedText type="link">Go to home screen!</ThemedText>
         </Link>
-      </MPView>
+      </ThemedView>
     </>
   )
 }

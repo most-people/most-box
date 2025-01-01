@@ -1,11 +1,15 @@
-// import { useFonts } from 'expo-font'
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
+import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
+import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
 // import api from '@/constants/Api'
 // import asyncStorage from '@/stores/asyncStorage'
 // import { Note, useNoteStore } from '@/stores/noteStore'
 import 'react-native-reanimated'
+
+import { useTheme } from '@/hooks/useTheme'
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync()
@@ -53,31 +57,32 @@ SplashScreen.preventAutoHideAsync()
 //     })
 //     .catch(() => {})
 // }
-
+// useEffect(() => {
+// initKnowledge()
+// }, [])
 export default function RootLayout() {
+  const colorScheme = useTheme()
+  const [loaded] = useFonts({
+    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+  })
+
   useEffect(() => {
-    // initKnowledge()
-  }, [])
+    if (loaded) {
+      SplashScreen.hideAsync()
+    }
+  }, [loaded])
 
-  // Load the fonts
-  // const [loaded] = useFonts({
-  //   SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  // })
-
-  // useEffect(() => {
-  //   if (loaded) {
-  //     SplashScreen.hideAsync()
-  //   }
-  // }, [loaded])
-
-  // if (!loaded) {
-  //   return null
-  // }
+  if (!loaded) {
+    return null
+  }
 
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="+not-found" />
-    </Stack>
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+      <StatusBar style="auto" />
+    </ThemeProvider>
   )
 }

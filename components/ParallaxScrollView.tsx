@@ -7,13 +7,15 @@ import Animated, {
   useScrollViewOffset,
 } from 'react-native-reanimated'
 
-import { MPView } from '@/components/MPView'
+import { ThemedView } from '@/components/ThemedView'
+import { useBottomTabOverflow } from '@/components/ui/TabBarBackground'
+import { useTheme } from '@/hooks/useTheme'
 
 const HEADER_HEIGHT = 250
 
 type Props = PropsWithChildren<{
   headerImage: ReactElement
-  headerBackgroundColor: string
+  headerBackgroundColor: { dark: string; light: string }
 }>
 
 export default function ParallaxScrollView({
@@ -21,9 +23,10 @@ export default function ParallaxScrollView({
   headerImage,
   headerBackgroundColor,
 }: Props) {
+  const colorScheme = useTheme()
   const scrollRef = useAnimatedRef<Animated.ScrollView>()
   const scrollOffset = useScrollViewOffset(scrollRef)
-
+  const bottom = useBottomTabOverflow()
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -42,16 +45,25 @@ export default function ParallaxScrollView({
   })
 
   return (
-    <MPView style={styles.container}>
-      <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
+    <ThemedView style={styles.container}>
+      <Animated.ScrollView
+        ref={scrollRef}
+        scrollEventThrottle={16}
+        scrollIndicatorInsets={{ bottom }}
+        contentContainerStyle={{ paddingBottom: bottom }}
+      >
         <Animated.View
-          style={[styles.header, { backgroundColor: headerBackgroundColor }, headerAnimatedStyle]}
+          style={[
+            styles.header,
+            { backgroundColor: headerBackgroundColor[colorScheme] },
+            headerAnimatedStyle,
+          ]}
         >
           {headerImage}
         </Animated.View>
-        <MPView style={styles.content}>{children}</MPView>
+        <ThemedView style={styles.content}>{children}</ThemedView>
       </Animated.ScrollView>
-    </MPView>
+    </ThemedView>
   )
 }
 
@@ -60,7 +72,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    height: 250,
+    height: HEADER_HEIGHT,
     overflow: 'hidden',
   },
   content: {
