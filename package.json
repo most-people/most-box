@@ -8,7 +8,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "build": "expo export && cp _redirects dist",
-    "preview": "npx serve dist",
+    "preview": "npx serve dist -p 2024",
     "npm": "npm install",
     "lint": "expo lint"
   },

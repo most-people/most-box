@@ -5,7 +5,7 @@ import { ThemedText } from '@/components/ThemedText'
 import { ThemedView } from '@/components/ThemedView'
 import { Colors } from '@/constants/Colors'
 import { useColorScheme } from '@/hooks/useTheme'
-import IconAngle from '@/assets/icon/angle.svg'
+import { Icon } from '@/assets/icon'
 
 export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -18,7 +18,7 @@ export function Collapsible({ children, title }: PropsWithChildren & { title: st
         onPress={() => setIsOpen((value) => !value)}
         activeOpacity={0.8}
       >
-        <IconAngle
+        <Icon.Angle
           style={{ transform: [{ rotate: isOpen ? '90deg' : '0deg' }] }}
           width={18}
           height={18}
