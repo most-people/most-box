@@ -12,12 +12,11 @@ type ThemeProps = TextProps & {
 
 const ThemeText = ({ style, lightColor, darkColor, type = 'default', ...rest }: ThemeProps) => {
   const theme = useColorScheme() ?? 'light'
-  const color = Colors[theme].text
 
   return (
     <Text
       style={[
-        { color },
+        { color: Colors[theme].text },
         type === 'default' ? styles.default : undefined,
         type === 'title' ? styles.title : undefined,
         type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,

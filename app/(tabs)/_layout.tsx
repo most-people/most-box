@@ -1,3 +1,5 @@
+// Tabbar 文档 https://docs.expo.dev/router/advanced/tabs/
+// https://reactnavigation.org/docs/bottom-tab-navigator/?config=static#options
 import { Tabs } from 'expo-router'
 import React from 'react'
 import { Platform } from 'react-native'
@@ -34,6 +36,7 @@ export default function TabLayout() {
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
+          android: {},
           ios: {
             // Use a transparent background on iOS to show the blur effect
             position: 'absolute',
@@ -52,6 +55,11 @@ export default function TabLayout() {
         name="index"
         options={{
           title: '聊天',
+          // tabBarBadge: 99,
+          // tabBarBadgeStyle: {
+          //   fontSize: 12,
+          //   backgroundColor: 'blue',
+          // },
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
               focused={focused}
