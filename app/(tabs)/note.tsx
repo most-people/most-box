@@ -1,5 +1,6 @@
+import { StyleSheet } from 'react-native'
 import { useNoteStore } from '@/stores/noteStore'
-import { ThemeText } from '@/components/Theme'
+import { ThemeText, ThemeView } from '@/components/Theme'
 import PageView from '@/components/PageView'
 
 import { Icon } from '@/assets/icon'
@@ -15,8 +16,9 @@ export default function NoteScreen() {
   return (
     <PageView>
       <ThemeText>今天</ThemeText>
-
-      <Icon.Camera />
+      <ThemeView style={styles.camera}>
+        <Icon.Camera style={styles.cameraIcon} fill={'rgba(0, 0, 0, 0.14)'} />
+      </ThemeView>
       {notes
         .sort((a, b) => Number(b.updated_time) - Number(a.updated_time))
         .map((item) => (
@@ -25,3 +27,15 @@ export default function NoteScreen() {
     </PageView>
   )
 }
+
+const styles = StyleSheet.create({
+  camera: {
+    cursor: 'pointer',
+    width: 100,
+    height: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+  },
+  cameraIcon: { width: 40, height: 40 },
+})
