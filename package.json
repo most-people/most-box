@@ -7,6 +7,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "build": "expo export && cp _redirects dist",
+    "preview": "npx serve dist",
+    "npm": "npm install",
     "lint": "expo lint"
   },
   "devDependencies": {
