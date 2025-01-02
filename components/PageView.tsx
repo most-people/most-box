@@ -2,7 +2,7 @@ import type { PropsWithChildren } from 'react'
 import { StyleSheet } from 'react-native'
 import Animated, { useAnimatedRef } from 'react-native-reanimated'
 
-import { ThemedView } from '@/components/ThemedView'
+import { ThemeView } from '@/components/Theme'
 import { useBottomTabOverflow } from '@/components/ui/TabBarBackground'
 
 export default function PageView({ children }: PropsWithChildren) {
@@ -10,16 +10,16 @@ export default function PageView({ children }: PropsWithChildren) {
   const bottom = useBottomTabOverflow()
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemeView style={styles.container}>
       <Animated.ScrollView
         ref={scrollRef}
         scrollEventThrottle={16}
         scrollIndicatorInsets={{ bottom }}
         contentContainerStyle={{ paddingBottom: bottom }}
       >
-        <ThemedView style={styles.content}>{children}</ThemedView>
+        <ThemeView style={styles.content}>{children}</ThemeView>
       </Animated.ScrollView>
-    </ThemedView>
+    </ThemeView>
   )
 }
 

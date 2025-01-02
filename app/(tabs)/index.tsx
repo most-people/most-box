@@ -1,9 +1,9 @@
-import { ThemedText } from '@/components/ThemedText'
+import { ThemeText } from '@/components/Theme'
 import PageView from '@/components/PageView'
 export default function HomeScreen() {
   return (
     <PageView>
-      <ThemedText>首页</ThemedText>
+      <ThemeText>首页</ThemeText>
     </PageView>
   )
 }

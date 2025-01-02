@@ -1,21 +1,16 @@
-import { Text, type TextProps, StyleSheet } from 'react-native'
+import { Text, type TextProps, StyleSheet, ViewProps, View } from 'react-native'
 
 import { Colors } from '@/constants/Colors'
 import { useColorScheme } from 'react-native'
 
-export type ThemedTextProps = TextProps & {
+// Text
+type ThemeProps = TextProps & {
   lightColor?: string
   darkColor?: string
   type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link'
 }
 
-export function ThemedText({
-  style,
-  lightColor,
-  darkColor,
-  type = 'default',
-  ...rest
-}: ThemedTextProps) {
+const ThemeText = ({ style, lightColor, darkColor, type = 'default', ...rest }: ThemeProps) => {
   const theme = useColorScheme() ?? 'light'
   const color = Colors[theme].text
 
@@ -33,6 +28,18 @@ export function ThemedText({
       {...rest}
     />
   )
+}
+
+// View
+type ThemeViewProps = ViewProps & {
+  lightColor?: string
+  darkColor?: string
+}
+
+const ThemeView = ({ style, lightColor, darkColor, ...otherProps }: ThemeViewProps) => {
+  const theme = useColorScheme() ?? 'light'
+
+  return <View style={[{ backgroundColor: Colors[theme].background }, style]} {...otherProps} />
 }
 
 const styles = StyleSheet.create({
@@ -60,3 +67,5 @@ const styles = StyleSheet.create({
     color: '#0a7ea4',
   },
 })
+
+export { ThemeText, ThemeView }

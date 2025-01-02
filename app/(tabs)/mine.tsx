@@ -2,47 +2,46 @@ import { StyleSheet, Platform } from 'react-native'
 
 import { HelloWave } from '@/components/HelloWave'
 import PageView from '@/components/PageView'
-import { ThemedText } from '@/components/ThemedText'
-import { ThemedView } from '@/components/ThemedView'
+import { ThemeText } from '@/components/Theme'
+import { ThemeView } from '@/components/Theme'
 
 export default function MineScreen() {
   return (
     <PageView>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+      <ThemeView style={styles.titleContainer}>
+        <ThemeText type="title">Welcome!</ThemeText>
         <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
+      </ThemeView>
+      <ThemeView style={styles.stepContainer}>
+        <ThemeText type="subtitle">Step 1: Try it</ThemeText>
+        <ThemeText>
+          Edit <ThemeText type="defaultSemiBold">app/(tabs)/index.tsx</ThemeText> to see changes.
           Press{' '}
-          <ThemedText type="defaultSemiBold">
+          <ThemeText type="defaultSemiBold">
             {Platform.select({
               ios: 'cmd + d',
               android: 'cmd + m',
               web: 'F12',
             })}
-          </ThemedText>{' '}
+          </ThemeText>{' '}
           to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
+        </ThemeText>
+      </ThemeView>
+      <ThemeView style={styles.stepContainer}>
+        <ThemeText type="subtitle">Step 2: Explore</ThemeText>
+        <ThemeText>
           Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
+        </ThemeText>
+      </ThemeView>
+      <ThemeView style={styles.stepContainer}>
+        <ThemeText type="subtitle">Step 3: Get a fresh start</ThemeText>
+        <ThemeText>
+          When you're ready, run <ThemeText type="defaultSemiBold">npm run reset-project</ThemeText>{' '}
+          to get a fresh <ThemeText type="defaultSemiBold">app</ThemeText> directory. This will move
+          the current <ThemeText type="defaultSemiBold">app</ThemeText> to{' '}
+          <ThemeText type="defaultSemiBold">app-example</ThemeText>.
+        </ThemeText>
+      </ThemeView>
     </PageView>
   )
 }

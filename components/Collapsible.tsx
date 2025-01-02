@@ -1,8 +1,8 @@
 import { PropsWithChildren, useState } from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 
-import { ThemedText } from '@/components/ThemedText'
-import { ThemedView } from '@/components/ThemedView'
+import { ThemeText } from '@/components/Theme'
+import { ThemeView } from '@/components/Theme'
 import { Colors } from '@/constants/Colors'
 import { useColorScheme } from '@/hooks/useTheme'
 import { Icon } from '@/assets/icon'
@@ -12,7 +12,7 @@ export function Collapsible({ children, title }: PropsWithChildren & { title: st
   const theme = useColorScheme() ?? 'light'
 
   return (
-    <ThemedView>
+    <ThemeView>
       <TouchableOpacity
         style={styles.heading}
         onPress={() => setIsOpen((value) => !value)}
@@ -25,10 +25,10 @@ export function Collapsible({ children, title }: PropsWithChildren & { title: st
           fill={theme === 'light' ? Colors.light.text : Colors.dark.text}
         />
 
-        <ThemedText type="defaultSemiBold">{title}</ThemedText>
+        <ThemeText type="defaultSemiBold">{title}</ThemeText>
       </TouchableOpacity>
-      {isOpen && <ThemedView style={styles.content}>{children}</ThemedView>}
-    </ThemedView>
+      {isOpen && <ThemeView style={styles.content}>{children}</ThemeView>}
+    </ThemeView>
   )
 }
 

@@ -3,81 +3,79 @@ import { StyleSheet, Image, Platform } from 'react-native'
 import { Collapsible } from '@/components/Collapsible'
 import { ExternalLink } from '@/components/ExternalLink'
 import PageView from '@/components/PageView'
-import { ThemedText } from '@/components/ThemedText'
-import { ThemedView } from '@/components/ThemedView'
+import { ThemeText } from '@/components/Theme'
+import { ThemeView } from '@/components/Theme'
 
 export default function TabTwoScreen() {
   return (
     <PageView>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
+      <ThemeView style={styles.titleContainer}>
+        <ThemeText type="title">Explore</ThemeText>
+      </ThemeView>
+      <ThemeText>This app includes example code to help you get started.</ThemeText>
       <Collapsible title="File-based routing">
-        <ThemedText>
+        <ThemeText>
           This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
+          <ThemeText type="defaultSemiBold">app/(tabs)/index.tsx</ThemeText> and{' '}
+          <ThemeText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemeText>
+        </ThemeText>
+        <ThemeText>
+          The layout file in <ThemeText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemeText>{' '}
           sets up the tab navigator.
-        </ThemedText>
+        </ThemeText>
         <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
+          <ThemeText type="link">Learn more</ThemeText>
         </ExternalLink>
       </Collapsible>
       <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
+        <ThemeText>
           You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
+          <ThemeText type="defaultSemiBold">w</ThemeText> in the terminal running this project.
+        </ThemeText>
       </Collapsible>
       <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
+        <ThemeText>
+          For static images, you can use the <ThemeText type="defaultSemiBold">@2x</ThemeText> and{' '}
+          <ThemeText type="defaultSemiBold">@3x</ThemeText> suffixes to provide files for different
+          screen densities
+        </ThemeText>
         <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
         <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
+          <ThemeText type="link">Learn more</ThemeText>
         </ExternalLink>
       </Collapsible>
       <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
+        <ThemeText>
+          Open <ThemeText type="defaultSemiBold">app/_layout.tsx</ThemeText> to see how to load{' '}
+          <ThemeText style={{ fontFamily: 'SpaceMono' }}>custom fonts such as this one.</ThemeText>
+        </ThemeText>
         <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
+          <ThemeText type="link">Learn more</ThemeText>
         </ExternalLink>
       </Collapsible>
       <Collapsible title="Light and dark mode components">
-        <ThemedText>
+        <ThemeText>
           This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user's current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
+          <ThemeText type="defaultSemiBold">useColorScheme()</ThemeText> hook lets you inspect what
+          the user's current color scheme is, and so you can adjust UI colors accordingly.
+        </ThemeText>
         <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
+          <ThemeText type="link">Learn more</ThemeText>
         </ExternalLink>
       </Collapsible>
       <Collapsible title="Animations">
-        <ThemedText>
+        <ThemeText>
           This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
+          <ThemeText type="defaultSemiBold">components/HelloWave.tsx</ThemeText> component uses the
+          powerful <ThemeText type="defaultSemiBold">react-native-reanimated</ThemeText> library to
+          create a waving hand animation.
+        </ThemeText>
         {Platform.select({
           ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/PageView.tsx</ThemedText> component
+            <ThemeText>
+              The <ThemeText type="defaultSemiBold">components/PageView.tsx</ThemeText> component
               provides a parallax effect for the header image.
-            </ThemedText>
+            </ThemeText>
           ),
         })}
       </Collapsible>
