@@ -5,8 +5,6 @@ import Animated, { useAnimatedRef } from 'react-native-reanimated'
 import { ThemedView } from '@/components/ThemedView'
 import { useBottomTabOverflow } from '@/components/ui/TabBarBackground'
 
-const HEADER_HEIGHT = 250
-
 export default function PageView({ children }: PropsWithChildren) {
   const scrollRef = useAnimatedRef<Animated.ScrollView>()
   const bottom = useBottomTabOverflow()
@@ -28,10 +26,6 @@ export default function PageView({ children }: PropsWithChildren) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    height: HEADER_HEIGHT,
-    overflow: 'hidden',
   },
   content: {
     flex: 1,

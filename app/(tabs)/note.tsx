@@ -1,4 +1,3 @@
-import { FlatList } from 'react-native'
 import { useNoteStore } from '@/stores/noteStore'
 import { ThemedText } from '@/components/ThemedText'
 import PageView from '@/components/PageView'
@@ -7,11 +6,9 @@ export default function NoteScreen() {
   return (
     <PageView>
       <ThemedText>笔记</ThemedText>
-      <FlatList
-        data={notes}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <ThemedText>{item.title}</ThemedText>}
-      />
+      {notes.map((item) => (
+        <ThemedText key={item.id}>{item.updated_time}</ThemedText>
+      ))}
     </PageView>
   )
 }
