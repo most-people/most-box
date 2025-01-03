@@ -1,4 +1,5 @@
 import { ThemeText } from '@/components/Theme'
+
 import PageView from '@/components/PageView'
 import { useRouter } from 'expo-router'
 export default function HomeScreen() {

@@ -38,7 +38,7 @@ export default function RootLayout() {
           : { ...DarkTheme, colors: Colors.dark }
       }
     >
-      <Stack screenOptions={{ headerTitleAlign: 'center' }}>
+      <Stack screenOptions={{ headerShown: false, headerTitleAlign: 'center' }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false, title: '聊天' }} />
         <Stack.Screen name="+not-found" />
         <Stack.Screen name="chat" options={{ title: '' }} />

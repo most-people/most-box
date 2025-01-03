@@ -3,8 +3,7 @@ import { StyleSheet, Image, Platform } from 'react-native'
 import { Collapsible } from '@/components/Collapsible'
 import { ExternalLink } from '@/components/ExternalLink'
 import PageView from '@/components/PageView'
-import { ThemeText } from '@/components/Theme'
-import { ThemeView } from '@/components/Theme'
+import { ThemeText, ThemeView } from '@/components/Theme'
 
 export default function TabTwoScreen() {
   return (

@@ -2,8 +2,7 @@ import { StyleSheet, Platform } from 'react-native'
 
 import { HelloWave } from '@/components/HelloWave'
 import PageView from '@/components/PageView'
-import { ThemeText } from '@/components/Theme'
-import { ThemeView } from '@/components/Theme'
+import { ThemeText, ThemeView } from '@/components/Theme'
 
 export default function MineScreen() {
   return (

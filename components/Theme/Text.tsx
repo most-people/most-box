@@ -1,4 +1,4 @@
-import { Text, type TextProps, StyleSheet, ViewProps, View } from 'react-native'
+import { Text, type TextProps, StyleSheet } from 'react-native'
 
 import { Colors } from '@/constants/Colors'
 import { useColorScheme } from 'react-native'
@@ -29,18 +29,6 @@ const ThemeText = ({ style, lightColor, darkColor, type = 'default', ...rest }: 
   )
 }
 
-// View
-type ThemeViewProps = ViewProps & {
-  lightColor?: string
-  darkColor?: string
-}
-
-const ThemeView = ({ style, lightColor, darkColor, ...otherProps }: ThemeViewProps) => {
-  const theme = useColorScheme() ?? 'light'
-
-  return <View style={[{ backgroundColor: Colors[theme].background }, style]} {...otherProps} />
-}
-
 const styles = StyleSheet.create({
   default: {
     fontSize: 16,
@@ -67,5 +55,4 @@ const styles = StyleSheet.create({
     color: Colors.link,
   },
 })
-
-export { ThemeText, ThemeView }
+export default ThemeText

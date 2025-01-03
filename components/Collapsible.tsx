@@ -1,8 +1,6 @@
 import { PropsWithChildren, useState } from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native'
-
-import { ThemeText } from '@/components/Theme'
-import { ThemeView } from '@/components/Theme'
+import { ThemeText, ThemeView } from '@/components/Theme'
 import { Colors } from '@/constants/Colors'
 import { useColorScheme } from '@/hooks/useTheme'
 import { Icon } from '@/assets/icon'

@@ -1,6 +1,5 @@
 import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect, useState } from 'react'
-import { useHeaderHeight } from '@react-navigation/elements'
 import {
   View,
   Text,
@@ -11,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native'
+import { ThemeHeader } from '@/components/Theme'
 
 interface Message {
   id: string
@@ -47,7 +47,6 @@ const ChatInput = ({
     </TouchableOpacity>
   </View>
 )
-
 const ChatPage = () => {
   const navigation = useNavigation()
   const { name } = useLocalSearchParams()
@@ -76,13 +75,14 @@ const ChatPage = () => {
     ])
   }
 
-  const headerHeight = useHeaderHeight()
+  // const headerHeight = useHeaderHeight()
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={headerHeight}
+      // keyboardVerticalOffset={headerHeight}
     >
+      <ThemeHeader title="聊天" />
       <FlatList
         data={messages}
         renderItem={({ item }) => <MessageBubble text={item.text} isSender={item.isSender} />}
