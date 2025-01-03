@@ -39,9 +39,9 @@ export default function RootLayout() {
       }
     >
       <Stack screenOptions={{ headerTitleAlign: 'center' }}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false, title: '首页' }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false, title: '聊天' }} />
         <Stack.Screen name="+not-found" />
-        <Stack.Screen name="chat" options={{ title: '聊天' }} />
+        <Stack.Screen name="chat" options={{ title: '' }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
