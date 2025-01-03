@@ -1,5 +1,6 @@
 import { useLocalSearchParams, useNavigation } from 'expo-router'
 import React, { useEffect, useState } from 'react'
+import { useHeaderHeight } from '@react-navigation/elements'
 import {
   View,
   Text,
@@ -17,14 +18,41 @@ interface Message {
   isSender: boolean
 }
 
+const MessageBubble = ({ text, isSender }: { text: string; isSender: boolean }) => (
+  <View style={[styles.messageContainer, isSender ? styles.sender : styles.receiver]}>
+    <Text style={styles.messageText}>{text}</Text>
+  </View>
+)
+
+const ChatInput = ({
+  value,
+  onChangeText,
+  onSend,
+}: {
+  value: string
+  onChangeText: (text: string) => void
+  onSend: () => void
+}) => (
+  <View style={styles.inputContainer}>
+    <TextInput
+      style={styles.input}
+      value={value}
+      onChangeText={onChangeText}
+      placeholder="请输入消息..."
+      placeholderTextColor="#888"
+    />
+    <TouchableOpacity style={styles.sendButton} onPress={onSend}>
+      <Text style={styles.sendButtonText}>发送</Text>
+    </TouchableOpacity>
+  </View>
+)
+
 const ChatPage = () => {
   const navigation = useNavigation()
   const { name } = useLocalSearchParams()
 
   useEffect(() => {
-    navigation.setOptions({
-      title: name,
-    })
+    navigation.setOptions({ title: name })
   }, [navigation, name])
 
   const [messages, setMessages] = useState<Message[]>([
@@ -33,46 +61,35 @@ const ChatPage = () => {
   ])
   const [inputText, setInputText] = useState('')
 
-  const sendMessage = () => {
+  const handleSendMessage = () => {
     if (inputText.trim()) {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { id: `${prevMessages.length + 1}`, text: inputText, isSender: true },
-      ])
+      addMessage(inputText)
       setInputText('')
     }
   }
 
-  const renderMessage = ({ item }: { item: Message }) => (
-    <View style={[styles.messageContainer, item.isSender ? styles.sender : styles.receiver]}>
-      <Text style={styles.messageText}>{item.text}</Text>
-    </View>
-  )
+  const addMessage = (text: string) => {
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { id: `${prevMessages.length + 1}`, text, isSender: true },
+    ])
+  }
 
+  const headerHeight = useHeaderHeight()
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={headerHeight}
     >
       <FlatList
         data={messages}
-        renderItem={renderMessage}
+        renderItem={({ item }) => <MessageBubble text={item.text} isSender={item.isSender} />}
         keyExtractor={(item) => item.id}
         style={styles.messageList}
         inverted
       />
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          value={inputText}
-          onChangeText={setInputText}
-          placeholder="请输入消息..."
-          placeholderTextColor="#888"
-        />
-        <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
-          <Text style={styles.sendButtonText}>发送</Text>
-        </TouchableOpacity>
-      </View>
+      <ChatInput value={inputText} onChangeText={setInputText} onSend={handleSendMessage} />
     </KeyboardAvoidingView>
   )
 }

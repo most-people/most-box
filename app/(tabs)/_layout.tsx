@@ -55,11 +55,6 @@ export default function TabLayout() {
         name="index"
         options={{
           title: '聊天',
-          // tabBarBadge: 99,
-          // tabBarBadgeStyle: {
-          //   fontSize: 12,
-          //   backgroundColor: 'blue',
-          // },
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
               focused={focused}
