@@ -24,7 +24,6 @@ const ChatPage = () => {
   useEffect(() => {
     navigation.setOptions({
       title: name,
-      headerShown: false,
     })
   }, [navigation, name])
 
