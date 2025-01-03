@@ -61,9 +61,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   link: {
+    cursor: 'pointer',
     lineHeight: 30,
     fontSize: 16,
-    color: '#0a7ea4',
+    color: Colors.link,
   },
 })
 

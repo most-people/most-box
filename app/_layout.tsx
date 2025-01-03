@@ -13,7 +13,7 @@ import { useColorScheme } from 'react-native'
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme() ?? 'light'
+  const theme = useColorScheme() ?? 'light'
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   })
@@ -30,8 +30,8 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
+    <ThemeProvider value={theme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Stack screenOptions={{ headerTitleAlign: 'center' }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>

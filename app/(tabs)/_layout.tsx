@@ -22,12 +22,12 @@ const TabIcon: React.FC<{
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme() ?? 'light'
+  const theme = useColorScheme() ?? 'light'
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarActiveTintColor: Colors[theme].tint,
         headerTitleAlign: 'center',
         headerTitleStyle: {
           fontSize: 16,
