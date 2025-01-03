@@ -40,6 +40,7 @@ const ChatInput = ({
       onChangeText={onChangeText}
       placeholder="请输入消息..."
       placeholderTextColor="#888"
+      onSubmitEditing={onSend}
     />
     <TouchableOpacity style={styles.sendButton} onPress={onSend}>
       <Text style={styles.sendButtonText}>发送</Text>
@@ -87,7 +88,6 @@ const ChatPage = () => {
         renderItem={({ item }) => <MessageBubble text={item.text} isSender={item.isSender} />}
         keyExtractor={(item) => item.id}
         style={styles.messageList}
-        inverted
       />
       <ChatInput value={inputText} onChangeText={setInputText} onSend={handleSendMessage} />
     </KeyboardAvoidingView>
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
   messageList: {
     flex: 1,
     paddingHorizontal: 10,
+    paddingVertical: 5,
   },
   messageContainer: {
     padding: 10,
