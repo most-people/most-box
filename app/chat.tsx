@@ -1,5 +1,15 @@
-import React, { useState } from 'react'
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native'
+import { useLocalSearchParams, useNavigation } from 'expo-router'
+import React, { useEffect, useState } from 'react'
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native'
 
 interface Message {
   id: string
@@ -8,6 +18,16 @@ interface Message {
 }
 
 const ChatPage = () => {
+  const navigation = useNavigation()
+  const { name } = useLocalSearchParams()
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: name,
+      headerShown: false,
+    })
+  }, [navigation, name])
+
   const [messages, setMessages] = useState<Message[]>([
     { id: '1', text: '你好！', isSender: false },
     { id: '2', text: '你好，有什么可以帮助你的吗？', isSender: true },
@@ -31,7 +51,10 @@ const ChatPage = () => {
   )
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
       <FlatList
         data={messages}
         renderItem={renderMessage}
@@ -45,19 +68,20 @@ const ChatPage = () => {
           value={inputText}
           onChangeText={setInputText}
           placeholder="请输入消息..."
+          placeholderTextColor="#888"
         />
         <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
           <Text style={styles.sendButtonText}>发送</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#121212',
   },
   messageList: {
     flex: 1,
@@ -71,43 +95,46 @@ const styles = StyleSheet.create({
   },
   sender: {
     alignSelf: 'flex-end',
-    backgroundColor: '#d1e7ff',
+    backgroundColor: '#1E88E5',
   },
   receiver: {
     alignSelf: 'flex-start',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#2C2C2C',
     borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderColor: '#444',
   },
   messageText: {
     fontSize: 16,
+    color: '#FFFFFF',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
     borderTopWidth: 1,
-    borderColor: '#e0e0e0',
-    backgroundColor: '#ffffff',
+    borderColor: '#444',
+    backgroundColor: '#1E1E1E',
   },
   input: {
     flex: 1,
     height: 40,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#555',
     borderRadius: 20,
     paddingHorizontal: 15,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#2C2C2C',
+    color: '#FFFFFF',
+    fontSize: 16,
   },
   sendButton: {
     marginLeft: 10,
-    backgroundColor: '#007AFF',
+    backgroundColor: '#1E88E5',
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 15,
   },
   sendButtonText: {
-    color: '#ffffff',
+    color: '#FFFFFF',
     fontSize: 16,
   },
 })
