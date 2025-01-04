@@ -65,12 +65,7 @@ export default function TabLayout() {
           ),
           headerRight: ({ tintColor }) => (
             <TouchableOpacity onPress={() => alert('更多操作')}>
-              <Icon.Add
-                style={{ marginRight: 16, cursor: 'pointer' }}
-                width={20}
-                height={20}
-                fill={tintColor}
-              />
+              <Icon.Add width={20} height={20} fill={tintColor} />
             </TouchableOpacity>
           ),
         }}
@@ -88,14 +83,7 @@ export default function TabLayout() {
               activeIcon={Icon.NoteActive}
             />
           ),
-          headerRight: ({ tintColor }) => (
-            <Icon.Add
-              style={{ marginRight: 16, cursor: 'pointer' }}
-              width={20}
-              height={20}
-              fill={tintColor}
-            />
-          ),
+          headerRight: ({ tintColor }) => <Icon.Add width={20} height={20} fill={tintColor} />,
         }}
       />
 

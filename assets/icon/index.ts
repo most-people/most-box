@@ -14,6 +14,8 @@ import MineActive from '@/assets/icon/mine-active.svg'
 import Add from '@/assets/icon/add.svg'
 import Angle from '@/assets/icon/angle.svg'
 import Camera from '@/assets/icon/camera.svg'
+// https://www.flaticon.com/free-icon-font/arrow-small-left_3916837?term=back&related_id=3916837
+import Back from '@/assets/icon/back.svg'
 
 export const Icon = {
   Chat,
@@ -27,4 +29,5 @@ export const Icon = {
   Add,
   Angle,
   Camera,
+  Back,
 }

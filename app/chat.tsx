@@ -1,5 +1,5 @@
-import { useLocalSearchParams, useNavigation } from 'expo-router'
-import React, { useEffect, useState } from 'react'
+import { useLocalSearchParams } from 'expo-router'
+import React, { useState } from 'react'
 import {
   View,
   Text,
@@ -11,7 +11,6 @@ import {
   Platform,
 } from 'react-native'
 import { ThemeHeader } from '@/components/Theme'
-import { Ionicons } from '@expo/vector-icons'
 import { Icon } from '@/assets/icon'
 
 interface Message {
@@ -50,12 +49,7 @@ const ChatInput = ({
   </View>
 )
 const ChatPage = () => {
-  const navigation = useNavigation()
-  const { name } = useLocalSearchParams()
-
-  useEffect(() => {
-    navigation.setOptions({ title: name })
-  }, [navigation, name])
+  const params = useLocalSearchParams()
 
   const [messages, setMessages] = useState<Message[]>([
     { id: '1', text: '你好！', isSender: false },
@@ -85,7 +79,7 @@ const ChatPage = () => {
       // keyboardVerticalOffset={headerHeight}
     >
       <ThemeHeader
-        title="聊天"
+        title={params.name}
         rightContent={
           <TouchableOpacity onPress={() => alert('更多操作')}>
             <Icon.Add fill={'white'} width={20} height={20} />
