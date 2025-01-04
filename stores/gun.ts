@@ -1,17 +1,12 @@
 import Gun from 'gun'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 // 替换存储适配器
-Gun.on('create', (context: any) => {
-  context.to.next(context)
-
-  const asyncStorage = {
-    setItem: (key: string, value: string) => AsyncStorage.setItem(key, value),
-    getItem: (key: string) => AsyncStorage.getItem(key),
-    removeItem: (key: string) => AsyncStorage.removeItem(key),
-  }
-
-  context.opt.store = asyncStorage // 替换 Gun 的默认存储选项
+export const gun = Gun({
+  // localStorage: false, // 禁用默认的 localStorage
+  // store: GunAsyncStorageAdapter, // 使用自定义的 AsyncStorage 适配器
+  peers: [
+    'https://gun-manhattan.herokuapp.com/gun',
+    // 本地
+    'http://localhost:1976/gun',
+  ],
 })
-
-export const gun = Gun(['https://gun-manhattan.herokuapp.com/gun']) // 替换为你的 Gun.js 服务地址

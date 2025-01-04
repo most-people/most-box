@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import {
 import { AppHeader } from '@/components/AppHeader'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
+import { gun } from '@/stores/gun'
 
 interface Message {
   id: string
@@ -31,12 +32,25 @@ const ChatPage = () => {
     { id: '1', text: '你好！', isSender: false },
     { id: '2', text: '你好，有什么可以帮助你的吗？', isSender: true },
   ])
-  const [inputText, setInputText] = useState('')
+  const [inputMessage, setInputMessage] = useState('')
 
-  const handleSendMessage = () => {
-    if (inputText.trim()) {
-      addMessage(inputText)
-      setInputText('')
+  const name = params.name as string
+
+  const chat = gun.get(name)
+
+  useEffect(() => {
+    // 模拟一个消息监听器
+    chat.on((data, key) => {
+      // 忽略内部标记
+      console.log('🌊', key)
+      console.log('🌊', data)
+    })
+  }, [])
+
+  const sendMessage = () => {
+    if (inputMessage.trim()) {
+      addMessage(inputMessage)
+      setInputMessage('')
     }
   }
 
@@ -45,6 +59,8 @@ const ChatPage = () => {
       ...prevMessages,
       { id: `${prevMessages.length + 1}`, text, isSender: true },
     ])
+
+    chat.put({ user: '赛博佛客', text, timestamp: Date.now() })
   }
 
   return (
@@ -53,7 +69,7 @@ const ChatPage = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <AppHeader
-        title={params.name}
+        title={name}
         rightContent={
           <TouchableOpacity onPress={() => alert('更多操作')}>
             <Icon.More width={20} height={20} fill={Colors[theme].text} />
@@ -78,13 +94,13 @@ const ChatPage = () => {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            value={inputText}
-            onChangeText={setInputText}
+            value={inputMessage}
+            onChangeText={setInputMessage}
             placeholder="请输入消息..."
             placeholderTextColor="#888"
-            onSubmitEditing={handleSendMessage}
+            onSubmitEditing={sendMessage}
           />
-          <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
+          <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
             <Text style={styles.sendButtonText}>发送</Text>
           </TouchableOpacity>
         </View>
