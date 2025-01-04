@@ -7,6 +7,6 @@ export const gun = Gun({
   peers: [
     'https://gun-manhattan.herokuapp.com/gun',
     // 本地
-    'http://localhost:1976/gun',
+    // 'http://localhost:1976/gun',
   ],
 })

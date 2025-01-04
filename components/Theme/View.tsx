@@ -1,11 +1,6 @@
 import { ViewProps, View } from 'react-native'
 
-type ThemeViewProps = ViewProps & {
-  lightColor?: string
-  darkColor?: string
-}
-
-const ThemeView = ({ style, lightColor, darkColor, ...otherProps }: ThemeViewProps) => {
+const ThemeView = ({ style, ...otherProps }: ViewProps) => {
   return <View style={style} {...otherProps} />
 }
 

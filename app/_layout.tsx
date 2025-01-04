@@ -30,14 +30,10 @@ export default function RootLayout() {
     return null
   }
 
+  const light = { ...DefaultTheme, colors: Colors.light }
+  const dark = { ...DarkTheme, colors: Colors.dark }
   return (
-    <ThemeProvider
-      value={
-        theme === 'light'
-          ? { ...DefaultTheme, colors: Colors.light }
-          : { ...DarkTheme, colors: Colors.dark }
-      }
-    >
+    <ThemeProvider value={theme === 'light' ? light : dark}>
       <Stack screenOptions={{ headerShown: false, headerTitleAlign: 'center' }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false, title: '聊天' }} />
         <Stack.Screen name="+not-found" />

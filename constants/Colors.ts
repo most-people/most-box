@@ -11,17 +11,23 @@ export const Colors = {
   link: 'rgb(123,129,151)',
   sender: sender,
   light: {
-    tabIconDefault: 'rgb(104,112,118)',
+    input: {
+      background: '#f9f9f9',
+      border: '#ccc',
+    },
     // @react-navigation/native DefaultTheme
     primary: 'rgb(104,112,118)',
-    background: 'rgb(242, 242, 242)',
+    background: 'rgb(245, 245, 245)',
     card: 'rgb(255, 255, 255)',
     text: 'rgb(28, 28, 30)',
     border: 'rgb(216, 216, 216)',
     notification: 'rgb(255, 59, 48)',
   },
   dark: {
-    tabIconDefault: 'rgb(155,161,166)',
+    input: {
+      background: '#2C2C2C',
+      border: '#555',
+    },
     // @react-navigation/native DarkTheme
     primary: 'rgb(104,112,118)',
     background: 'rgb(21,23,24)',

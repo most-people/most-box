@@ -45,7 +45,7 @@ const ChatPage = () => {
       console.log('🌊', key)
       console.log('🌊', data)
     })
-  }, [])
+  }, [chat])
 
   const sendMessage = () => {
     if (inputMessage.trim()) {
@@ -157,10 +157,10 @@ const createStyles = (theme: 'light' | 'dark') => {
       flex: 1,
       height: 40,
       borderWidth: 1,
-      borderColor: theme === 'dark' ? '#555' : '#ccc',
+      borderColor: Colors[theme].input.border,
       borderRadius: 20,
       paddingHorizontal: 15,
-      backgroundColor: theme === 'dark' ? '#2C2C2C' : '#f9f9f9',
+      backgroundColor: Colors[theme].input.background,
       color: Colors[theme].text,
       fontSize: 16,
     },

@@ -1,12 +1,12 @@
-import { ThemeText } from '@/components/Theme'
-
+import { Text } from 'react-native'
+import { Link } from 'expo-router'
 import PageView from '@/components/PageView'
 import { useRouter } from 'expo-router'
 import { TouchableOpacity, useColorScheme } from 'react-native'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
+import { ThemeText } from '@/components/Theme'
 export default function HomeScreen() {
-  const router = useRouter()
   const theme = useColorScheme() ?? 'dark'
 
   const persons = [
@@ -25,21 +25,21 @@ export default function HomeScreen() {
       }
     >
       {persons.map((person) => (
-        <ThemeText
+        <Link
           key={person.name}
-          type="link"
-          onPress={() =>
-            router.push({
-              pathname: '/chat',
-              params: {
-                name: person.name,
-              },
-            })
-          }
+          href={{
+            pathname: '/chat',
+            params: {
+              name: person.name,
+            },
+          }}
         >
-          赛博佛客
-        </ThemeText>
+          <ThemeText type="link">赛博佛客</ThemeText>
+        </Link>
       ))}
+      <Link href={{ pathname: '/login' }}>
+        <ThemeText type="link">登录</ThemeText>
+      </Link>
     </PageView>
   )
 }

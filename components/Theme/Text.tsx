@@ -5,12 +5,10 @@ import { useColorScheme } from 'react-native'
 
 // Text
 type ThemeProps = TextProps & {
-  lightColor?: string
-  darkColor?: string
   type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link'
 }
 
-const ThemeText = ({ style, lightColor, darkColor, type = 'default', ...rest }: ThemeProps) => {
+const ThemeText = ({ style, type = 'default', ...rest }: ThemeProps) => {
   const theme = useColorScheme() ?? 'dark'
 
   return (
