@@ -6,7 +6,7 @@ import { ThemeText, ThemeView } from '@/components/Theme'
 
 export default function MineScreen() {
   return (
-    <PageView>
+    <PageView title="我的">
       <ThemeView style={styles.titleContainer}>
         <ThemeText type="title">Welcome!</ThemeText>
         <HelloWave />

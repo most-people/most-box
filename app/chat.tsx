@@ -11,7 +11,6 @@ import {
   Platform,
 } from 'react-native'
 import { ThemeHeader } from '@/components/Theme'
-import { Icon } from '@/assets/icon'
 
 interface Message {
   id: string
@@ -78,14 +77,7 @@ const ChatPage = () => {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       // keyboardVerticalOffset={headerHeight}
     >
-      <ThemeHeader
-        title={params.name}
-        rightContent={
-          <TouchableOpacity onPress={() => alert('更多操作')}>
-            <Icon.Add fill={'white'} width={20} height={20} />
-          </TouchableOpacity>
-        }
-      />
+      <ThemeHeader title={params.name} />
       <FlatList
         data={messages}
         renderItem={({ item }) => <MessageBubble text={item.text} isSender={item.isSender} />}

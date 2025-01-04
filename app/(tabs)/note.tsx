@@ -17,7 +17,7 @@ export default function NoteScreen() {
   const notes = useNoteStore((state) => state.notes)
   const theme = useColorScheme() ?? 'light'
   return (
-    <PageView>
+    <PageView title="笔记">
       <ThemeText>今天</ThemeText>
       <ThemeView
         style={{

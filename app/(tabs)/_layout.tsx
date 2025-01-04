@@ -2,12 +2,11 @@
 // https://reactnavigation.org/docs/bottom-tab-navigator/?config=static#options
 import { Tabs } from 'expo-router'
 import React from 'react'
-import { Platform, TouchableOpacity } from 'react-native'
-
+import { Platform } from 'react-native'
 import { HapticTab } from '@/components/HapticTab'
 import TabBarBackground from '@/components/ui/TabBarBackground'
 import { Colors } from '@/constants/Colors'
-import { useColorScheme } from 'react-native'
+// import { useColorScheme } from 'react-native'
 import { Icon } from '@/assets/icon'
 // 定义图标组件
 const TabIcon: React.FC<{
@@ -22,17 +21,13 @@ const TabIcon: React.FC<{
 }
 
 export default function TabLayout() {
-  const theme = useColorScheme() ?? 'light'
+  // const theme = useColorScheme() ?? 'light'
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[theme].tint,
-        headerTitleAlign: 'center',
-        headerTitleStyle: {
-          fontSize: 16,
-        },
-        // headerShown: false,
+        headerShown: false,
+        tabBarActiveTintColor: Colors.tint,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
@@ -63,11 +58,6 @@ export default function TabLayout() {
               activeIcon={Icon.ChatActive}
             />
           ),
-          headerRight: ({ tintColor }) => (
-            <TouchableOpacity onPress={() => alert('更多操作')}>
-              <Icon.Add width={20} height={20} fill={tintColor} />
-            </TouchableOpacity>
-          ),
         }}
       />
 
@@ -83,7 +73,6 @@ export default function TabLayout() {
               activeIcon={Icon.NoteActive}
             />
           ),
-          headerRight: ({ tintColor }) => <Icon.Add width={20} height={20} fill={tintColor} />,
         }}
       />
 
@@ -91,7 +80,6 @@ export default function TabLayout() {
         name="explore"
         options={{
           title: '探索',
-          // headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
               focused={focused}
@@ -107,7 +95,6 @@ export default function TabLayout() {
         name="mine"
         options={{
           title: '我的',
-          // headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
               focused={focused}

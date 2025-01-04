@@ -1,16 +1,22 @@
 import React, { ReactNode } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Platform, StatusBar } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { TouchableOpacity, StyleSheet, Platform, StatusBar, useColorScheme } from 'react-native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Icon } from '@/assets/icon'
+import { ThemeText, ThemeView } from '@/components/Theme'
+import { Colors } from '@/constants/Colors'
 
 interface ThemeHeaderProps {
   title: string | string[]
   rightContent?: ReactNode // 插槽，传入右侧自定义内容
 }
 const ThemeHeader = ({ title, rightContent }: ThemeHeaderProps) => {
+  const theme = useColorScheme() ?? 'light'
   const navigation = useNavigation()
+  const route = useRoute()
   const insets = useSafeAreaInsets()
+
+  const tabs = ['index', 'note', 'explore', 'mine']
 
   // 动态计算头部高度
   const headerHeight =
@@ -30,19 +36,31 @@ const ThemeHeader = ({ title, rightContent }: ThemeHeaderProps) => {
   }
 
   return (
-    <View style={[styles.header, { height: headerHeight, paddingTop: insets.top }]}>
-      <TouchableOpacity onPress={back}>
-        <Icon.Back width={24} height={24} fill="white" />
-      </TouchableOpacity>
-      <Text style={styles.title}>{title}</Text>
-      <View style={styles.rightContainer}>{rightContent}</View>
-    </View>
+    <ThemeView
+      style={[
+        styles.header,
+        {
+          height: headerHeight,
+          backgroundColor: Colors[theme].card,
+          paddingTop: insets.top,
+        },
+      ]}
+    >
+      <ThemeView style={styles.leftContainer}>
+        {!tabs.includes(route.name) && (
+          <TouchableOpacity onPress={back}>
+            <Icon.Back width={24} height={24} fill={Colors[theme].text} />
+          </TouchableOpacity>
+        )}
+      </ThemeView>
+      <ThemeText style={styles.title}>{title}</ThemeText>
+      <ThemeView style={styles.rightContainer}>{rightContent}</ThemeView>
+    </ThemeView>
   )
 }
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: '#1E88E5',
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 15,
@@ -50,12 +68,16 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    color: '#FFFFFF',
-    fontWeight: 'bold',
+  },
+  leftContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    minWidth: 50,
   },
   rightContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    minWidth: 50,
   },
 })
 

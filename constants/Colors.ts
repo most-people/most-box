@@ -9,10 +9,7 @@ export const Colors = {
   tint,
   link: 'rgb(123,129,151)',
   light: {
-    tint: tint,
-    icon: 'rgb(104,112,118)',
     tabIconDefault: 'rgb(104,112,118)',
-    tabIconSelected: tint,
     // @react-navigation/native DefaultTheme
     primary: 'rgb(104,112,118)',
     background: 'rgb(242, 242, 242)',
@@ -22,14 +19,11 @@ export const Colors = {
     notification: 'rgb(255, 59, 48)',
   },
   dark: {
-    tint: tint,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tint,
+    tabIconDefault: 'rgb(155,161,166)',
     // @react-navigation/native DarkTheme
     primary: 'rgb(104,112,118)',
-    background: '#151718',
-    card: 'rgb(18, 18, 18)',
+    background: 'rgb(21,23,24)',
+    card: 'rgb(0,0,0)',
     text: 'rgb(236,237,238)',
     border: 'rgb(39, 39, 41)',
     notification: 'rgb(255, 69, 58)',

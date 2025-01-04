@@ -7,7 +7,7 @@ import { ThemeText, ThemeView } from '@/components/Theme'
 
 export default function TabTwoScreen() {
   return (
-    <PageView>
+    <PageView title="探索">
       <ThemeView style={styles.titleContainer}>
         <ThemeText type="title">Explore</ThemeText>
       </ThemeView>
