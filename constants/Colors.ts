@@ -4,10 +4,12 @@
  */
 
 const tint = 'rgb(201,55,33)'
+const sender = 'rgb(30,136,229)'
 
 export const Colors = {
   tint,
   link: 'rgb(123,129,151)',
+  sender: sender,
   light: {
     tabIconDefault: 'rgb(104,112,118)',
     // @react-navigation/native DefaultTheme

@@ -27,15 +27,12 @@ const MessageBubble = ({ text, isSender }: { text: string; isSender: boolean }) 
   </View>
 )
 
-const ChatInput = ({
-  value,
-  onChangeText,
-  onSend,
-}: {
+interface ChatInputProps {
   value: string
   onChangeText: (text: string) => void
   onSend: () => void
-}) => (
+}
+const ChatInput = ({ value, onChangeText, onSend }: ChatInputProps) => (
   <View style={styles.inputContainer}>
     <TextInput
       style={styles.input}
@@ -74,7 +71,6 @@ const ChatPage = () => {
     ])
   }
 
-  // const headerHeight = useHeaderHeight()
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -103,6 +99,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#121212',
+    // backgroundColor: '#f5f5f5',
   },
   messageList: {
     flex: 1,
@@ -117,13 +114,14 @@ const styles = StyleSheet.create({
   },
   sender: {
     alignSelf: 'flex-end',
-    backgroundColor: '#1E88E5',
+    backgroundColor: Colors.sender,
   },
   receiver: {
     alignSelf: 'flex-start',
     backgroundColor: '#2C2C2C',
-    borderWidth: 1,
+    // backgroundColor: '#ffffff',
     borderColor: '#444',
+    // borderColor: '#e0e0e0',
   },
   messageText: {
     fontSize: 16,
@@ -136,21 +134,25 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: '#444',
     backgroundColor: '#1E1E1E',
+    // borderColor: '#e0e0e0',
+    // backgroundColor: '#ffffff',
   },
   input: {
     flex: 1,
     height: 40,
     borderWidth: 1,
     borderColor: '#555',
+    // borderColor: '#ccc',
     borderRadius: 20,
     paddingHorizontal: 15,
     backgroundColor: '#2C2C2C',
+    // backgroundColor: '#f9f9f9',
     color: '#FFFFFF',
     fontSize: 16,
   },
   sendButton: {
     marginLeft: 10,
-    backgroundColor: '#1E88E5',
+    backgroundColor: Colors.sender,
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 15,
