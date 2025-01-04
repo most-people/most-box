@@ -5,7 +5,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Alert,
   KeyboardAvoidingView,
   Platform,
   useColorScheme,
@@ -19,13 +18,17 @@ const LoginPage = () => {
   const [password, setPassword] = useState('')
 
   const handleLogin = () => {
-    if (!username || !password) {
-      Alert.alert('错误', '请输入用户名和密码')
-    } else {
-      // 这里可以添加登录逻辑，例如调用 API 进行验证
-      Alert.alert('登录成功', `欢迎，${username}!`)
-    }
+    console.log('🌊', username)
+    console.log('🌊', password)
+    // if (!username || !password) {
+    //   Alert.alert('错误', '请输入用户名和密码')
+    // } else {
+    //   // 这里可以添加登录逻辑，例如调用 API 进行验证
+    //   Alert.alert('登录成功', `欢迎，${username}!`)
+    // }
   }
+
+  const disabled = !username || !password
 
   return (
     <KeyboardAvoidingView
@@ -48,7 +51,11 @@ const LoginPage = () => {
         onChangeText={setPassword}
       />
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <TouchableOpacity
+        style={[styles.button, disabled ? styles.buttonDisabled : null]}
+        onPress={handleLogin}
+        disabled={disabled}
+      >
         <Text style={styles.buttonText}>登录</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
@@ -92,6 +99,9 @@ const createStyles = (theme: 'light' | 'dark') => {
     buttonText: {
       color: '#fff',
       fontSize: 18,
+    },
+    buttonDisabled: {
+      backgroundColor: Colors[theme].disabled, // 浅灰色背景
     },
   })
 }
