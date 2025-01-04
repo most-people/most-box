@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   useColorScheme,
+  SafeAreaView,
 } from 'react-native'
 import { ThemeHeader } from '@/components/Theme'
 import { Icon } from '@/assets/icon'
@@ -73,19 +74,21 @@ const ChatPage = () => {
         keyExtractor={(item) => item.id}
         style={styles.messageList}
       />
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          value={inputText}
-          onChangeText={setInputText}
-          placeholder="请输入消息..."
-          placeholderTextColor="#888"
-          onSubmitEditing={handleSendMessage}
-        />
-        <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
-          <Text style={styles.sendButtonText}>发送</Text>
-        </TouchableOpacity>
-      </View>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            value={inputText}
+            onChangeText={setInputText}
+            placeholder="请输入消息..."
+            placeholderTextColor="#888"
+            onSubmitEditing={handleSendMessage}
+          />
+          <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
+            <Text style={styles.sendButtonText}>发送</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   )
 }
@@ -124,13 +127,15 @@ const createStyles = (theme: 'light' | 'dark') => {
     messageText: {
       fontSize: 16,
     },
+    safeArea: {
+      backgroundColor: theme === 'dark' ? '#1E1E1E' : '#ffffff',
+    },
     inputContainer: {
       flexDirection: 'row',
       alignItems: 'center',
       padding: 10,
       borderTopWidth: 1,
       borderColor: theme === 'dark' ? '#444' : '#e0e0e0',
-      backgroundColor: theme === 'dark' ? '#1E1E1E' : '#ffffff',
     },
     input: {
       flex: 1,
