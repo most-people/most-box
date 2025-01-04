@@ -70,14 +70,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   leftContainer: {
+    minWidth: 50,
     flexDirection: 'row',
     alignItems: 'center',
-    minWidth: 50,
   },
   rightContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
     minWidth: 50,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
 })
 

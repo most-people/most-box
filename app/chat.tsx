@@ -9,8 +9,11 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
+  useColorScheme,
 } from 'react-native'
 import { ThemeHeader } from '@/components/Theme'
+import { Icon } from '@/assets/icon'
+import { Colors } from '@/constants/Colors'
 
 interface Message {
   id: string
@@ -49,6 +52,7 @@ const ChatInput = ({
 )
 const ChatPage = () => {
   const params = useLocalSearchParams()
+  const theme = useColorScheme() ?? 'light'
 
   const [messages, setMessages] = useState<Message[]>([
     { id: '1', text: '你好！', isSender: false },
@@ -75,9 +79,15 @@ const ChatPage = () => {
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      // keyboardVerticalOffset={headerHeight}
     >
-      <ThemeHeader title={params.name} />
+      <ThemeHeader
+        title={params.name}
+        rightContent={
+          <TouchableOpacity onPress={() => alert('更多操作')}>
+            <Icon.More width={20} height={20} fill={Colors[theme].text} />
+          </TouchableOpacity>
+        }
+      />
       <FlatList
         data={messages}
         renderItem={({ item }) => <MessageBubble text={item.text} isSender={item.isSender} />}

@@ -16,6 +16,8 @@ import Angle from '@/assets/icon/angle.svg'
 import Camera from '@/assets/icon/camera.svg'
 // https://www.flaticon.com/free-icon-font/arrow-small-left_3916837?term=back&related_id=3916837
 import Back from '@/assets/icon/back.svg'
+// https://www.flaticon.com/free-icon-font/menu-dots_3917230?page=1&position=5&term=more&origin=search&related_id=3917230
+import More from '@/assets/icon/more.svg'
 
 export const Icon = {
   Chat,
@@ -30,4 +32,5 @@ export const Icon = {
   Angle,
   Camera,
   Back,
+  More,
 }
