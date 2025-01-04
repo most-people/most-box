@@ -2,7 +2,7 @@
 // https://reactnavigation.org/docs/bottom-tab-navigator/?config=static#options
 import { Tabs } from 'expo-router'
 import React from 'react'
-import { Platform } from 'react-native'
+import { Platform, TouchableOpacity } from 'react-native'
 
 import { HapticTab } from '@/components/HapticTab'
 import TabBarBackground from '@/components/ui/TabBarBackground'
@@ -64,12 +64,14 @@ export default function TabLayout() {
             />
           ),
           headerRight: ({ tintColor }) => (
-            <Icon.Add
-              style={{ marginRight: 16, cursor: 'pointer' }}
-              width={20}
-              height={20}
-              fill={tintColor}
-            />
+            <TouchableOpacity onPress={() => alert('更多操作')}>
+              <Icon.Add
+                style={{ marginRight: 16, cursor: 'pointer' }}
+                width={20}
+                height={20}
+                fill={tintColor}
+              />
+            </TouchableOpacity>
           ),
         }}
       />
