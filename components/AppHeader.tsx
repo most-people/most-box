@@ -6,11 +6,11 @@ import { Icon } from '@/assets/icon'
 import { ThemeText, ThemeView } from '@/components/Theme'
 import { Colors } from '@/constants/Colors'
 
-interface ThemeHeaderProps {
+interface AppHeaderProps {
   title: string | string[]
   rightContent?: ReactNode // 插槽，传入右侧自定义内容
 }
-const ThemeHeader = ({ title, rightContent }: ThemeHeaderProps) => {
+export const AppHeader = ({ title, rightContent }: AppHeaderProps) => {
   const theme = useColorScheme() ?? 'dark'
   const navigation = useNavigation()
   const route = useRoute()
@@ -81,5 +81,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 })
-
-export default ThemeHeader

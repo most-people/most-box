@@ -12,7 +12,7 @@ import {
   useColorScheme,
   SafeAreaView,
 } from 'react-native'
-import { ThemeHeader } from '@/components/Theme'
+import { AppHeader } from '@/components/AppHeader'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 
@@ -52,7 +52,7 @@ const ChatPage = () => {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <ThemeHeader
+      <AppHeader
         title={params.name}
         rightContent={
           <TouchableOpacity onPress={() => alert('更多操作')}>

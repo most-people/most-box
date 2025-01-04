@@ -2,12 +2,13 @@ import type { PropsWithChildren, ReactNode } from 'react'
 import { StyleSheet } from 'react-native'
 import Animated, { useAnimatedRef } from 'react-native-reanimated'
 
-import { ThemeHeader, ThemeView } from '@/components/Theme'
+import { ThemeView } from '@/components/Theme'
+import { AppHeader } from '@/components/AppHeader'
 import { useBottomTabOverflow } from '@/components/ui/TabBarBackground'
 
 // 定义 PageView 的 props 类型
 interface PageViewProps {
-  title: string
+  title: string | string[]
   rightContent?: ReactNode // 插槽，传入右侧自定义内容
 }
 
@@ -21,7 +22,7 @@ export default function PageView({
 
   return (
     <ThemeView style={styles.container}>
-      <ThemeHeader title={title} rightContent={rightContent} />
+      <AppHeader title={title} rightContent={rightContent} />
 
       <Animated.ScrollView
         ref={scrollRef}
