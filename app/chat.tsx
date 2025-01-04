@@ -21,35 +21,10 @@ interface Message {
   isSender: boolean
 }
 
-const MessageBubble = ({ text, isSender }: { text: string; isSender: boolean }) => (
-  <View style={[styles.messageContainer, isSender ? styles.sender : styles.receiver]}>
-    <Text style={styles.messageText}>{text}</Text>
-  </View>
-)
-
-interface ChatInputProps {
-  value: string
-  onChangeText: (text: string) => void
-  onSend: () => void
-}
-const ChatInput = ({ value, onChangeText, onSend }: ChatInputProps) => (
-  <View style={styles.inputContainer}>
-    <TextInput
-      style={styles.input}
-      value={value}
-      onChangeText={onChangeText}
-      placeholder="请输入消息..."
-      placeholderTextColor="#888"
-      onSubmitEditing={onSend}
-    />
-    <TouchableOpacity style={styles.sendButton} onPress={onSend}>
-      <Text style={styles.sendButtonText}>发送</Text>
-    </TouchableOpacity>
-  </View>
-)
 const ChatPage = () => {
   const params = useLocalSearchParams()
-  const theme = useColorScheme() ?? 'light'
+  const theme = useColorScheme() ?? 'dark'
+  const styles = createStyles(theme)
 
   const [messages, setMessages] = useState<Message[]>([
     { id: '1', text: '你好！', isSender: false },
@@ -86,81 +61,100 @@ const ChatPage = () => {
       />
       <FlatList
         data={messages}
-        renderItem={({ item }) => <MessageBubble text={item.text} isSender={item.isSender} />}
+        renderItem={({ item }) => (
+          <View style={[styles.messageContainer, item.isSender ? styles.sender : styles.receiver]}>
+            <Text
+              style={[styles.messageText, item.isSender ? styles.senderText : styles.receiverText]}
+            >
+              {item.text}
+            </Text>
+          </View>
+        )}
         keyExtractor={(item) => item.id}
         style={styles.messageList}
       />
-      <ChatInput value={inputText} onChangeText={setInputText} onSend={handleSendMessage} />
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          value={inputText}
+          onChangeText={setInputText}
+          placeholder="请输入消息..."
+          placeholderTextColor="#888"
+          onSubmitEditing={handleSendMessage}
+        />
+        <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
+          <Text style={styles.sendButtonText}>发送</Text>
+        </TouchableOpacity>
+      </View>
     </KeyboardAvoidingView>
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#121212',
-    // backgroundColor: '#f5f5f5',
-  },
-  messageList: {
-    flex: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  messageContainer: {
-    padding: 10,
-    marginVertical: 5,
-    borderRadius: 10,
-    maxWidth: '80%',
-  },
-  sender: {
-    alignSelf: 'flex-end',
-    backgroundColor: Colors.sender,
-  },
-  receiver: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#2C2C2C',
-    // backgroundColor: '#ffffff',
-    borderColor: '#444',
-    // borderColor: '#e0e0e0',
-  },
-  messageText: {
-    fontSize: 16,
-    color: '#FFFFFF',
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-    borderTopWidth: 1,
-    borderColor: '#444',
-    backgroundColor: '#1E1E1E',
-    // borderColor: '#e0e0e0',
-    // backgroundColor: '#ffffff',
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#555',
-    // borderColor: '#ccc',
-    borderRadius: 20,
-    paddingHorizontal: 15,
-    backgroundColor: '#2C2C2C',
-    // backgroundColor: '#f9f9f9',
-    color: '#FFFFFF',
-    fontSize: 16,
-  },
-  sendButton: {
-    marginLeft: 10,
-    backgroundColor: Colors.sender,
-    borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 15,
-  },
-  sendButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-  },
-})
+const createStyles = (theme: 'light' | 'dark') => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme === 'dark' ? '#121212' : '#f5f5f5',
+    },
+    messageList: {
+      flex: 1,
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+    },
+    messageContainer: {
+      padding: 10,
+      marginVertical: 5,
+      borderRadius: 10,
+      maxWidth: '80%',
+    },
+    sender: {
+      alignSelf: 'flex-end',
+      backgroundColor: Colors.sender,
+    },
+    senderText: {
+      color: '#ffffff',
+    },
+    receiver: {
+      alignSelf: 'flex-start',
+      backgroundColor: theme === 'dark' ? '#2C2C2C' : '#ffffff',
+    },
+    receiverText: {
+      color: Colors[theme].text,
+    },
+    messageText: {
+      fontSize: 16,
+    },
+    inputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      padding: 10,
+      borderTopWidth: 1,
+      borderColor: theme === 'dark' ? '#444' : '#e0e0e0',
+      backgroundColor: theme === 'dark' ? '#1E1E1E' : '#ffffff',
+    },
+    input: {
+      flex: 1,
+      height: 40,
+      borderWidth: 1,
+      borderColor: theme === 'dark' ? '#555' : '#ccc',
+      borderRadius: 20,
+      paddingHorizontal: 15,
+      backgroundColor: theme === 'dark' ? '#2C2C2C' : '#f9f9f9',
+      color: Colors[theme].text,
+      fontSize: 16,
+    },
+    sendButton: {
+      marginLeft: 10,
+      backgroundColor: Colors.sender,
+      borderRadius: 20,
+      paddingVertical: 8,
+      paddingHorizontal: 15,
+    },
+    sendButtonText: {
+      color: '#FFFFFF',
+      fontSize: 16,
+    },
+  })
+}
 
 export default ChatPage

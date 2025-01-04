@@ -11,7 +11,7 @@ type ThemeProps = TextProps & {
 }
 
 const ThemeText = ({ style, lightColor, darkColor, type = 'default', ...rest }: ThemeProps) => {
-  const theme = useColorScheme() ?? 'light'
+  const theme = useColorScheme() ?? 'dark'
 
   return (
     <Text

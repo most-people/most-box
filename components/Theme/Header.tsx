@@ -11,7 +11,7 @@ interface ThemeHeaderProps {
   rightContent?: ReactNode // 插槽，传入右侧自定义内容
 }
 const ThemeHeader = ({ title, rightContent }: ThemeHeaderProps) => {
-  const theme = useColorScheme() ?? 'light'
+  const theme = useColorScheme() ?? 'dark'
   const navigation = useNavigation()
   const route = useRoute()
   const insets = useSafeAreaInsets()

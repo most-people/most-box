@@ -21,7 +21,7 @@ const TabIcon: React.FC<{
 }
 
 export default function TabLayout() {
-  // const theme = useColorScheme() ?? 'light'
+  // const theme = useColorScheme() ?? 'dark'
 
   return (
     <Tabs

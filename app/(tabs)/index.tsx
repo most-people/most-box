@@ -7,7 +7,7 @@ import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 export default function HomeScreen() {
   const router = useRouter()
-  const theme = useColorScheme() ?? 'light'
+  const theme = useColorScheme() ?? 'dark'
 
   const persons = [
     {

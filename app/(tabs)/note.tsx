@@ -15,7 +15,7 @@ dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
 export default function NoteScreen() {
   const notes = useNoteStore((state) => state.notes)
-  const theme = useColorScheme() ?? 'light'
+  const theme = useColorScheme() ?? 'dark'
   return (
     <PageView title="笔记">
       <ThemeText>今天</ThemeText>
