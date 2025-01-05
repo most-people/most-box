@@ -2,12 +2,15 @@ import { StyleSheet } from 'react-native'
 
 import PageTabView from '@/components/PageTabView'
 import { ThemeText, ThemeView } from '@/components/Theme'
+import { useUserStore } from '@/stores/userStore'
+import mp from '@/constants/mp'
 
 export default function MineScreen() {
+  const userStore = useUserStore()
   return (
     <PageTabView title="我的">
       <ThemeView style={styles.titleContainer}>
-        <ThemeText type="title">Welcome!</ThemeText>
+        <ThemeText type="title">{mp.formatAddress(userStore.wallet?.address)}</ThemeText>
       </ThemeView>
     </PageTabView>
   )

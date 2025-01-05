@@ -46,6 +46,14 @@ const getHash = (message: string) => {
   return sha256(toUtf8Bytes(message))
 }
 
+const formatAddress = (address: string) => {
+  if (address) {
+    return address.slice(0, 6) + '...' + address.slice(-4)
+  } else {
+    return ''
+  }
+}
+
 // Base64 编码
 const enBase64 = (str: string) => {
   // 将字符串转换为字节数组
@@ -122,15 +130,16 @@ const randomKeyBase64 = (bytes = 32) => {
   return result
 }
 const login = (username: string, password: string): MostWallet | null => {
+  const time = dayjs(0).add(1, 'day').unix()
   const wallet = mostWallet(username, password)
   // 生成 32 字节（256 位）密钥
-  const secret = randomKeyBase64(32)
-  const token = createJWT(wallet, secret, 60)
+  const tokenSecret = randomKeyBase64(32)
+  const token = createJWT(wallet, tokenSecret, time)
   try {
-    const { data } = verifyJWT(token, secret)
+    const { data } = verifyJWT(token, tokenSecret)
     if (data.address === wallet.address) {
       asyncStorage.setItem('token', token)
-      asyncStorage.setItem('tokenSecret', secret)
+      asyncStorage.setItem('tokenSecret', tokenSecret)
       return wallet
     }
   } catch (error: any) {
@@ -145,6 +154,7 @@ export default {
   avatar,
   getHash,
   formatTime,
+  formatAddress,
   enBase64,
   deBase64,
   createJWT,

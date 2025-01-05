@@ -35,9 +35,6 @@ export default function IndexScreen() {
           <ThemeText type="link">赛博佛客</ThemeText>
         </Link>
       ))}
-      <Link href={{ pathname: '/login' }}>
-        <ThemeText type="link">登录</ThemeText>
-      </Link>
     </PageTabView>
   )
 }

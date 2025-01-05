@@ -1,10 +1,10 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
-import { Stack } from 'expo-router'
+import { Stack, router } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
-// import { initKnowledge } from '@/stores/noteStore'
+import { useUserStore } from '@/stores/userStore'
 import 'react-native-reanimated'
 
 import { useColorScheme } from 'react-native'
@@ -19,12 +19,14 @@ export default function RootLayout() {
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   })
 
+  const initWallet = useUserStore((state) => state.initWallet)
+
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync()
-      // initKnowledge()
+      initWallet()
     }
-  }, [loaded])
+  }, [initWallet, loaded])
 
   if (!loaded) {
     return null
@@ -32,6 +34,7 @@ export default function RootLayout() {
 
   const light = { ...DefaultTheme, colors: Colors.light }
   const dark = { ...DarkTheme, colors: Colors.dark }
+
   return (
     <ThemeProvider value={theme === 'light' ? light : dark}>
       <Stack screenOptions={{ headerShown: false, headerTitleAlign: 'center' }}>
