@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import PageTabView from '@/components/PageTabView'
 import { ThemeText, ThemeView } from '@/components/Theme'

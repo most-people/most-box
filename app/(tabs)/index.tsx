@@ -4,7 +4,7 @@ import { TouchableOpacity, useColorScheme } from 'react-native'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 import { ThemeText } from '@/components/Theme'
-export default function HomeScreen() {
+export default function IndexScreen() {
   const theme = useColorScheme() ?? 'dark'
 
   const persons = [

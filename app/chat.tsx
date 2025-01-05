@@ -23,7 +23,7 @@ interface Message {
   isSender: boolean
 }
 
-const ChatPage = () => {
+export default function ChatPage() {
   const params = useLocalSearchParams()
   const theme = useColorScheme() ?? 'dark'
   const styles = createStyles(theme)
@@ -177,5 +177,3 @@ const createStyles = (theme: 'light' | 'dark') => {
     },
   })
 }
-
-export default ChatPage

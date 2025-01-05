@@ -15,7 +15,7 @@ import {
 import { Link, useRouter } from 'expo-router'
 import { useUserStore } from '@/stores/userStore'
 
-const LoginPage = () => {
+export default function LoginPage() {
   const theme = useColorScheme() ?? 'dark'
   const styles = createStyles(theme)
   const router = useRouter()
@@ -130,4 +130,3 @@ const createStyles = (theme: 'light' | 'dark') => {
     },
   })
 }
-export default LoginPage

@@ -1,7 +1,7 @@
 import PageView from '@/components/PageView'
 import { ThemeText } from '@/components/Theme'
 
-const AboutPage = () => {
+export default function AboutPage() {
   return (
     <PageView title={'关于'}>
       <ThemeText type="subtitle">去中心化</ThemeText>
@@ -15,4 +15,3 @@ const AboutPage = () => {
     </PageView>
   )
 }
-export default AboutPage

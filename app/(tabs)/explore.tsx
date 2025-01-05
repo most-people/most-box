@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native'
 import PageTabView from '@/components/PageTabView'
 import { ThemeText, ThemeView } from '@/components/Theme'
 
-export default function TabTwoScreen() {
+export default function ExploreScreen() {
   return (
     <PageTabView title="探索">
       <ThemeView style={styles.titleContainer}>
