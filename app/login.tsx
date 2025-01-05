@@ -1,4 +1,6 @@
+import { ThemeText } from '@/components/Theme'
 import { Colors } from '@/constants/Colors'
+import { Link } from 'expo-router'
 import React, { useState } from 'react'
 import {
   StyleSheet,
@@ -8,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   useColorScheme,
+  Alert,
 } from 'react-native'
 
 const LoginPage = () => {
@@ -16,26 +19,21 @@ const LoginPage = () => {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [passwordConfirm, setPasswordConfirm] = useState('')
 
-  const handleLogin = () => {
-    console.log('🌊', username)
-    console.log('🌊', password)
-    // if (!username || !password) {
-    //   Alert.alert('错误', '请输入用户名和密码')
-    // } else {
-    //   // 这里可以添加登录逻辑，例如调用 API 进行验证
-    //   Alert.alert('登录成功', `欢迎，${username}!`)
-    // }
-  }
+  const toLogin = () => {}
+  const toRegister = () => {}
 
   const disabled = !username || !password
+
+  const [isRegister, setIsRegister] = useState(false)
 
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <Text style={styles.title}>欢迎登录</Text>
+      <Text style={styles.title}>{isRegister ? '注册账户' : '欢迎登录'}</Text>
 
       <TextInput
         style={styles.input}
@@ -50,14 +48,25 @@ const LoginPage = () => {
         value={password}
         onChangeText={setPassword}
       />
+      {isRegister && (
+        <TextInput
+          style={styles.input}
+          placeholder="请再次输入密码"
+          value={passwordConfirm}
+          onChangeText={setPasswordConfirm}
+        />
+      )}
 
       <TouchableOpacity
         style={[styles.button, disabled ? styles.buttonDisabled : null]}
-        onPress={handleLogin}
+        onPress={isRegister ? toRegister : toLogin}
         disabled={disabled}
       >
-        <Text style={styles.buttonText}>登录</Text>
+        <Text style={styles.buttonText}>{isRegister ? '注册' : '登录'}</Text>
       </TouchableOpacity>
+      <ThemeText type="link" onPress={() => setIsRegister(!isRegister)}>
+        {isRegister ? '已有账户？去登录' : '没有账户？去注册'}
+      </ThemeText>
     </KeyboardAvoidingView>
   )
 }
@@ -70,10 +79,10 @@ const createStyles = (theme: 'light' | 'dark') => {
       alignItems: 'center',
       backgroundColor: Colors[theme].background,
       padding: 20,
+      gap: 16,
     },
     title: {
       fontSize: 24,
-      marginBottom: 30,
       color: Colors[theme].text,
     },
     input: {
@@ -83,7 +92,6 @@ const createStyles = (theme: 'light' | 'dark') => {
       borderWidth: 1,
       borderRadius: 10,
       paddingLeft: 15,
-      marginBottom: 20,
       backgroundColor: Colors[theme].input.background,
       color: Colors[theme].text,
       fontSize: 16,
@@ -101,7 +109,7 @@ const createStyles = (theme: 'light' | 'dark') => {
       fontSize: 18,
     },
     buttonDisabled: {
-      backgroundColor: Colors[theme].disabled, // 浅灰色背景
+      backgroundColor: Colors[theme].disabled,
     },
   })
 }
