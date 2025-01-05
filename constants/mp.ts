@@ -127,11 +127,20 @@ const verifyJWT = (token: string, secret: string) => {
   return payload
 }
 
+// 伪随机数，不安全
+const randomKeyBase64 = (bytes = 32) => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+  let result = ''
+  for (let i = 0; i < bytes; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length)
+    result += characters[randomIndex]
+  }
+  return result
+}
 const login = (username: string, password: string) => {
-  // 生成一个安全的 32 字节密钥
-  const secretKey = randomBytes(32)
-  const secret = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.create(secretKey))
   const wallet = mostWallet(username, password)
+  // 生成 32 字节（256 位）密钥
+  const secret = randomKeyBase64(32)
   const token = createJWT(wallet, secret, 60)
   try {
     const { data } = verifyJWT(token, secret)
