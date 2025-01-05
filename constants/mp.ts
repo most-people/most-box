@@ -18,26 +18,13 @@ import { botttsNeutral } from '@dicebear/collection'
 
 import { indexDB } from './IndexDB'
 
-declare global {
-  interface Window {
-    sogou: {
-      sug: (data: string[][]) => void
-    }
-    // markdown 可视化编辑器
-    toastui: any
-    // 语音识别
-    SpeechRecognition: any
-    webkitSpeechRecognition: any
-  }
-}
-
 const mp = {
   // 本地私钥
   async key(username: string, password: string) {
     const p = toUtf8Bytes(password)
     const salt = toUtf8Bytes('/mp/' + username)
     // iterations: 10000+
-    const kdf = pbkdf2(p, salt, 1, 32, 'sha512')
+    const kdf = pbkdf2(p, salt, 10001, 32, 'sha512')
     const privateKey = sha256(kdf)
 
     // x25519 key
@@ -248,29 +235,12 @@ const mp = {
     }
     return date.format(`YYYY年M月D日 ${timeOfDay}h点m分`)
   },
-
-  // setItem(key: string, value: string | object) {
-  //   if (typeof value === 'object') {
-  //     value = JSON.stringify(value)
-  //   }
-  //   localStorage.setItem(key, value)
-  // },
-  // getItem(key: string) {
-  //   const value = localStorage.getItem(key)
-  //   if (value) {
-  //     try {
-  //       return JSON.parse(value)
-  //     } catch (error) {
-  //       return value
-  //     }
-  //   }
-  //   return null
-  // },
-  avatar(name?: string) {
-    return createAvatar(botttsNeutral, {
-      seed: 'most-people:' + (name || 'most.box'),
+  avatar(name?: string, password?: string) {
+    const avatar = createAvatar(botttsNeutral, {
+      seed: 'most-people:' + (name || 'most.box') + (password || ''),
       flip: true,
-    }).toDataUri()
+    })
+    return avatar.toString()
   },
 }
 

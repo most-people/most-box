@@ -1,6 +1,8 @@
 import { ThemeText } from '@/components/Theme'
 import { Colors } from '@/constants/Colors'
-import React, { useState } from 'react'
+import mp from '@/constants/mp'
+import { SvgXml } from 'react-native-svg'
+import React, { useEffect, useState } from 'react'
 import {
   StyleSheet,
   Text,
@@ -10,6 +12,7 @@ import {
   Platform,
   useColorScheme,
 } from 'react-native'
+import { Link } from 'expo-router'
 
 const LoginPage = () => {
   const theme = useColorScheme() ?? 'dark'
@@ -17,35 +20,31 @@ const LoginPage = () => {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [passwordConfirm, setPasswordConfirm] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
 
-  const toLogin = () => {
-    if (!username || !password) {
-      setErrorMessage('请输入用户名和密码')
-      return
+  const toLogin = () => {}
+
+  const disabled = !username || !password
+
+  const defaultAvatar = mp.avatar('')
+  const [avatar, setAvatar] = useState(defaultAvatar)
+
+  useEffect(() => {
+    if (username && password) {
+      mp.key(username, password).then((res) => {
+        setAvatar(mp.avatar(res.address))
+      })
+    } else {
+      setAvatar(defaultAvatar)
     }
-    setErrorMessage('')
-  }
-
-  const toRegister = () => {
-    if (password !== passwordConfirm) {
-      setErrorMessage('两次输入的密码不一致')
-      return
-    }
-    setErrorMessage('')
-  }
-
-  const [isRegister, setIsRegister] = useState(false)
-
-  const disabled = !username || !password || (isRegister && !passwordConfirm)
+  }, [username, password, defaultAvatar])
 
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <Text style={styles.title}>{isRegister ? '注册账户' : '欢迎登录'}</Text>
+      <SvgXml xml={avatar} style={styles.avatar} />
+      <Text style={styles.title}>欢迎登录</Text>
 
       <TextInput
         style={styles.input}
@@ -60,27 +59,18 @@ const LoginPage = () => {
         value={password}
         onChangeText={setPassword}
       />
-      {isRegister && (
-        <TextInput
-          style={styles.input}
-          placeholder="请再次输入密码"
-          value={passwordConfirm}
-          onChangeText={setPasswordConfirm}
-        />
-      )}
-
-      {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
 
       <TouchableOpacity
         style={[styles.button, disabled ? styles.buttonDisabled : null]}
-        onPress={isRegister ? toRegister : toLogin}
+        onPress={toLogin}
         disabled={disabled}
       >
-        <Text style={styles.buttonText}>{isRegister ? '注册' : '登录'}</Text>
+        <Text style={styles.buttonText}>登录</Text>
       </TouchableOpacity>
-      <ThemeText type="link" onPress={() => setIsRegister(!isRegister)}>
-        {isRegister ? '已有账户？去登录' : '没有账户？去注册'}
-      </ThemeText>
+
+      <Link href="/about">
+        <ThemeText type="link">去中心化，无需注册，直接登录</ThemeText>
+      </Link>
     </KeyboardAvoidingView>
   )
 }
@@ -125,11 +115,9 @@ const createStyles = (theme: 'light' | 'dark') => {
     buttonDisabled: {
       backgroundColor: Colors[theme].disabled,
     },
-    errorText: {
-      color: 'red',
-      fontSize: 14,
-      marginBottom: 10,
-      alignSelf: 'flex-start',
+    avatar: {
+      width: 100,
+      height: 100,
     },
   })
 }

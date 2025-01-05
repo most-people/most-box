@@ -1,7 +1,5 @@
-import { Text } from 'react-native'
 import { Link } from 'expo-router'
 import PageView from '@/components/PageView'
-import { useRouter } from 'expo-router'
 import { TouchableOpacity, useColorScheme } from 'react-native'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
