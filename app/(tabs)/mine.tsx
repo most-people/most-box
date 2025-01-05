@@ -3,7 +3,7 @@ import { ThemeText, ThemeView } from '@/components/Theme'
 import { Colors } from '@/constants/Colors'
 import mp from '@/constants/mp'
 import { useUserStore } from '@/stores/userStore'
-import React from 'react'
+import { router } from 'expo-router'
 import {
   View,
   Text,
@@ -18,6 +18,10 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { SvgXml } from 'react-native-svg'
 
+interface Tab {
+  name: string
+  pathname: Parameters<typeof router.push>[0]
+}
 export default function ProfileScreen() {
   const theme = useColorScheme() ?? 'dark'
   const styles = createStyles(theme)
@@ -28,13 +32,18 @@ export default function ProfileScreen() {
   // 动态计算头部高度
   const headerTop = Platform.OS === 'ios' ? insets.top : StatusBar.currentHeight || 0
 
-  const tabs = [{ name: '收藏' }, { name: '收藏' }, { name: '收藏' }, { name: '收藏' }]
+  const tabs: Tab[] = [
+    { name: '关于', pathname: '/about' },
+    { name: '设置', pathname: '/setting' },
+  ]
 
   return (
     <ScrollView style={[styles.container, { paddingTop: headerTop }]}>
       {/* 头像和名称区域 */}
       <View style={styles.profileHeader}>
-        <SvgXml xml={mp.avatar(wallet?.address)} style={styles.avatar} />
+        <TouchableOpacity>
+          <SvgXml xml={mp.avatar(wallet?.address)} style={styles.avatar} />
+        </TouchableOpacity>
         <ThemeView style={styles.infoContainer}>
           <ThemeText style={styles.name}>{wallet?.username}</ThemeText>
           <Text style={styles.account}>地址：{mp.formatAddress(wallet?.address)}</Text>
@@ -46,7 +55,7 @@ export default function ProfileScreen() {
       </View>
 
       {/* 服务 */}
-      <TouchableOpacity style={styles.menuItem}>
+      <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/web3')}>
         <Image
           source={{ uri: 'https://via.placeholder.com/20' }} // 替换为实际图标 URL
           style={styles.icon}
@@ -58,7 +67,11 @@ export default function ProfileScreen() {
       {/* 菜单分组 */}
       <View style={styles.menuGroup}>
         {tabs.map((tab, index) => (
-          <TouchableOpacity key={index} style={styles.menuItem}>
+          <TouchableOpacity
+            key={index}
+            style={styles.menuItem}
+            onPress={() => router.push(tab.pathname)}
+          >
             <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.icon} />
             <Text style={styles.menuText}>{tab.name}</Text>
             <Icon.Arrow color={Colors[theme].primary} />
@@ -83,6 +96,7 @@ const createStyles = (theme: 'light' | 'dark') => {
     profileHeader: {
       flexDirection: 'row',
       alignItems: 'center',
+      gap: 15,
       padding: 20,
     },
     avatar: {
@@ -91,7 +105,6 @@ const createStyles = (theme: 'light' | 'dark') => {
       borderRadius: 10,
     },
     infoContainer: {
-      marginLeft: 15,
       flex: 1,
     },
     qrIcon: {

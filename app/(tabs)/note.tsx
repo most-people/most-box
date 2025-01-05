@@ -1,4 +1,4 @@
-import { StyleSheet, useColorScheme } from 'react-native'
+import { StyleSheet, TouchableOpacity, useColorScheme } from 'react-native'
 import { useNoteStore } from '@/stores/noteStore'
 import { ThemeText, ThemeView } from '@/components/Theme'
 import PageTabView from '@/components/PageTabView'
@@ -19,7 +19,8 @@ export default function NoteScreen() {
   return (
     <PageTabView title="笔记">
       <ThemeText>今天</ThemeText>
-      <ThemeView
+
+      <TouchableOpacity
         style={{
           ...styles.camera,
           backgroundColor: theme === 'light' ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.14)',
@@ -29,7 +30,7 @@ export default function NoteScreen() {
           style={styles.cameraIcon}
           fill={theme === 'light' ? 'rgba(0, 0, 0, 0.14)' : 'rgba(255, 255, 255, 0.14)'}
         />
-      </ThemeView>
+      </TouchableOpacity>
       {notes
         .sort((a, b) => Number(b.updated_time) - Number(a.updated_time))
         .map((item) => (

@@ -25,13 +25,15 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
 
   const toLogin = () => {
-    router.replace('/')
-    setTimeout(() => {
-      const wallet = mp.login(username, password)
-      if (wallet) {
-        userStore.setItem('wallet', wallet)
-      }
-    }, 0)
+    if (username && password) {
+      router.replace('/')
+      setTimeout(() => {
+        const wallet = mp.login(username, password)
+        if (wallet) {
+          userStore.setItem('wallet', wallet)
+        }
+      }, 0)
+    }
   }
 
   const disabled = !username || !password
@@ -58,15 +60,19 @@ export default function LoginPage() {
       <TextInput
         style={styles.input}
         placeholder="请输入用户名"
+        maxLength={36}
         value={username}
         onChangeText={setUsername}
+        returnKeyType="next"
       />
 
       <TextInput
         style={styles.input}
         placeholder="请输入密码"
+        maxLength={100}
         value={password}
         onChangeText={setPassword}
+        returnKeyType="next"
       />
 
       <TouchableOpacity
