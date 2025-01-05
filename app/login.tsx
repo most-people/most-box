@@ -22,8 +22,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('')
 
   const toLogin = async () => {
-    const wallet = mp.wallet(username, password)
-    console.log('🌊', wallet)
+    const wallet = mp.login(username, password)
   }
 
   const disabled = !username || !password

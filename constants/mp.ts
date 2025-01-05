@@ -1,3 +1,4 @@
+import CryptoJS from 'crypto-js'
 import {
   toUtf8Bytes,
   hexlify,
@@ -9,6 +10,8 @@ import {
   hashMessage,
   Mnemonic,
   HDNodeWallet,
+  computeHmac,
+  randomBytes,
 } from 'ethers'
 import dayjs from 'dayjs'
 import asyncStorage from '@/stores/asyncStorage'
@@ -259,7 +262,7 @@ const login = async (username: string, password: string) => {
   // 生成一个安全的 32 字节密钥
   const secretKey = sodium.randombytes_buf(32)
   const secret = sodium.to_base64(secretKey, sodium.base64_variants.URLSAFE_NO_PADDING)
-  const mostKey = MostKey(username, password)
+  const mostKey = wallet(username, password)
   const token = createJWT(mostKey, secret, 60)
   asyncStorage.setItem('token', token)
   asyncStorage.setItem('tokenSecret', secret)
