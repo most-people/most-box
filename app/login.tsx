@@ -12,20 +12,26 @@ import {
   Platform,
   useColorScheme,
 } from 'react-native'
-import { Link, router } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
+import { useUserStore } from '@/stores/userStore'
 
 const LoginPage = () => {
   const theme = useColorScheme() ?? 'dark'
   const styles = createStyles(theme)
+  const router = useRouter()
+  const userStore = useUserStore()
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const toLogin = async () => {
-    const isLogin = mp.login(username, password)
-    if (isLogin) {
-      router.replace('/')
-    }
+  const toLogin = () => {
+    router.replace('/')
+    setTimeout(() => {
+      const wallet = mp.login(username, password)
+      if (wallet) {
+        userStore.setItem('wallet', wallet)
+      }
+    }, 0)
   }
 
   const disabled = !username || !password
@@ -34,7 +40,7 @@ const LoginPage = () => {
   const [avatar, setAvatar] = useState(defaultAvatar)
 
   useEffect(() => {
-    if (username && password) {
+    if (username) {
       setAvatar(mp.avatar(username, password))
     } else {
       setAvatar(defaultAvatar)

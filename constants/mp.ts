@@ -1,28 +1,14 @@
 import CryptoJS from 'crypto-js'
-import {
-  toUtf8Bytes,
-  hexlify,
-  toUtf8String,
-  pbkdf2,
-  sha256,
-  getBytes,
-  recoverAddress,
-  hashMessage,
-  Mnemonic,
-  HDNodeWallet,
-  computeHmac,
-  randomBytes,
-  Wallet,
-} from 'ethers'
+import { toUtf8Bytes, sha256, encodeBase64, decodeBase64, toUtf8String } from 'ethers'
 import dayjs from 'dayjs'
 import asyncStorage from '@/stores/asyncStorage'
 import { createAvatar } from '@dicebear/core'
 import { botttsNeutral } from '@dicebear/collection'
-import { mostWallet } from '@/constants/MostWallet'
+import { MostWallet, mostWallet } from '@/constants/MostWallet'
 
-const avatar = (username?: string, password?: string) => {
+const avatar = (username = 'most.box', password = '') => {
   const avatar = createAvatar(botttsNeutral, {
-    seed: 'most-people:' + (username || 'most.box') + (password || ''),
+    seed: 'most-people:' + username + password,
     flip: true,
   })
   return avatar.toString()
@@ -62,19 +48,18 @@ const getHash = (message: string) => {
 
 // Base64 编码
 const enBase64 = (str: string) => {
-  return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(str))
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '')
+  // 将字符串转换为字节数组
+  const bytes = toUtf8Bytes(str)
+  // 将字节数组编码为 Base64 字符串
+  return encodeBase64(bytes)
 }
 
 // Base64 解码
 const deBase64 = (str: string) => {
-  str = str.replace(/-/g, '+').replace(/_/g, '/')
-  while (str.length % 4) {
-    str += '='
-  }
-  return CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(str))
+  // 解码 Base64
+  const bytes = decodeBase64(str)
+  // 将字节转换为 UTF-8 字符串
+  return toUtf8String(bytes)
 }
 
 // 生成 JWT
@@ -95,7 +80,6 @@ const createJWT = (data: any, secret: string, exp = 60) => {
     CryptoJS.enc.Base64.parse(secret),
   )
   const encodedSignature = enBase64(signature.toString(CryptoJS.enc.Base64))
-
   return `${encodedHeader}.${encodedPayload}.${encodedSignature}`
 }
 
@@ -137,7 +121,7 @@ const randomKeyBase64 = (bytes = 32) => {
   }
   return result
 }
-const login = (username: string, password: string) => {
+const login = (username: string, password: string): MostWallet | null => {
   const wallet = mostWallet(username, password)
   // 生成 32 字节（256 位）密钥
   const secret = randomKeyBase64(32)
@@ -147,12 +131,12 @@ const login = (username: string, password: string) => {
     if (data.address === wallet.address) {
       asyncStorage.setItem('token', token)
       asyncStorage.setItem('tokenSecret', secret)
-      return true
+      return wallet
     }
   } catch (error: any) {
     console.error(error.message)
   }
-  return false
+  return null
 }
 
 export default {

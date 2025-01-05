@@ -1,7 +1,8 @@
+import { MostWallet } from '@/constants/MostWallet'
 import { create, StoreApi } from 'zustand'
 
 interface UserStore {
-  fullLoading: boolean
+  wallet?: MostWallet
 }
 
 interface State extends UserStore {
@@ -9,6 +10,6 @@ interface State extends UserStore {
 }
 
 export const useUserStore = create<State>((set: StoreApi<State>['setState']) => ({
-  fullLoading: true,
+  wallet: undefined,
   setItem: (key, value) => set((state) => ({ ...state, [key]: value })),
 }))

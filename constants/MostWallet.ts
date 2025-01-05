@@ -1,5 +1,4 @@
-import CryptoJS from 'crypto-js'
-import { HDNodeWallet, hexlify, getBytes, Mnemonic, randomBytes, computeHmac } from 'ethers'
+import { HDNodeWallet, hexlify, getBytes, Mnemonic, pbkdf2, sha256, toUtf8Bytes } from 'ethers'
 import nacl from 'tweetnacl'
 
 export interface MostWallet {
@@ -10,25 +9,20 @@ export interface MostWallet {
   private_key: string
 }
 export const mostWallet = (username: string, password: string): MostWallet => {
-  const p = CryptoJS.enc.Utf8.parse(password)
-  const salt = CryptoJS.enc.Utf8.parse('/most.box/' + username)
-  const kdf = CryptoJS.PBKDF2(p.toString(CryptoJS.enc.Hex), salt, {
-    keySize: 256 / 32,
-    iterations: 3,
-    hasher: CryptoJS.algo.SHA512,
-  })
+  const p = toUtf8Bytes(password)
+  const salt = toUtf8Bytes('/most.box/' + username)
+  const kdf = pbkdf2(p, salt, 3, 32, 'sha512')
+  const privateKey = sha256(kdf)
 
-  const privateKey = CryptoJS.SHA256(kdf).toString(CryptoJS.enc.Hex)
-
-  // Generate x25519 key pair using tweetnacl
-  const seed = getBytes('0x' + privateKey).slice(0, 32)
+  // x25519 key pair
+  const seed = getBytes(privateKey).slice(0, 32)
   const keyPair = nacl.box.keyPair.fromSecretKey(seed)
 
   const public_key = hexlify(keyPair.publicKey)
   const private_key = hexlify(keyPair.secretKey)
 
   // wallet all in one
-  const mnemonic = Mnemonic.entropyToPhrase(getBytes('0x' + privateKey))
+  const mnemonic = Mnemonic.entropyToPhrase(getBytes(privateKey))
   const wallet = HDNodeWallet.fromPhrase(mnemonic)
   const address = wallet.address
 
