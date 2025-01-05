@@ -42,8 +42,8 @@ export default function ChatPage() {
     // 模拟一个消息监听器
     chat.on((data, key) => {
       // 忽略内部标记
-      console.log('🌊', key)
-      console.log('🌊', data)
+      console.log('GUN:', key)
+      console.log('GUN:', data)
     })
   }, [chat])
 

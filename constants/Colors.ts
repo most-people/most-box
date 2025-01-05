@@ -16,6 +16,7 @@ export const Colors = {
       border: '#ccc',
     },
     disabled: 'rgba(0,0,0,0.04)',
+    color: 'rgba(0,0,0,0.618)',
     // @react-navigation/native DefaultTheme
     primary: 'rgb(104,112,118)',
     background: 'rgb(245, 245, 245)',
@@ -30,6 +31,7 @@ export const Colors = {
       border: '#555',
     },
     disabled: 'rgba(255,255,255,0.04)',
+    color: 'rgba(255,255,255,0.382)',
     // @react-navigation/native DarkTheme
     primary: 'rgb(104,112,118)',
     background: 'rgb(21,23,24)',

@@ -18,6 +18,8 @@ import Camera from '@/assets/icon/camera.svg'
 import Back from '@/assets/icon/back.svg'
 // https://www.flaticon.com/free-icon-font/menu-dots_3917230?page=1&position=5&term=more&origin=search&related_id=3917230
 import More from '@/assets/icon/more.svg'
+// qr code
+import QRCode from '@/assets/icon/qr-code.svg'
 
 export const Icon = {
   Chat,
@@ -33,4 +35,5 @@ export const Icon = {
   Camera,
   Back,
   More,
+  QRCode,
 }
