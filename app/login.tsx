@@ -30,9 +30,9 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (username && password) {
-      mp.key(username, password).then((res) => {
-        setAvatar(mp.avatar(res.address))
-      })
+      setAvatar(mp.avatar(username, password))
+      // mp.key(username, password).then((res) => {
+      // })
     } else {
       setAvatar(defaultAvatar)
     }
