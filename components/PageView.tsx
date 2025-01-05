@@ -1,5 +1,5 @@
 import type { PropsWithChildren, ReactNode } from 'react'
-import { StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 import { ThemeView } from '@/components/Theme'
 import { AppHeader } from '@/components/AppHeader'
 
@@ -18,7 +18,9 @@ export default function PageView({
     <ThemeView style={styles.container}>
       <AppHeader title={title} rightContent={rightContent} />
 
-      <ThemeView style={styles.content}>{children}</ThemeView>
+      <ScrollView>
+        <ThemeView style={styles.content}>{children}</ThemeView>
+      </ScrollView>
     </ThemeView>
   )
 }

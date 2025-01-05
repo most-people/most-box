@@ -4,10 +4,10 @@ import { Colors } from '@/constants/Colors'
 import mp from '@/constants/mp'
 import { useUserStore } from '@/stores/userStore'
 import { router } from 'expo-router'
+import { ReactNode } from 'react'
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
@@ -21,6 +21,7 @@ import { SvgXml } from 'react-native-svg'
 interface Tab {
   name: string
   pathname: Parameters<typeof router.push>[0]
+  icon: ReactNode
 }
 export default function ProfileScreen() {
   const theme = useColorScheme() ?? 'dark'
@@ -33,8 +34,9 @@ export default function ProfileScreen() {
   const headerTop = Platform.OS === 'ios' ? insets.top : StatusBar.currentHeight || 0
 
   const tabs: Tab[] = [
-    { name: '关于', pathname: '/about' },
-    { name: '设置', pathname: '/setting' },
+    { name: '关于', pathname: '/about', icon: <Icon.About style={styles.icon} /> },
+    { name: '设置', pathname: '/setting', icon: <Icon.Setting style={styles.icon} /> },
+    { name: 'international', pathname: '/international', icon: <Icon.Join style={styles.icon} /> },
   ]
 
   return (
@@ -56,10 +58,7 @@ export default function ProfileScreen() {
 
       {/* 服务 */}
       <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/web3')}>
-        <Image
-          source={{ uri: 'https://via.placeholder.com/20' }} // 替换为实际图标 URL
-          style={styles.icon}
-        />
+        <Icon.Web3 style={styles.icon} />
         <Text style={styles.menuText}>Web3</Text>
         <Icon.Arrow color={Colors[theme].primary} />
       </TouchableOpacity>
@@ -72,7 +71,7 @@ export default function ProfileScreen() {
             style={styles.menuItem}
             onPress={() => router.push(tab.pathname)}
           >
-            <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.icon} />
+            {tab.icon}
             <Text style={styles.menuText}>{tab.name}</Text>
             <Icon.Arrow color={Colors[theme].primary} />
           </TouchableOpacity>
@@ -80,9 +79,10 @@ export default function ProfileScreen() {
       </View>
 
       {/* 设置 */}
+
       <TouchableOpacity style={styles.menuItem} onPress={exit}>
-        <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.icon} />
-        <Text style={styles.menuText}>退出登录</Text>
+        <Icon.Exit style={styles.icon} />
+        <Text style={styles.menuText}>退出账户</Text>
         <Icon.Arrow color={Colors[theme].primary} />
       </TouchableOpacity>
     </ScrollView>
@@ -124,7 +124,8 @@ const createStyles = (theme: 'light' | 'dark') => {
       gap: 14,
       flexDirection: 'row',
       alignItems: 'center',
-      padding: 20,
+      paddingInline: 20,
+      height: 62,
       backgroundColor: theme === 'dark' ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.04)',
     },
     menuGroup: {
@@ -137,8 +138,8 @@ const createStyles = (theme: 'light' | 'dark') => {
       flex: 1,
     },
     icon: {
-      width: 20,
-      height: 20,
+      width: 32,
+      height: 32,
     },
   })
 }
