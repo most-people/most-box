@@ -12,153 +12,13 @@ import {
   HDNodeWallet,
   computeHmac,
   randomBytes,
+  Wallet,
 } from 'ethers'
 import dayjs from 'dayjs'
 import asyncStorage from '@/stores/asyncStorage'
 import { createAvatar } from '@dicebear/core'
 import { botttsNeutral } from '@dicebear/collection'
-import { wallet } from '@/constants/MostWallet'
-
-// const mp = {
-//   getAddress(authorization: string) {
-//     // 验签
-//     if (authorization) {
-//       const [message, sig] = authorization.slice(7).split(',')
-
-//       if (message && sig) {
-//         const address = recoverAddress(hashMessage(message), sig)
-//         return address
-//       }
-//     }
-//     return ''
-//   },
-//   formatAddress(address: string) {
-//     if (address) {
-//       return address.slice(0, 6) + '...' + address.slice(-4)
-//     } else {
-//       return ''
-//     }
-//   },
-//   // 聊天加密 共享秘钥，对称加密
-//   chatEncode(text: string, otherPublicKey: string, myPrivateKey: string) {
-//     try {
-//       const sharedKey = sodium.crypto_scalarmult(
-//         sodium.from_hex(myPrivateKey),
-//         sodium.from_hex(otherPublicKey),
-//       )
-//       const nonce = sodium.randombytes_buf(sodium.crypto_secretbox_NONCEBYTES)
-//       const encrypted = sodium.crypto_secretbox_easy(text, nonce, sharedKey)
-//       return [sodium.to_base64(nonce), sodium.to_base64(encrypted)].join('.')
-//     } catch (error) {
-//       console.error(error)
-//     }
-//     return ''
-//   },
-//   // 聊天解密 共享秘钥，对称加密
-//   chatDecode(encoded: string, otherPublicKey: string, myPrivateKey: string) {
-//     try {
-//       const [nonce, encrypted] = encoded.split('.')
-//       const sharedKey = sodium.crypto_scalarmult(
-//         sodium.from_hex(myPrivateKey),
-//         sodium.from_hex(otherPublicKey),
-//       )
-//       const decrypted = sodium.crypto_secretbox_open_easy(
-//         sodium.from_base64(encrypted),
-//         sodium.from_base64(nonce),
-//         sharedKey,
-//       )
-//       return sodium.to_string(decrypted)
-//     } catch (error) {
-//       console.error(error)
-//     }
-//     return ''
-//   },
-//   // 加密
-//   async encrypt(text: string, key?: CryptoKey) {
-//     if (!key) {
-//       key = await indexDB.getKey()
-//     }
-//     if (!key) {
-//       return ''
-//     }
-
-//     const version = 'mp://1'
-//     const iv = String(Date.now())
-//     const encryptedBytes = await window.crypto.subtle.encrypt(
-//       {
-//         name: 'AES-GCM',
-//         iv: toUtf8Bytes(iv),
-//         tagLength: 32,
-//       },
-//       key,
-//       toUtf8Bytes(text),
-//     )
-//     const data = hexlify(new Uint8Array(encryptedBytes)).slice(2)
-//     const encrypted = [version, iv, data]
-//     return encrypted.join('.')
-//   },
-//   // 解密
-//   async decrypt(encrypted: string, key?: CryptoKey) {
-//     if (!key) {
-//       key = await indexDB.getKey()
-//     }
-//     if (!key) {
-//       return ''
-//     }
-//     const [version, iv, data] = encrypted.split('.')
-//     if (version !== 'mp://1') {
-//       console.error('version error')
-//       return ''
-//     }
-//     try {
-//       const decryptedBytes = await window.crypto.subtle.decrypt(
-//         {
-//           name: 'AES-GCM',
-//           iv: toUtf8Bytes(iv),
-//           tagLength: 32,
-//         },
-//         key,
-//         getBytes('0x' + data),
-//       )
-//       const decrypted = toUtf8String(new Uint8Array(decryptedBytes))
-//       return decrypted
-//     } catch (error) {
-//       console.error('decrypt error', error)
-//       return ''
-//     }
-//   },
-//   // // 错误提示
-//   // error(message: string) {
-//   //   ElMessage({
-//   //     message: message,
-//   //     type: 'error',
-//   //     // duration: 0,
-//   //     customClass: 'mp-message-error',
-//   //     grouping: true,
-//   //   })
-//   // },
-//   // // 成功提示
-//   // success(message: string) {
-//   //   ElMessage({
-//   //     message,
-//   //     type: 'success',
-//   //     // duration: 0,
-//   //     customClass: 'mp-message-success',
-//   //     grouping: true,
-//   //   })
-//   // },
-//   // // 消息提示
-//   // info(message: string) {
-//   //   ElMessage({
-//   //     message,
-//   //     type: 'info',
-//   //     // duration: 0,
-//   //     customClass: 'mp-message-info',
-//   //     grouping: true,
-//   //   })
-//   // },
-
-// }
+import { mostWallet } from '@/constants/MostWallet'
 
 const avatar = (username?: string, password?: string) => {
   const avatar = createAvatar(botttsNeutral, {
@@ -166,12 +26,6 @@ const avatar = (username?: string, password?: string) => {
     flip: true,
   })
   return avatar.toString()
-}
-const deBase64 = (s: string) => {
-  return decodeURIComponent(atob(s))
-}
-const enBase64 = (s: string) => {
-  return btoa(encodeURIComponent(s))
 }
 // 格式化时间
 const formatTime = (time: string) => {
@@ -206,6 +60,23 @@ const getHash = (message: string) => {
   return sha256(toUtf8Bytes(message))
 }
 
+// Base64 编码
+const enBase64 = (str: string) => {
+  return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(str))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '')
+}
+
+// Base64 解码
+const deBase64 = (str: string) => {
+  str = str.replace(/-/g, '+').replace(/_/g, '/')
+  while (str.length % 4) {
+    str += '='
+  }
+  return CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(str))
+}
+
 // 生成 JWT
 const createJWT = (data: any, secret: string, exp = 60) => {
   const header = {
@@ -219,11 +90,11 @@ const createJWT = (data: any, secret: string, exp = 60) => {
   const encodedPayload = enBase64(JSON.stringify(payload))
 
   // 使用 HMAC-SHA256 签名
-  const signature = sodium.crypto_auth(
+  const signature = CryptoJS.HmacSHA256(
     `${encodedHeader}.${encodedPayload}`,
-    sodium.from_base64(secret, sodium.base64_variants.URLSAFE_NO_PADDING),
+    CryptoJS.enc.Base64.parse(secret),
   )
-  const encodedSignature = sodium.to_base64(signature, sodium.base64_variants.URLSAFE_NO_PADDING)
+  const encodedSignature = enBase64(signature.toString(CryptoJS.enc.Base64))
 
   return `${encodedHeader}.${encodedPayload}.${encodedSignature}`
 }
@@ -239,11 +110,10 @@ const verifyJWT = (token: string, secret: string) => {
   const data = `${encodedHeader}.${encodedPayload}`
 
   // 验证签名
-  const signature = sodium.from_base64(encodedSignature, sodium.base64_variants.URLSAFE_NO_PADDING)
-  const key = sodium.from_base64(secret, sodium.base64_variants.URLSAFE_NO_PADDING)
-  const valid = sodium.crypto_auth_verify(signature, data, key)
+  const signature = CryptoJS.HmacSHA256(data, CryptoJS.enc.Base64.parse(secret))
+  const validSignature = enBase64(signature.toString(CryptoJS.enc.Base64))
 
-  if (!valid) {
+  if (validSignature !== encodedSignature) {
     throw new Error('Invalid signature')
   }
 
@@ -257,21 +127,28 @@ const verifyJWT = (token: string, secret: string) => {
   return payload
 }
 
-const login = async (username: string, password: string) => {
-  await sodium.ready
+const login = (username: string, password: string) => {
   // 生成一个安全的 32 字节密钥
-  const secretKey = sodium.randombytes_buf(32)
-  const secret = sodium.to_base64(secretKey, sodium.base64_variants.URLSAFE_NO_PADDING)
-  const mostKey = wallet(username, password)
-  const token = createJWT(mostKey, secret, 60)
-  asyncStorage.setItem('token', token)
-  asyncStorage.setItem('tokenSecret', secret)
-  return mostKey
+  const secretKey = randomBytes(32)
+  const secret = CryptoJS.enc.Base64.stringify(CryptoJS.lib.WordArray.create(secretKey))
+  const wallet = mostWallet(username, password)
+  const token = createJWT(wallet, secret, 60)
+  try {
+    const { data } = verifyJWT(token, secret)
+    if (data.address === wallet.address) {
+      asyncStorage.setItem('token', token)
+      asyncStorage.setItem('tokenSecret', secret)
+      return true
+    }
+  } catch (error: any) {
+    console.error(error.message)
+  }
+  return false
 }
 
 export default {
   // 本地私钥
-  wallet,
+  wallet: mostWallet,
   avatar,
   getHash,
   formatTime,

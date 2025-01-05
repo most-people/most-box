@@ -1,8 +1,6 @@
 import CryptoJS from 'crypto-js'
 import { HDNodeWallet, hexlify, getBytes, Mnemonic, randomBytes, computeHmac } from 'ethers'
 import nacl from 'tweetnacl'
-import dayjs from 'dayjs'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export interface MostWallet {
   username: string
@@ -11,7 +9,7 @@ export interface MostWallet {
   public_key: string
   private_key: string
 }
-export const wallet = (username: string, password: string): MostWallet => {
+export const mostWallet = (username: string, password: string): MostWallet => {
   const p = CryptoJS.enc.Utf8.parse(password)
   const salt = CryptoJS.enc.Utf8.parse('/most.box/' + username)
   const kdf = CryptoJS.PBKDF2(p.toString(CryptoJS.enc.Hex), salt, {

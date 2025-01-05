@@ -22,7 +22,10 @@ const LoginPage = () => {
   const [password, setPassword] = useState('')
 
   const toLogin = async () => {
-    const wallet = mp.login(username, password)
+    const isLogin = mp.login(username, password)
+    if (isLogin) {
+      router.replace('/')
+    }
   }
 
   const disabled = !username || !password
