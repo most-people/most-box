@@ -1,6 +1,5 @@
 import { ThemeText } from '@/components/Theme'
 import { Colors } from '@/constants/Colors'
-import { Link } from 'expo-router'
 import React, { useState } from 'react'
 import {
   StyleSheet,
@@ -10,7 +9,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   useColorScheme,
-  Alert,
 } from 'react-native'
 
 const LoginPage = () => {
@@ -20,13 +18,27 @@ const LoginPage = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const toLogin = () => {}
-  const toRegister = () => {}
+  const toLogin = () => {
+    if (!username || !password) {
+      setErrorMessage('请输入用户名和密码')
+      return
+    }
+    setErrorMessage('')
+  }
 
-  const disabled = !username || !password
+  const toRegister = () => {
+    if (password !== passwordConfirm) {
+      setErrorMessage('两次输入的密码不一致')
+      return
+    }
+    setErrorMessage('')
+  }
 
   const [isRegister, setIsRegister] = useState(false)
+
+  const disabled = !username || !password || (isRegister && !passwordConfirm)
 
   return (
     <KeyboardAvoidingView
@@ -56,6 +68,8 @@ const LoginPage = () => {
           onChangeText={setPasswordConfirm}
         />
       )}
+
+      {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
 
       <TouchableOpacity
         style={[styles.button, disabled ? styles.buttonDisabled : null]}
@@ -110,6 +124,12 @@ const createStyles = (theme: 'light' | 'dark') => {
     },
     buttonDisabled: {
       backgroundColor: Colors[theme].disabled,
+    },
+    errorText: {
+      color: 'red',
+      fontSize: 14,
+      marginBottom: 10,
+      alignSelf: 'flex-start',
     },
   })
 }
