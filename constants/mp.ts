@@ -46,7 +46,7 @@ const getHash = (message: string) => {
   return sha256(toUtf8Bytes(message))
 }
 
-const formatAddress = (address: string) => {
+const formatAddress = (address?: string) => {
   if (address) {
     return address.slice(0, 6) + '...' + address.slice(-4)
   } else {
