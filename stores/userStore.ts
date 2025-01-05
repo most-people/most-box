@@ -7,6 +7,7 @@ import { router } from 'expo-router'
 interface UserStore {
   wallet?: MostWallet
   initWallet: () => Promise<void>
+  exit: () => void
 }
 
 interface State extends UserStore {
@@ -16,6 +17,13 @@ interface State extends UserStore {
 export const useUserStore = create<State>((set: StoreApi<State>['setState']) => ({
   wallet: undefined,
   setItem: (key, value) => set((state) => ({ ...state, [key]: value })),
+
+  exit() {
+    asyncStorage.removeItem('token')
+    asyncStorage.removeItem('tokenSecret')
+    set({ wallet: undefined })
+    router.push('/login')
+  },
   async initWallet() {
     const token = await asyncStorage.getItem('token')
     const tokenSecret = await asyncStorage.getItem('tokenSecret')
@@ -23,10 +31,11 @@ export const useUserStore = create<State>((set: StoreApi<State>['setState']) => 
       try {
         const { data } = mp.verifyJWT(token, tokenSecret) as { data: MostWallet }
         set({ wallet: data })
+        return
       } catch (error: any) {
         console.error(error.message)
-        router.push('/login')
       }
     }
+    router.push('/login')
   },
 }))

@@ -23,6 +23,7 @@ export default function ProfileScreen() {
   const styles = createStyles(theme)
 
   const wallet = useUserStore((state) => state.wallet)
+  const exit = useUserStore((state) => state.exit)
   const insets = useSafeAreaInsets()
   // 动态计算头部高度
   const headerTop = Platform.OS === 'ios' ? insets.top : StatusBar.currentHeight || 0
@@ -66,7 +67,7 @@ export default function ProfileScreen() {
       </View>
 
       {/* 设置 */}
-      <TouchableOpacity style={styles.menuItem}>
+      <TouchableOpacity style={styles.menuItem} onPress={exit}>
         <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.icon} />
         <Text style={styles.menuText}>退出登录</Text>
         <Icon.Arrow color={Colors[theme].primary} />
