@@ -22,8 +22,8 @@ const LoginPage = () => {
   const [password, setPassword] = useState('')
 
   const toLogin = async () => {
-    const mostKey = await mp.login(username, password)
-    console.log('🌊', mostKey)
+    const wallet = mp.wallet(username, password)
+    console.log('🌊', wallet)
   }
 
   const disabled = !username || !password

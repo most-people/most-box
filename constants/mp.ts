@@ -11,10 +11,10 @@ import {
   HDNodeWallet,
 } from 'ethers'
 import dayjs from 'dayjs'
-import sodium from 'react-native-libsodium'
 import asyncStorage from '@/stores/asyncStorage'
 import { createAvatar } from '@dicebear/core'
 import { botttsNeutral } from '@dicebear/collection'
+import { wallet } from '@/constants/MostWallet'
 
 // const mp = {
 //   getAddress(authorization: string) {
@@ -157,42 +157,6 @@ import { botttsNeutral } from '@dicebear/collection'
 
 // }
 
-interface MostWallet {
-  username: string
-  address: string
-  mnemonic: string
-  public_key: string
-  private_key: string
-}
-
-const MostKey = (username: string, password: string) => {
-  const p = toUtf8Bytes(password)
-  const salt = toUtf8Bytes('/most.box/' + username)
-  const kdf = pbkdf2(p, salt, 10001, 32, 'sha512')
-  const privateKey = sha256(kdf)
-
-  // x25519 key
-  const seed = sodium.from_string(privateKey)
-  const keyData = sodium.crypto_generichash(32, seed)
-  const keyPair = sodium.crypto_box_seed_keypair(keyData)
-
-  const public_key = sodium.to_hex(keyPair.publicKey)
-  const private_key = sodium.to_hex(keyPair.privateKey)
-
-  // wallet all in one
-  const mnemonic = Mnemonic.entropyToPhrase(toUtf8Bytes(privateKey).slice(-16))
-  const wallet = HDNodeWallet.fromPhrase(mnemonic)
-  const address = wallet.address
-  const userKey: MostWallet = {
-    username,
-    address,
-    mnemonic,
-    public_key,
-    private_key,
-  }
-  return userKey
-}
-
 const avatar = (username?: string, password?: string) => {
   const avatar = createAvatar(botttsNeutral, {
     seed: 'most-people:' + (username || 'most.box') + (password || ''),
@@ -304,7 +268,7 @@ const login = async (username: string, password: string) => {
 
 export default {
   // 本地私钥
-  key: MostKey,
+  wallet,
   avatar,
   getHash,
   formatTime,
