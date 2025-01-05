@@ -12,7 +12,7 @@ import Mine from '@/assets/icon/mine.svg'
 import MineActive from '@/assets/icon/mine-active.svg'
 // https://www.flaticon.com/free-icon-font/add_15861077?page=1&position=1&term=add&origin=search&related_id=15861077
 import Add from '@/assets/icon/add.svg'
-import Angle from '@/assets/icon/angle.svg'
+import Arrow from '@/assets/icon/arrow.svg'
 import Camera from '@/assets/icon/camera.svg'
 // https://www.flaticon.com/free-icon-font/arrow-small-left_3916837?term=back&related_id=3916837
 import Back from '@/assets/icon/back.svg'
@@ -29,7 +29,7 @@ export const Icon = {
   Mine,
   MineActive,
   Add,
-  Angle,
+  Arrow,
   Camera,
   Back,
   More,

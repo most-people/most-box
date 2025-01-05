@@ -1,3 +1,4 @@
+import { Icon } from '@/assets/icon'
 import mp from '@/constants/mp'
 import { useUserStore } from '@/stores/userStore'
 import React from 'react'
@@ -30,10 +31,7 @@ const ProfileScreen = () => {
           style={styles.icon}
         />
         <Text style={styles.menuText}>服务</Text>
-        <Image
-          source={{ uri: 'https://via.placeholder.com/20' }} // 替换为箭头图标 URL
-          style={styles.arrowIcon}
-        />
+        <Icon.Arrow style={styles.arrowIcon} />
       </TouchableOpacity>
 
       {/* 菜单分组 */}
@@ -41,27 +39,27 @@ const ProfileScreen = () => {
         <TouchableOpacity style={styles.menuItem}>
           <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.icon} />
           <Text style={styles.menuText}>收藏</Text>
-          <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.arrowIcon} />
+          <Icon.Arrow style={styles.arrowIcon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem}>
           <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.icon} />
           <Text style={styles.menuText}>朋友圈</Text>
-          <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.arrowIcon} />
+          <Icon.Arrow style={styles.arrowIcon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem}>
           <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.icon} />
           <Text style={styles.menuText}>视频号</Text>
-          <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.arrowIcon} />
+          <Icon.Arrow style={styles.arrowIcon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem}>
           <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.icon} />
           <Text style={styles.menuText}>卡包</Text>
-          <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.arrowIcon} />
+          <Icon.Arrow style={styles.arrowIcon} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuItem}>
           <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.icon} />
           <Text style={styles.menuText}>表情</Text>
-          <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.arrowIcon} />
+          <Icon.Arrow style={styles.arrowIcon} />
         </TouchableOpacity>
       </View>
 
@@ -69,7 +67,7 @@ const ProfileScreen = () => {
       <TouchableOpacity style={styles.menuItem}>
         <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.icon} />
         <Text style={styles.menuText}>设置</Text>
-        <Image source={{ uri: 'https://via.placeholder.com/20' }} style={styles.arrowIcon} />
+        <Icon.Arrow style={styles.arrowIcon} />
       </TouchableOpacity>
     </ScrollView>
   )
@@ -83,7 +81,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 20,
-    // backgroundColor: '#1c1c1e',
   },
   avatar: {
     width: 60,
@@ -118,16 +115,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.04)',
-    // borderTopWidth: 1,
-    // borderBottomWidth: 1,
-    // borderColor: '#333',
   },
   menuGroup: {
     marginTop: 10,
     marginBottom: 10,
-    // backgroundColor: '#333',
-    // borderBottomWidth: 1,
-    // borderBottomColor: '#333',
   },
   menuText: {
     fontSize: 16,
@@ -139,8 +130,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
   arrowIcon: {
-    width: 20,
-    height: 20,
+    color: 'rgba(136,136,136,1)',
   },
 })
 
