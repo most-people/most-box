@@ -10,13 +10,13 @@ import {
   Mnemonic,
   HDNodeWallet,
 } from 'ethers'
+// import { SignJWT, jwtVerify, decodeJwt } from 'jose'
 import dayjs from 'dayjs'
 import sodium from 'libsodium-wrappers'
+import asyncStorage from '@/stores/asyncStorage'
 
 import { createAvatar } from '@dicebear/core'
 import { botttsNeutral } from '@dicebear/collection'
-
-import { indexDB } from './IndexDB'
 
 // const mp = {
 //   // 本地私钥
@@ -244,12 +244,74 @@ import { indexDB } from './IndexDB'
 //   },
 // }
 
+interface MostWallet {
+  username: string
+  address: string
+  mnemonic: string
+  public_key: string
+  private_key: string
+}
+
 export default {
+  // 本地私钥
+  async key(username: string, password: string) {
+    const p = toUtf8Bytes(password)
+    const salt = toUtf8Bytes('/most.box/' + username)
+    const kdf = pbkdf2(p, salt, 10001, 32, 'sha512')
+    const privateKey = sha256(kdf)
+
+    await sodium.ready
+    // x25519 key
+    const seed = sodium.from_string(privateKey)
+    const keyData = sodium.crypto_generichash(32, seed)
+    const keyPair = sodium.crypto_box_seed_keypair(keyData)
+
+    const public_key = sodium.to_hex(keyPair.publicKey)
+    const private_key = sodium.to_hex(keyPair.privateKey)
+
+    // wallet all in one
+    const mnemonic = Mnemonic.entropyToPhrase(toUtf8Bytes(privateKey).slice(-16))
+    const wallet = HDNodeWallet.fromPhrase(mnemonic)
+    const address = wallet.address
+    const userKey: MostWallet = {
+      username,
+      address,
+      mnemonic,
+      public_key,
+      private_key,
+    }
+    return userKey
+  },
   avatar(name?: string, password?: string) {
     const avatar = createAvatar(botttsNeutral, {
       seed: 'most-people:' + (name || 'most.box') + (password || ''),
       flip: true,
     })
     return avatar.toString()
+  },
+
+  // async encodeJWT(wallet: MostWallet) {
+  //   // 创建密钥
+  //   const secret = new TextEncoder().encode('most.box')
+  //   const jwt = await new SignJWT({ data: wallet }) // 添加数据
+  //     .setProtectedHeader({ alg: 'HS256' }) // 设置算法
+  //     .setExpirationTime('1day') // 设置过期时间为1天
+  //     .sign(secret) // 签名
+  //   return jwt
+  // },
+  // async decodeJWT(token: string) {
+  //   const secret = new TextEncoder().encode('most.box')
+  //   try {
+  //     const { payload } = await jwtVerify(token, secret)
+  //     return payload.data as MostWallet
+  //   } catch (error: any) {
+  //     console.error(error.message)
+  //     return null
+  //   }
+  // },
+  async login(username: string, password: string) {
+    // const key = await this.key(username, password)
+    // const token = await this.encodeJWT(key)
+    // asyncStorage.setItem('token', token)
   },
 }

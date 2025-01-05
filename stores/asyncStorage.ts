@@ -30,9 +30,8 @@ const asyncStorage = {
     const value = await AsyncStorage.getItem(key)
     return value !== null
   },
-  // 获取 hash 值
-  getHash(message: string) {
-    return sha256(toUtf8Bytes(message))
+  getHash(text: string) {
+    return sha256(toUtf8Bytes(text))
   },
 }
 

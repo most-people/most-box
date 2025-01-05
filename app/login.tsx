@@ -12,7 +12,7 @@ import {
   Platform,
   useColorScheme,
 } from 'react-native'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 
 const LoginPage = () => {
   const theme = useColorScheme() ?? 'dark'
@@ -21,7 +21,10 @@ const LoginPage = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const toLogin = () => {}
+  const toLogin = async () => {
+    router.push('/')
+    mp.login(username, password)
+  }
 
   const disabled = !username || !password
 
@@ -31,8 +34,6 @@ const LoginPage = () => {
   useEffect(() => {
     if (username && password) {
       setAvatar(mp.avatar(username, password))
-      // mp.key(username, password).then((res) => {
-      // })
     } else {
       setAvatar(defaultAvatar)
     }

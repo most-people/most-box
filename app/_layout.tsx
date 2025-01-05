@@ -4,7 +4,7 @@ import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
-import { initKnowledge } from '@/stores/noteStore'
+// import { initKnowledge } from '@/stores/noteStore'
 import 'react-native-reanimated'
 
 import { useColorScheme } from 'react-native'
@@ -22,7 +22,7 @@ export default function RootLayout() {
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync()
-      initKnowledge()
+      // initKnowledge()
     }
   }, [loaded])
 
