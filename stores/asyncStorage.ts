@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { sha256, toUtf8Bytes } from 'ethers'
 
 const asyncStorage = {
   // 存储数据
@@ -29,9 +28,6 @@ const asyncStorage = {
   async hasItem(key: string) {
     const value = await AsyncStorage.getItem(key)
     return value !== null
-  },
-  getHash(text: string) {
-    return sha256(toUtf8Bytes(text))
   },
 }
 

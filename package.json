@@ -52,12 +52,10 @@
     "@dicebear/collection": "^9.2.2",
     "@dicebear/core": "^9.2.2",
     "@react-native-async-storage/async-storage": "1.23.1",
-    "@types/libsodium-wrappers": "^0.7.14",
     "axios": "^1.7.9",
     "dayjs": "^1.11.13",
     "ethers": "^6.13.4",
     "gun": "^0.2020.1240",
-    "libsodium-wrappers": "^0.7.15",
     "zustand": "^5.0.2"
   },
   "private": true,

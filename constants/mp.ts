@@ -10,56 +10,13 @@ import {
   Mnemonic,
   HDNodeWallet,
 } from 'ethers'
-// import { SignJWT, jwtVerify, decodeJwt } from 'jose'
 import dayjs from 'dayjs'
-import sodium from 'libsodium-wrappers'
+import sodium from 'react-native-libsodium'
 import asyncStorage from '@/stores/asyncStorage'
-
 import { createAvatar } from '@dicebear/core'
 import { botttsNeutral } from '@dicebear/collection'
 
 // const mp = {
-//   // 本地私钥
-//   async key(username: string, password: string) {
-//     const p = toUtf8Bytes(password)
-//     const salt = toUtf8Bytes('/mp/' + username)
-//     // iterations: 10000+
-//     const kdf = pbkdf2(p, salt, 10001, 32, 'sha512')
-//     const privateKey = sha256(kdf)
-
-//     // x25519 key
-//     await sodium.ready
-//     const seed = sodium.from_string(privateKey)
-//     const keyData = sodium.crypto_generichash(32, seed)
-//     const keyPair = sodium.crypto_box_seed_keypair(keyData)
-
-//     const public_key = sodium.to_hex(keyPair.publicKey)
-//     const private_key = sodium.to_hex(keyPair.privateKey)
-
-//     // AES-GCM key
-//     const keydata = toUtf8Bytes(privateKey).slice(-32)
-//     // https://gist.github.com/pedrouid/b4056fd1f754918ddae86b32cf7d803e#aes-gcm
-//     const key = await window.crypto.subtle.importKey(
-//       'raw',
-//       keydata,
-//       { name: 'AES-GCM' },
-//       // not exportable
-//       false,
-//       ['encrypt', 'decrypt'],
-//     )
-
-//     // wallet all in one
-//     const mnemonic = Mnemonic.entropyToPhrase(toUtf8Bytes(privateKey).slice(-16))
-//     const wallet = HDNodeWallet.fromPhrase(mnemonic)
-//     const address = wallet.address
-
-//     // token
-//     const message = String(dayjs().unix())
-//     const sig = await wallet.signMessage(message)
-//     const token = [message, sig].join()
-
-//     return { key, address, token, mnemonic, public_key, private_key }
-//   },
 //   getAddress(authorization: string) {
 //     // 验签
 //     if (authorization) {
@@ -78,9 +35,6 @@ import { botttsNeutral } from '@dicebear/collection'
 //     } else {
 //       return ''
 //     }
-//   },
-//   getHash(message: string) {
-//     return sha256(toUtf8Bytes(message))
 //   },
 //   // 聊天加密 共享秘钥，对称加密
 //   chatEncode(text: string, otherPublicKey: string, myPrivateKey: string) {
@@ -170,12 +124,6 @@ import { botttsNeutral } from '@dicebear/collection'
 //       return ''
 //     }
 //   },
-//   deBase64(s: string) {
-//     return decodeURIComponent(atob(s))
-//   },
-//   enBase64(s: string) {
-//     return btoa(encodeURIComponent(s))
-//   },
 //   // // 错误提示
 //   // error(message: string) {
 //   //   ElMessage({
@@ -207,41 +155,6 @@ import { botttsNeutral } from '@dicebear/collection'
 //   //   })
 //   // },
 
-//   // 格式化时间
-//   formatTime(time: string) {
-//     if (!time) {
-//       return ''
-//     }
-//     const date = dayjs(Number(time))
-//     const hour = date.hour()
-//     // 判断当前时间段
-//     let timeOfDay
-//     if (hour >= 0 && hour < 3) {
-//       timeOfDay = '凌晨'
-//     } else if (hour >= 3 && hour < 6) {
-//       timeOfDay = '拂晓'
-//     } else if (hour >= 6 && hour < 9) {
-//       timeOfDay = '早晨'
-//     } else if (hour >= 9 && hour < 12) {
-//       timeOfDay = '上午'
-//     } else if (hour >= 12 && hour < 15) {
-//       timeOfDay = '下午'
-//     } else if (hour >= 15 && hour < 18) {
-//       timeOfDay = '傍晚'
-//     } else if (hour >= 18 && hour < 21) {
-//       timeOfDay = '薄暮'
-//     } else {
-//       timeOfDay = '深夜'
-//     }
-//     return date.format(`YYYY年M月D日 ${timeOfDay}h点m分`)
-//   },
-//   avatar(name?: string, password?: string) {
-//     const avatar = createAvatar(botttsNeutral, {
-//       seed: 'most-people:' + (name || 'most.box') + (password || ''),
-//       flip: true,
-//     })
-//     return avatar.toString()
-//   },
 // }
 
 interface MostWallet {
@@ -252,66 +165,152 @@ interface MostWallet {
   private_key: string
 }
 
+const MostKey = (username: string, password: string) => {
+  const p = toUtf8Bytes(password)
+  const salt = toUtf8Bytes('/most.box/' + username)
+  const kdf = pbkdf2(p, salt, 10001, 32, 'sha512')
+  const privateKey = sha256(kdf)
+
+  // x25519 key
+  const seed = sodium.from_string(privateKey)
+  const keyData = sodium.crypto_generichash(32, seed)
+  const keyPair = sodium.crypto_box_seed_keypair(keyData)
+
+  const public_key = sodium.to_hex(keyPair.publicKey)
+  const private_key = sodium.to_hex(keyPair.privateKey)
+
+  // wallet all in one
+  const mnemonic = Mnemonic.entropyToPhrase(toUtf8Bytes(privateKey).slice(-16))
+  const wallet = HDNodeWallet.fromPhrase(mnemonic)
+  const address = wallet.address
+  const userKey: MostWallet = {
+    username,
+    address,
+    mnemonic,
+    public_key,
+    private_key,
+  }
+  return userKey
+}
+
+const avatar = (username?: string, password?: string) => {
+  const avatar = createAvatar(botttsNeutral, {
+    seed: 'most-people:' + (username || 'most.box') + (password || ''),
+    flip: true,
+  })
+  return avatar.toString()
+}
+const deBase64 = (s: string) => {
+  return decodeURIComponent(atob(s))
+}
+const enBase64 = (s: string) => {
+  return btoa(encodeURIComponent(s))
+}
+// 格式化时间
+const formatTime = (time: string) => {
+  if (!time) {
+    return ''
+  }
+  const date = dayjs(Number(time))
+  const hour = date.hour()
+  // 判断当前时间段
+  let timeOfDay
+  if (hour >= 0 && hour < 3) {
+    timeOfDay = '凌晨'
+  } else if (hour >= 3 && hour < 6) {
+    timeOfDay = '拂晓'
+  } else if (hour >= 6 && hour < 9) {
+    timeOfDay = '早晨'
+  } else if (hour >= 9 && hour < 12) {
+    timeOfDay = '上午'
+  } else if (hour >= 12 && hour < 15) {
+    timeOfDay = '下午'
+  } else if (hour >= 15 && hour < 18) {
+    timeOfDay = '傍晚'
+  } else if (hour >= 18 && hour < 21) {
+    timeOfDay = '薄暮'
+  } else {
+    timeOfDay = '深夜'
+  }
+  return date.format(`YYYY年M月D日 ${timeOfDay}h点m分`)
+}
+
+const getHash = (message: string) => {
+  return sha256(toUtf8Bytes(message))
+}
+
+// 生成 JWT
+const createJWT = (data: any, secret: string, exp = 60) => {
+  const header = {
+    alg: 'HS256',
+    typ: 'JWT',
+  }
+
+  const payload = { exp: dayjs().unix() + exp, data }
+
+  const encodedHeader = enBase64(JSON.stringify(header))
+  const encodedPayload = enBase64(JSON.stringify(payload))
+
+  // 使用 HMAC-SHA256 签名
+  const signature = sodium.crypto_auth(
+    `${encodedHeader}.${encodedPayload}`,
+    sodium.from_base64(secret, sodium.base64_variants.URLSAFE_NO_PADDING),
+  )
+  const encodedSignature = sodium.to_base64(signature, sodium.base64_variants.URLSAFE_NO_PADDING)
+
+  return `${encodedHeader}.${encodedPayload}.${encodedSignature}`
+}
+
+// 验证 JWT
+const verifyJWT = (token: string, secret: string) => {
+  const parts = token.split('.')
+  if (parts.length !== 3) {
+    throw new Error('Invalid JWT format')
+  }
+
+  const [encodedHeader, encodedPayload, encodedSignature] = parts
+  const data = `${encodedHeader}.${encodedPayload}`
+
+  // 验证签名
+  const signature = sodium.from_base64(encodedSignature, sodium.base64_variants.URLSAFE_NO_PADDING)
+  const key = sodium.from_base64(secret, sodium.base64_variants.URLSAFE_NO_PADDING)
+  const valid = sodium.crypto_auth_verify(signature, data, key)
+
+  if (!valid) {
+    throw new Error('Invalid signature')
+  }
+
+  // 检查是否过期
+  const payload = JSON.parse(deBase64(encodedPayload))
+  const now = Math.floor(Date.now() / 1000)
+  if (payload.exp && now > payload.exp) {
+    throw new Error('Token has expired')
+  }
+
+  return payload
+}
+
+const login = async (username: string, password: string) => {
+  await sodium.ready
+  // 生成一个安全的 32 字节密钥
+  const secretKey = sodium.randombytes_buf(32)
+  const secret = sodium.to_base64(secretKey, sodium.base64_variants.URLSAFE_NO_PADDING)
+  const mostKey = MostKey(username, password)
+  const token = createJWT(mostKey, secret, 60)
+  asyncStorage.setItem('token', token)
+  asyncStorage.setItem('tokenSecret', secret)
+  return mostKey
+}
+
 export default {
   // 本地私钥
-  async key(username: string, password: string) {
-    const p = toUtf8Bytes(password)
-    const salt = toUtf8Bytes('/most.box/' + username)
-    const kdf = pbkdf2(p, salt, 10001, 32, 'sha512')
-    const privateKey = sha256(kdf)
-
-    await sodium.ready
-    // x25519 key
-    const seed = sodium.from_string(privateKey)
-    const keyData = sodium.crypto_generichash(32, seed)
-    const keyPair = sodium.crypto_box_seed_keypair(keyData)
-
-    const public_key = sodium.to_hex(keyPair.publicKey)
-    const private_key = sodium.to_hex(keyPair.privateKey)
-
-    // wallet all in one
-    const mnemonic = Mnemonic.entropyToPhrase(toUtf8Bytes(privateKey).slice(-16))
-    const wallet = HDNodeWallet.fromPhrase(mnemonic)
-    const address = wallet.address
-    const userKey: MostWallet = {
-      username,
-      address,
-      mnemonic,
-      public_key,
-      private_key,
-    }
-    return userKey
-  },
-  avatar(name?: string, password?: string) {
-    const avatar = createAvatar(botttsNeutral, {
-      seed: 'most-people:' + (name || 'most.box') + (password || ''),
-      flip: true,
-    })
-    return avatar.toString()
-  },
-
-  // async encodeJWT(wallet: MostWallet) {
-  //   // 创建密钥
-  //   const secret = new TextEncoder().encode('most.box')
-  //   const jwt = await new SignJWT({ data: wallet }) // 添加数据
-  //     .setProtectedHeader({ alg: 'HS256' }) // 设置算法
-  //     .setExpirationTime('1day') // 设置过期时间为1天
-  //     .sign(secret) // 签名
-  //   return jwt
-  // },
-  // async decodeJWT(token: string) {
-  //   const secret = new TextEncoder().encode('most.box')
-  //   try {
-  //     const { payload } = await jwtVerify(token, secret)
-  //     return payload.data as MostWallet
-  //   } catch (error: any) {
-  //     console.error(error.message)
-  //     return null
-  //   }
-  // },
-  async login(username: string, password: string) {
-    // const key = await this.key(username, password)
-    // const token = await this.encodeJWT(key)
-    // asyncStorage.setItem('token', token)
-  },
+  key: MostKey,
+  avatar,
+  getHash,
+  formatTime,
+  enBase64,
+  deBase64,
+  createJWT,
+  verifyJWT,
+  login,
 }

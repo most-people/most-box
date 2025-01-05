@@ -22,13 +22,13 @@ const LoginPage = () => {
   const [password, setPassword] = useState('')
 
   const toLogin = async () => {
-    router.push('/')
-    mp.login(username, password)
+    const mostKey = await mp.login(username, password)
+    console.log('🌊', mostKey)
   }
 
   const disabled = !username || !password
 
-  const defaultAvatar = mp.avatar('')
+  const defaultAvatar = mp.avatar()
   const [avatar, setAvatar] = useState(defaultAvatar)
 
   useEffect(() => {
