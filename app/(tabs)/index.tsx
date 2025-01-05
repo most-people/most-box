@@ -1,5 +1,5 @@
 import { Link } from 'expo-router'
-import PageView from '@/components/PageView'
+import PageTabView from '@/components/PageTabView'
 import { TouchableOpacity, useColorScheme } from 'react-native'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
@@ -14,7 +14,7 @@ export default function HomeScreen() {
   ]
 
   return (
-    <PageView
+    <PageTabView
       title="聊天"
       rightContent={
         <TouchableOpacity onPress={() => alert('添加好友，开发中...')}>
@@ -38,6 +38,6 @@ export default function HomeScreen() {
       <Link href={{ pathname: '/login' }}>
         <ThemeText type="link">登录</ThemeText>
       </Link>
-    </PageView>
+    </PageTabView>
   )
 }

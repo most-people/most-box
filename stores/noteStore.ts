@@ -1,6 +1,7 @@
 import { create, StoreApi } from 'zustand'
 import api from '@/constants/Api'
 import asyncStorage from '@/stores/asyncStorage'
+import mp from '@/constants/mp'
 
 export interface NoteAuthor {
   user_id: number
@@ -40,7 +41,7 @@ const fetchKnowledge = async () => {
 
         // save
         const KnowledgeCache = JSON.stringify(list)
-        const KnowledgeHash = asyncStorage.getHash(KnowledgeCache)
+        const KnowledgeHash = mp.getHash(KnowledgeCache)
         asyncStorage.setItem('KnowledgeCache', KnowledgeCache)
         asyncStorage.setItem('KnowledgeHash', KnowledgeHash)
       }

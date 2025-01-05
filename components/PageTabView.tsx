@@ -6,17 +6,17 @@ import { ThemeView } from '@/components/Theme'
 import { AppHeader } from '@/components/AppHeader'
 import { useBottomTabOverflow } from '@/components/ui/TabBarBackground'
 
-// 定义 PageView 的 props 类型
-interface PageViewProps {
+// 定义 PageTabView 的 props 类型
+interface PageTabViewProps {
   title: string | string[]
   rightContent?: ReactNode // 插槽，传入右侧自定义内容
 }
 
-export default function PageView({
+export default function PageTabView({
   children,
   title,
   rightContent,
-}: PropsWithChildren<PageViewProps>) {
+}: PropsWithChildren<PageTabViewProps>) {
   const scrollRef = useAnimatedRef<Animated.ScrollView>()
   const bottom = useBottomTabOverflow()
 

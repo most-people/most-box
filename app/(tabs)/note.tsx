@@ -1,7 +1,7 @@
 import { StyleSheet, useColorScheme } from 'react-native'
 import { useNoteStore } from '@/stores/noteStore'
 import { ThemeText, ThemeView } from '@/components/Theme'
-import PageView from '@/components/PageView'
+import PageTabView from '@/components/PageTabView'
 
 import { Icon } from '@/assets/icon'
 
@@ -17,7 +17,7 @@ export default function NoteScreen() {
   const notes = useNoteStore((state) => state.notes)
   const theme = useColorScheme() ?? 'dark'
   return (
-    <PageView title="笔记">
+    <PageTabView title="笔记">
       <ThemeText>今天</ThemeText>
       <ThemeView
         style={{
@@ -38,7 +38,7 @@ export default function NoteScreen() {
             <ThemeText>{item.title}</ThemeText>
           </ThemeView>
         ))}
-    </PageView>
+    </PageTabView>
   )
 }
 
