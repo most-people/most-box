@@ -5,7 +5,7 @@ import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 import { ThemeText } from '@/components/Theme'
 import { useEffect, useRef } from 'react'
-import { DialogInput } from '@/components/Dialog'
+import { DialogPrompt } from '@/components/Dialog'
 
 export default function IndexScreen() {
   const theme = useColorScheme() ?? 'dark'
@@ -20,9 +20,11 @@ export default function IndexScreen() {
     createTopicRef.current.openModal() // 打开弹窗
   }
 
-  const confirm = (text: string) => {
-    console.log('🌊', text)
-    // setTopic(topicName) // 接收弹窗返回的数据
+  const confirm = (name: string) => {
+    router.push({
+      pathname: '/chat',
+      params: { name },
+    })
   }
 
   useEffect(() => {
@@ -61,7 +63,7 @@ export default function IndexScreen() {
         </Link>
       ))}
       {/* 引入全局弹窗组件 */}
-      <DialogInput ref={createTopicRef} onComplete={confirm} />
+      <DialogPrompt ref={createTopicRef} title="加入话题" onConfirm={confirm} />
     </PageTabView>
   )
 }

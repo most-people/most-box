@@ -3,23 +3,23 @@ import { View, Text, TextInput, Modal, StyleSheet, TouchableOpacity } from 'reac
 import { AppHeader } from '../AppHeader'
 
 // 定义 props 类型
-interface PageModalProps {
-  onComplete: (inputText: string) => void // 完成回调
+interface DialogPromptProps {
+  title: string
+  onConfirm: (inputText: string) => void // 完成回调
 }
 
-const PageModal = forwardRef(({ onComplete }: PageModalProps, ref) => {
+const DialogPrompt = forwardRef(({ onConfirm, title }: DialogPromptProps, ref) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [inputText, setInputText] = useState('')
 
   // 暴露控制方法
   useImperativeHandle(ref, () => ({
     openModal: () => setModalVisible(true),
-    closeModal: () => setModalVisible(false),
   }))
 
   // 完成按钮点击事件
-  const handleComplete = () => {
-    onComplete(inputText) // 返回输入内容
+  const confirm = () => {
+    onConfirm(inputText) // 返回输入内容
     setModalVisible(false) // 关闭弹窗
   }
 
@@ -31,14 +31,14 @@ const PageModal = forwardRef(({ onComplete }: PageModalProps, ref) => {
     >
       <View style={styles.container}>
         <AppHeader
-          title={'加入话题'}
+          title={title}
           leftContent={
             <TouchableOpacity onPress={() => setModalVisible(false)}>
               <Text style={styles.headerButton}>取消</Text>
             </TouchableOpacity>
           }
           rightContent={
-            <TouchableOpacity onPress={handleComplete}>
+            <TouchableOpacity onPress={confirm}>
               <Text style={styles.headerButton}>完成</Text>
             </TouchableOpacity>
           }
@@ -59,9 +59,9 @@ const PageModal = forwardRef(({ onComplete }: PageModalProps, ref) => {
 })
 
 // 设置组件名称
-PageModal.displayName = 'PageModal'
+DialogPrompt.displayName = 'DialogPrompt'
 
-export default PageModal
+export default DialogPrompt
 
 // 样式
 const styles = StyleSheet.create({
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   input: {
-    paddingInline: 10,
+    paddingLeft: 12,
+    paddingRight: 12,
     backgroundColor: '#f5f5f5',
     fontSize: 16,
     height: 40,

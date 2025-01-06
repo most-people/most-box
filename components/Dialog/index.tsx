@@ -1,3 +1,3 @@
-import DialogInput from './Input'
+import DialogPrompt from './Prompt'
 
-export { DialogInput }
+export { DialogPrompt }
