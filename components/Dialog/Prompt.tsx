@@ -1,6 +1,8 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react'
-import { View, Text, TextInput, Modal, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, TextInput, Modal, StyleSheet, TouchableOpacity, useColorScheme } from 'react-native'
 import { AppHeader } from '../AppHeader'
+import { Colors } from '@/constants/Colors'
+import { ThemeText } from '@/components/Theme'
 
 // 定义 props 类型
 interface DialogPromptProps {
@@ -11,6 +13,8 @@ interface DialogPromptProps {
 const DialogPrompt = forwardRef(({ onConfirm, title }: DialogPromptProps, ref) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [inputText, setInputText] = useState('')
+  const theme = useColorScheme() ?? 'dark'
+  const styles = createStyles(theme)
 
   // 暴露控制方法
   useImperativeHandle(ref, () => ({
@@ -34,12 +38,12 @@ const DialogPrompt = forwardRef(({ onConfirm, title }: DialogPromptProps, ref) =
           title={title}
           leftContent={
             <TouchableOpacity onPress={() => setModalVisible(false)}>
-              <Text style={styles.headerButton}>取消</Text>
+              <ThemeText style={styles.headerButton}>取消</ThemeText>
             </TouchableOpacity>
           }
           rightContent={
             <TouchableOpacity onPress={confirm}>
-              <Text style={styles.headerButton}>完成</Text>
+              <ThemeText style={styles.headerButton}>完成</ThemeText>
             </TouchableOpacity>
           }
         ></AppHeader>
@@ -63,23 +67,26 @@ DialogPrompt.displayName = 'DialogPrompt'
 
 export default DialogPrompt
 
-// 样式
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  headerButton: {
-    fontSize: 16,
-  },
-  content: {
-    flex: 1,
-    padding: 15,
-  },
-  input: {
-    paddingLeft: 12,
-    paddingRight: 12,
-    backgroundColor: '#f5f5f5',
-    fontSize: 16,
-    height: 40,
-  },
-})
+const createStyles = (theme: 'light' | 'dark') => {
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: Colors[theme].background,
+    },
+    headerButton: {
+      fontSize: 16,
+    },
+    content: {
+      flex: 1,
+      padding: 15,
+    },
+    input: {
+      paddingLeft: 12,
+      paddingRight: 12,
+      fontSize: 16,
+      height: 40,
+      backgroundColor: Colors[theme].input.background,
+      color: Colors[theme].text,
+    },
+  })
+}
