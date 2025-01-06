@@ -16,37 +16,16 @@ import { AppHeader } from '@/components/AppHeader'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 import { useToast } from 'expo-toast'
-import { useChat } from '@/stores/gun'
+import { useChat } from '@/hooks/useChat'
 
 export default function ChatPage() {
   const params = useLocalSearchParams()
   const theme = useColorScheme() ?? 'dark'
   const styles = createStyles(theme)
   const toast = useToast()
-
-  const name = params.name as string
-
+  const topic = params.name as string
   const [inputMessage, setInputMessage] = useState('')
-
-  const { messages } = useChat(name)
-
-  // const user = gun.user()
-
-  // useEffect(() => {
-  //   if (wallet) {
-
-  //     console.log('🌊', wallet)
-  //     user.create('username', 'password123', (ack) => {
-  //       console.log(ack)
-  //     })
-  //     // // 模拟一个消息监听器
-  //     // chat.on((data, key) => {
-  //     //   // 忽略内部标记
-  //     //   console.log('GUN:', key)
-  //     //   console.log('GUN:', data)
-  //     // })
-  //   }
-  // }, [chat, wallet])
+  const { messages, addMessage } = useChat(topic)
 
   const sendMessage = () => {
     if (inputMessage.trim()) {
@@ -55,23 +34,13 @@ export default function ChatPage() {
     }
   }
 
-  const addMessage = (text: string) => {
-    // if (wallet) {
-    // setMessages((prevMessages) => [
-    //   ...prevMessages,
-    //   { text, address: '', timestamp: dayjs().unix() },
-    // ])
-    // chat.put({ address: wallet.address, text, timestamp: Date.now() })
-    // }
-  }
-
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <AppHeader
-        title={name}
+        title={topic}
         rightContent={
           <TouchableOpacity onPress={() => toast.show('更多操作，开发中...')}>
             <Icon.More width={20} height={20} fill={Colors[theme].text} />
