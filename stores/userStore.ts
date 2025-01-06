@@ -3,6 +3,7 @@ import { create, StoreApi } from 'zustand'
 import asyncStorage from '@/stores/asyncStorage'
 import mp from '@/constants/mp'
 import { router } from 'expo-router'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 interface UserStore {
   wallet?: MostWallet
@@ -19,8 +20,7 @@ export const useUserStore = create<State>((set: StoreApi<State>['setState']) => 
   setItem: (key, value) => set((state) => ({ ...state, [key]: value })),
 
   exit() {
-    asyncStorage.removeItem('token')
-    asyncStorage.removeItem('tokenSecret')
+    AsyncStorage.clear()
     set({ wallet: undefined })
     router.push('/login')
   },
