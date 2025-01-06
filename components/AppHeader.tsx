@@ -8,9 +8,10 @@ import { Colors } from '@/constants/Colors'
 
 interface AppHeaderProps {
   title: string | string[]
+  leftContent?: ReactNode // 插槽，传入左侧自定义内容，仅在 tabs 可用
   rightContent?: ReactNode // 插槽，传入右侧自定义内容
 }
-export const AppHeader = ({ title, rightContent }: AppHeaderProps) => {
+export const AppHeader = ({ title, leftContent, rightContent }: AppHeaderProps) => {
   const theme = useColorScheme() ?? 'dark'
   const navigation = useNavigation()
   const route = useRoute()
@@ -47,7 +48,9 @@ export const AppHeader = ({ title, rightContent }: AppHeaderProps) => {
       ]}
     >
       <ThemeView style={styles.leftContainer}>
-        {!tabs.includes(route.name) && (
+        {tabs.includes(route.name) ? (
+          leftContent
+        ) : (
           <TouchableOpacity onPress={back}>
             <Icon.Back width={24} height={24} fill={Colors[theme].text} />
           </TouchableOpacity>

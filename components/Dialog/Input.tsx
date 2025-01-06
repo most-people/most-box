@@ -1,5 +1,6 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react'
 import { View, Text, TextInput, Modal, StyleSheet, TouchableOpacity } from 'react-native'
+import { AppHeader } from '../AppHeader'
 
 // 定义 props 类型
 interface PageModalProps {
@@ -29,17 +30,28 @@ const PageModal = forwardRef(({ onComplete }: PageModalProps, ref) => {
       onRequestClose={() => setModalVisible(false)}
     >
       <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => setModalVisible(false)}>
-            <Text style={styles.headerButton}>取消</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={handleComplete}>
-            <Text style={styles.headerButton}>完成</Text>
-          </TouchableOpacity>
-        </View>
+        <AppHeader
+          title={'加入话题'}
+          leftContent={
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+              <Text style={styles.headerButton}>取消</Text>
+            </TouchableOpacity>
+          }
+          rightContent={
+            <TouchableOpacity onPress={handleComplete}>
+              <Text style={styles.headerButton}>完成</Text>
+            </TouchableOpacity>
+          }
+        ></AppHeader>
         <View style={styles.content}>
-          <TextInput style={styles.input} value={inputText} onChangeText={setInputText} />
+          <TextInput
+            style={styles.input}
+            value={inputText}
+            onChangeText={setInputText}
+            autoFocus
+            maxLength={100}
+            returnKeyType="go"
+          />
         </View>
       </View>
     </Modal>
@@ -55,29 +67,18 @@ export default PageModal
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
   },
   headerButton: {
     fontSize: 16,
-    color: '#007BFF',
   },
   content: {
     flex: 1,
-    padding: 20,
+    padding: 15,
   },
   input: {
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
+    paddingInline: 10,
+    backgroundColor: '#f5f5f5',
     fontSize: 16,
-    textAlignVertical: 'top', // 文本垂直对齐
+    height: 40,
   },
 })
