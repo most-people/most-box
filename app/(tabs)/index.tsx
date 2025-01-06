@@ -5,9 +5,11 @@ import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 import { ThemeText } from '@/components/Theme'
 import { useEffect } from 'react'
+import { useToast } from 'expo-toast'
 
 export default function IndexScreen() {
   const theme = useColorScheme() ?? 'dark'
+  const toast = useToast()
 
   const persons = [
     {
@@ -31,7 +33,7 @@ export default function IndexScreen() {
     <PageTabView
       title="聊天"
       rightContent={
-        <TouchableOpacity onPress={() => alert('添加好友，开发中...')}>
+        <TouchableOpacity onPress={() => toast.show('添加好友，开发中...')}>
           <Icon.Add width={20} height={20} fill={Colors[theme].text} />
         </TouchableOpacity>
       }

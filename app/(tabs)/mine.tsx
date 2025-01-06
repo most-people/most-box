@@ -5,6 +5,7 @@ import mp from '@/constants/mp'
 import { useUserStore } from '@/stores/userStore'
 import { router } from 'expo-router'
 import { ReactNode } from 'react'
+import { setStringAsync } from 'expo-clipboard'
 import {
   View,
   Text,
@@ -17,6 +18,7 @@ import {
 } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { SvgXml } from 'react-native-svg'
+import { useToast } from 'expo-toast'
 
 interface Tab {
   name: string
@@ -24,6 +26,7 @@ interface Tab {
   icon: ReactNode
 }
 export default function ProfileScreen() {
+  const toast = useToast()
   const theme = useColorScheme() ?? 'dark'
   const styles = createStyles(theme)
 
@@ -51,19 +54,28 @@ export default function ProfileScreen() {
     },
   ]
 
+  const copy = (text?: string) => {
+    if (text) {
+      setStringAsync(text)
+      toast.show('复制成功')
+    }
+  }
+
   return (
     <ScrollView style={[styles.container, { paddingTop: headerTop }]}>
       {/* 头像和名称区域 */}
       <View style={styles.profileHeader}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => toast.show('修改头像，开发中...')}>
           <SvgXml xml={mp.avatar(wallet?.address)} style={styles.avatar} />
         </TouchableOpacity>
         <ThemeView style={styles.infoContainer}>
           <ThemeText style={styles.name}>{wallet?.username}</ThemeText>
-          <Text style={styles.account}>地址：{mp.formatAddress(wallet?.address)}</Text>
+          <TouchableOpacity onPress={() => copy(wallet?.address)}>
+            <Text style={styles.account}>地址：{mp.formatAddress(wallet?.address)}</Text>
+          </TouchableOpacity>
         </ThemeView>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => toast.show('二维码，开发中...')}>
           <Icon.QRCode color={Colors[theme].text} />
         </TouchableOpacity>
       </View>
@@ -118,10 +130,6 @@ const createStyles = (theme: 'light' | 'dark') => {
     },
     infoContainer: {
       flex: 1,
-    },
-    qrIcon: {
-      width: 20,
-      height: 20,
     },
     name: {
       fontSize: 18,

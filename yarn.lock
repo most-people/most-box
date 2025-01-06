@@ -4087,6 +4087,11 @@ expo-blur@~14.0.1:
   resolved "https://registry.yarnpkg.com/expo-blur/-/expo-blur-14.0.1.tgz#4bdbec43b5015891990e78d31d8ff2f1f5d27464"
   integrity sha512-3Q6jFBLbY8n2vwk28ycUC+eIlVhnlqwkXUKk/Lfaj+SGV3AZMQyrixe7OYwJdUfwqETBrnYYMB6uNrJzOSbG+g==
 
+expo-clipboard@~7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/expo-clipboard/-/expo-clipboard-7.0.0.tgz#066b1a781fdaf05e30f282522d3a58f2e651e4cf"
+  integrity sha512-4Vuv1zZPTOiKzIeC0BIGUN8nyzkXlE6jKchtLxcoksBjHPdG5W2eH05B+hppTrK9N3+Xh02z4j3h1cFRqPJ1fw==
+
 expo-constants@~17.0.0, expo-constants@~17.0.3:
   version "17.0.3"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-17.0.3.tgz#a05b38e0417d59759ece1642b4d483889e04dbda"
@@ -4193,6 +4198,11 @@ expo-system-ui@~4.0.6:
   dependencies:
     "@react-native/normalize-colors" "0.76.5"
     debug "^4.3.2"
+
+expo-toast@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/expo-toast/-/expo-toast-1.0.3.tgz#16bd3e5ccce2bab07c0c92417f85c55a1bd0ca80"
+  integrity sha512-+OLUr5XnfCc42WfPkyXdCU5geJQv/AZb5eOcxJ6dl11Bl7nICG9100h8tXdZhlZdHbAPN4SRaIlNVsiIhjoYzQ==
 
 expo-web-browser@~14.0.1:
   version "14.0.1"

@@ -16,6 +16,7 @@ import { AppHeader } from '@/components/AppHeader'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 import { gun } from '@/stores/gun'
+import { useToast } from 'expo-toast'
 
 interface Message {
   id: string
@@ -27,6 +28,7 @@ export default function ChatPage() {
   const params = useLocalSearchParams()
   const theme = useColorScheme() ?? 'dark'
   const styles = createStyles(theme)
+  const toast = useToast()
 
   const [messages, setMessages] = useState<Message[]>([
     { id: '1', text: '你好！', isSender: false },
@@ -71,7 +73,7 @@ export default function ChatPage() {
       <AppHeader
         title={name}
         rightContent={
-          <TouchableOpacity onPress={() => alert('更多操作')}>
+          <TouchableOpacity onPress={() => toast.show('更多操作，开发中...')}>
             <Icon.More width={20} height={20} fill={Colors[theme].text} />
           </TouchableOpacity>
         }

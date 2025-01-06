@@ -1,6 +1,7 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native'
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
+import { ToastProvider } from 'expo-toast'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
@@ -37,12 +38,14 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={theme === 'light' ? light : dark}>
-      <Stack screenOptions={{ headerShown: false, headerTitleAlign: 'center' }}>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false, title: '聊天' }} />
-        <Stack.Screen name="+not-found" />
-        <Stack.Screen name="chat" options={{ title: '' }} />
-      </Stack>
-      <StatusBar style="auto" />
+      <ToastProvider>
+        <Stack screenOptions={{ headerShown: false, headerTitleAlign: 'center' }}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false, title: '聊天' }} />
+          <Stack.Screen name="+not-found" />
+          <Stack.Screen name="chat" options={{ title: '' }} />
+        </Stack>
+        <StatusBar style="auto" />
+      </ToastProvider>
     </ThemeProvider>
   )
 }
