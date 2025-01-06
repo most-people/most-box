@@ -4,8 +4,8 @@ import Gun from 'gun'
 const gun = new Gun({
   peers: [
     'https://gun-manhattan.herokuapp.com/gun',
-    //
-    'http://119.91.213.99:1976/gun',
+    // zh-cn gun
+    'https://gun.most.red/gun',
   ],
 })
 export default gun
