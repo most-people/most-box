@@ -17,6 +17,7 @@ import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 import { useToast } from 'expo-toast'
 import { useChat } from '@/hooks/useChat'
+import { useUserStore } from '@/stores/userStore'
 
 export default function ChatPage() {
   const params = useLocalSearchParams()
@@ -26,6 +27,7 @@ export default function ChatPage() {
   const topic = params.name as string
   const [message, setMessage] = useState('')
   const chat = useChat(topic)
+  const wallet = useUserStore((state) => state.wallet)
 
   const send = () => {
     if (message.trim()) {
@@ -50,9 +52,17 @@ export default function ChatPage() {
       <FlatList
         data={chat.messages}
         renderItem={({ item }) => (
-          <View style={[styles.messageContainer, item.address ? styles.sender : styles.receiver]}>
+          <View
+            style={[
+              styles.messageContainer,
+              item.address === wallet?.address ? styles.sender : styles.receiver,
+            ]}
+          >
             <Text
-              style={[styles.messageText, item.address ? styles.senderText : styles.receiverText]}
+              style={[
+                styles.messageText,
+                item.address === wallet?.address ? styles.senderText : styles.receiverText,
+              ]}
             >
               {item.text}
             </Text>
