@@ -1,11 +1,7 @@
 import Gun from 'gun'
-// import asyncStore from 'gun/lib/ras.js'
-// import AsyncStorage from '@react-native-async-storage/async-storage'
 
+// 初始化 Gun.js
 const gun = new Gun({
-  // localStorage: false,
-  // 替换存储适配器
-  // store: asyncStore({ AsyncStorage }),
   peers: [
     'https://gun-manhattan.herokuapp.com/gun',
     // 本地
@@ -13,4 +9,3 @@ const gun = new Gun({
   ],
 })
 export default gun
-// export const user = gun.user()
