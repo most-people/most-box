@@ -6,11 +6,8 @@ import PageTabView from '@/components/PageTabView'
 import { Icon } from '@/assets/icon'
 
 import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime' // 引入相对时间插件
+import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'
-import React from 'react'
-
-// 初始化相对时间插件
 dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
 export default function NoteScreen() {

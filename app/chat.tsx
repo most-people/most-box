@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   View,
   Text,
@@ -19,6 +19,12 @@ import { useToast } from 'expo-toast'
 import { useChat } from '@/hooks/useChat'
 import { useUserStore } from '@/stores/userStore'
 
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/zh-cn'
+dayjs.extend(relativeTime)
+dayjs.locale('zh-cn')
+
 export default function ChatPage() {
   const params = useLocalSearchParams()
   const theme = useColorScheme() ?? 'dark'
@@ -36,6 +42,8 @@ export default function ChatPage() {
     }
   }
 
+  const messages = chat.messages.sort((a, b) => b.timestamp - a.timestamp)
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -50,7 +58,8 @@ export default function ChatPage() {
         }
       />
       <FlatList
-        data={chat.messages}
+        data={messages}
+        initialNumToRender={10}
         renderItem={({ item }) => (
           <View
             style={[
@@ -94,7 +103,6 @@ const createStyles = (theme: 'light' | 'dark') => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      // backgroundColor: theme === 'dark' ? '#121212' : '#f5f5f5',
     },
     messageList: {
       flex: 1,
