@@ -55,22 +55,15 @@ export default function IndexScreen() {
 
   const TopicItem = (item: Topic) => (
     <View style={{ flexDirection: 'row', gap: '10%', justifyContent: 'space-between' }}>
-      <Link
+      <TouchableOpacity
         style={{ flex: 1 }}
-        href={{
-          pathname: '/chat',
-          params: {
-            name: item.name,
-          },
-        }}
+        onPress={() => router.push({ pathname: '/chat', params: { name: item.name } })}
       >
-        <TouchableOpacity>
-          <ThemeText type="link">#{item.name}</ThemeText>
-        </TouchableOpacity>
-      </Link>
+        <ThemeText type="link">#{item.name}</ThemeText>
+      </TouchableOpacity>
       {item.timestamp !== 0 && (
         <TouchableOpacity onPress={() => topic.quit(item.name)}>
-          <Icon.Exit width={20} fill={Colors[theme].disabled} />
+          <Icon.Exit style={{ width: 20, height: 20 }} fill={Colors[theme].border} />
         </TouchableOpacity>
       )}
     </View>

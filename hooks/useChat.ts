@@ -10,7 +10,7 @@ interface Message {
 
 export const useChat = (topic: string) => {
   // 使用 useMemo 确保 chat 只初始化一次
-  const chat = useMemo(() => gun.get('most.box#' + topic), [topic])
+  const chat = useMemo(() => gun.get('most.box.' + topic), [topic])
   const wallet = useUserStore((state) => state.wallet)
   const [messages, setMessages] = useState<Message[]>([])
 
