@@ -1,18 +1,32 @@
 import { Link, router, useRootNavigationState } from 'expo-router'
 import PageTabView from '@/components/PageTabView'
-import { Platform, TouchableOpacity, useColorScheme } from 'react-native'
+import { Platform, TouchableOpacity, useColorScheme, View } from 'react-native'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
-import { ThemeText, ThemeView } from '@/components/Theme'
-import { useEffect, useRef } from 'react'
+import { ThemeText } from '@/components/Theme'
+import { useEffect, useMemo, useRef } from 'react'
 import { DialogPrompt } from '@/components/Dialog'
-import { useTopic } from '@/hooks/useTopic'
+import { Topic, useTopic } from '@/hooks/useTopic'
+import React from 'react'
 
 export default function IndexScreen() {
   const theme = useColorScheme() ?? 'dark'
   const rootNavigationState = useRootNavigationState()
   const topic = useTopic()
   const createTopicRef = useRef<any>()
+  const topicsDefault = [
+    {
+      name: '什么是去中心化',
+      timestamp: 0,
+    },
+    {
+      name: '❄️',
+      timestamp: 0,
+    },
+  ]
+  const topics = useMemo(() => {
+    return topic.topics.sort((a, b) => b.timestamp - a.timestamp)
+  }, [topic.topics])
 
   const open = () => {
     createTopicRef.current.openModal()
@@ -38,6 +52,29 @@ export default function IndexScreen() {
       }
     }
   }, [rootNavigationState?.key])
+
+  const TopicItem = (item: Topic) => (
+    <View style={{ flexDirection: 'row', gap: '10%', justifyContent: 'space-between' }}>
+      <Link
+        style={{ flex: 1 }}
+        href={{
+          pathname: '/chat',
+          params: {
+            name: item.name,
+          },
+        }}
+      >
+        <TouchableOpacity>
+          <ThemeText type="link">#{item.name}</ThemeText>
+        </TouchableOpacity>
+      </Link>
+      {item.timestamp !== 0 && (
+        <TouchableOpacity onPress={() => topic.quit(item.name)}>
+          <Icon.Exit width={20} fill={Colors[theme].disabled} />
+        </TouchableOpacity>
+      )}
+    </View>
+  )
   return (
     <PageTabView
       title="聊天"
@@ -47,30 +84,12 @@ export default function IndexScreen() {
         </TouchableOpacity>
       }
     >
-      <ThemeText type="subtitle">Topic</ThemeText>
-      {topic.topics.map((item) => (
-        <TouchableOpacity
-          style={{ flexDirection: 'row', gap: '10%', justifyContent: 'space-between' }}
-          key={String(item.timestamp)}
-        >
-          <Link
-            style={{ flex: 1 }}
-            href={{
-              pathname: '/chat',
-              params: {
-                name: item.name,
-              },
-            }}
-          >
-            <ThemeText type="link">#{item.name}</ThemeText>
-          </Link>
-          <Icon.Exit
-            onPress={() => topic.quit(item.name)}
-            width={20}
-            fill={Colors[theme].disabled}
-          />
-        </TouchableOpacity>
+      <ThemeText>话题</ThemeText>
+      {topics.map((item) => (
+        <TopicItem key={String(item.timestamp)} {...item} />
       ))}
+      {topics.length === 0 &&
+        topicsDefault.map((item) => <TopicItem key={String(item.name)} {...item} />)}
       {/* 引入全局弹窗组件 */}
       <DialogPrompt ref={createTopicRef} title="加入话题" onConfirm={join} />
     </PageTabView>

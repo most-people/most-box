@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useUserStore } from '@/stores/userStore'
 import gun from '@/stores/gun'
 
-interface Topic {
+export interface Topic {
   name: string
   timestamp: number
 }
@@ -16,9 +16,11 @@ export const useTopic = () => {
   }, [wallet?.address])
 
   const [topics, setTopics] = useState<Topic[]>([])
+
   useEffect(() => {
     // 监听所有子节点的变化
     if (user) {
+      setTopics([])
       user
         .get('topics')
         .map()
