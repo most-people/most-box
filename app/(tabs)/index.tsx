@@ -4,19 +4,27 @@ import { Platform, TouchableOpacity, useColorScheme } from 'react-native'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 import { ThemeText } from '@/components/Theme'
-import { useEffect } from 'react'
-import { useToast } from 'expo-toast'
+import { useEffect, useRef } from 'react'
+import { DialogInput } from '@/components/Dialog'
 
 export default function IndexScreen() {
   const theme = useColorScheme() ?? 'dark'
-  const toast = useToast()
 
-  const persons = [
-    {
-      name: '赛博佛客',
-    },
-  ]
+  const topics = [{ name: '什么是去中心化' }, { name: '❄️' }]
+
   const rootNavigationState = useRootNavigationState()
+
+  const createTopicRef = useRef<any>() // 获取子组件引用
+
+  const open = () => {
+    createTopicRef.current.openModal() // 打开弹窗
+  }
+
+  const confirm = (text: string) => {
+    console.log('🌊', text)
+    // setTopic(topicName) // 接收弹窗返回的数据
+  }
+
   useEffect(() => {
     // 确保 Root Layout 已挂载
     if (Platform.OS === 'web' && rootNavigationState?.key) {
@@ -24,7 +32,7 @@ export default function IndexScreen() {
       if (hash) {
         router.replace({
           pathname: '/chat',
-          params: { name: hash },
+          params: { name: hash.slice(1) },
         })
       }
     }
@@ -33,24 +41,27 @@ export default function IndexScreen() {
     <PageTabView
       title="聊天"
       rightContent={
-        <TouchableOpacity onPress={() => toast.show('添加好友，开发中...')}>
+        <TouchableOpacity onPress={open}>
           <Icon.Add width={20} height={20} fill={Colors[theme].text} />
         </TouchableOpacity>
       }
     >
-      {persons.map((person) => (
+      <ThemeText type="subtitle">Topic</ThemeText>
+      {topics.map((topic) => (
         <Link
-          key={person.name}
+          key={topic.name}
           href={{
             pathname: '/chat',
             params: {
-              name: person.name,
+              name: topic.name,
             },
           }}
         >
-          <ThemeText type="link">赛博佛客</ThemeText>
+          <ThemeText type="link">#{topic.name}</ThemeText>
         </Link>
       ))}
+      {/* 引入全局弹窗组件 */}
+      <DialogInput ref={createTopicRef} onComplete={confirm} />
     </PageTabView>
   )
 }

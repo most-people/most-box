@@ -30,13 +30,13 @@ export default function ChatPage() {
   const styles = createStyles(theme)
   const toast = useToast()
 
+  const name = params.name as string
+
   const [messages, setMessages] = useState<Message[]>([
-    { id: '1', text: '你好！', isSender: false },
-    { id: '2', text: '你好，有什么可以帮助你的吗？', isSender: true },
+    { id: '1', text: `大家好，今天闲聊的话题是：#${name}`, isSender: false },
+    { id: '2', text: '可以开始了', isSender: true },
   ])
   const [inputMessage, setInputMessage] = useState('')
-
-  const name = params.name as string
 
   const chat = gun.get(name)
 
