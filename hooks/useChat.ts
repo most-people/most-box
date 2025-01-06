@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useUserStore } from '@/stores/userStore'
 import gun from '@/stores/gun'
 
@@ -9,23 +9,31 @@ interface Message {
 }
 
 export const useChat = (topic: string) => {
-  const chat = gun.get('most.box:' + topic)
+  // 使用 useMemo 确保 chat 只初始化一次
+  const chat = useMemo(() => gun.get('most.box#' + topic), [topic])
   const wallet = useUserStore((state) => state.wallet)
   const [messages, setMessages] = useState<Message[]>([])
+
   useEffect(() => {
     // 监听所有子节点的变化
     chat.map().on((data, key) => {
       if (data && key) {
-        setMessages((prevMessages) => {
+        setMessages((list) => {
           // 检查是否已经存在，避免重复添加
-          if (prevMessages.some((msg) => msg.timestamp === data.timestamp)) {
-            return prevMessages
+          if (list.some((e) => e.timestamp === data.timestamp)) {
+            return list
           }
-          return [...prevMessages, data]
+          return [...list, data]
         })
       }
     })
-  }, [chat])
+
+    // 清理监听器，防止内存泄漏
+    return () => {
+      chat.off()
+    }
+  }, [chat]) // chat 依赖不会变，因为 useMemo 已经保证只执行一次
+
   const send = (text: string) => {
     if (wallet) {
       const timestamp = Date.now()

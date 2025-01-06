@@ -3,28 +3,27 @@ import PageTabView from '@/components/PageTabView'
 import { Platform, TouchableOpacity, useColorScheme } from 'react-native'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
-import { ThemeText } from '@/components/Theme'
+import { ThemeText, ThemeView } from '@/components/Theme'
 import { useEffect, useRef } from 'react'
 import { DialogPrompt } from '@/components/Dialog'
+import { useTopic } from '@/hooks/useTopic'
 
 export default function IndexScreen() {
   const theme = useColorScheme() ?? 'dark'
-
-  const topics = [{ name: '什么是去中心化' }, { name: '❄️' }]
-
   const rootNavigationState = useRootNavigationState()
-
-  const createTopicRef = useRef<any>() // 获取子组件引用
+  const topic = useTopic()
+  const createTopicRef = useRef<any>()
 
   const open = () => {
-    createTopicRef.current.openModal() // 打开弹窗
+    createTopicRef.current.openModal()
   }
 
-  const confirm = (name: string) => {
+  const join = (name: string) => {
     router.push({
       pathname: '/chat',
       params: { name },
     })
+    topic.join(name)
   }
 
   useEffect(() => {
@@ -49,21 +48,31 @@ export default function IndexScreen() {
       }
     >
       <ThemeText type="subtitle">Topic</ThemeText>
-      {topics.map((topic) => (
-        <Link
-          key={topic.name}
-          href={{
-            pathname: '/chat',
-            params: {
-              name: topic.name,
-            },
-          }}
+      {topic.topics.map((item) => (
+        <TouchableOpacity
+          style={{ flexDirection: 'row', gap: '10%', justifyContent: 'space-between' }}
+          key={String(item.timestamp)}
         >
-          <ThemeText type="link">#{topic.name}</ThemeText>
-        </Link>
+          <Link
+            style={{ flex: 1 }}
+            href={{
+              pathname: '/chat',
+              params: {
+                name: item.name,
+              },
+            }}
+          >
+            <ThemeText type="link">#{item.name}</ThemeText>
+          </Link>
+          <Icon.Exit
+            onPress={() => topic.quit(item.name)}
+            width={20}
+            fill={Colors[theme].disabled}
+          />
+        </TouchableOpacity>
       ))}
       {/* 引入全局弹窗组件 */}
-      <DialogPrompt ref={createTopicRef} title="加入话题" onConfirm={confirm} />
+      <DialogPrompt ref={createTopicRef} title="加入话题" onConfirm={join} />
     </PageTabView>
   )
 }
