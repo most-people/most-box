@@ -15,15 +15,8 @@ import {
 import { AppHeader } from '@/components/AppHeader'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
-import { gun } from '@/stores/gun'
 import { useToast } from 'expo-toast'
-import dayjs from 'dayjs'
-
-interface Message {
-  text: string
-  address: string
-  timestamp: number
-}
+import { useChat } from '@/stores/gun'
 
 export default function ChatPage() {
   const params = useLocalSearchParams()
@@ -33,22 +26,27 @@ export default function ChatPage() {
 
   const name = params.name as string
 
-  const [messages, setMessages] = useState<Message[]>([
-    // { address: '', text: `大家好，今天闲聊的话题是：#${name}` },
-    // { address: '', text: '可以开始了' },
-  ])
   const [inputMessage, setInputMessage] = useState('')
 
-  const chat = gun.get(name)
+  const { messages } = useChat(name)
 
-  useEffect(() => {
-    // 模拟一个消息监听器
-    chat.on((data, key) => {
-      // 忽略内部标记
-      console.log('GUN:', key)
-      console.log('GUN:', data)
-    })
-  }, [chat])
+  // const user = gun.user()
+
+  // useEffect(() => {
+  //   if (wallet) {
+
+  //     console.log('🌊', wallet)
+  //     user.create('username', 'password123', (ack) => {
+  //       console.log(ack)
+  //     })
+  //     // // 模拟一个消息监听器
+  //     // chat.on((data, key) => {
+  //     //   // 忽略内部标记
+  //     //   console.log('GUN:', key)
+  //     //   console.log('GUN:', data)
+  //     // })
+  //   }
+  // }, [chat, wallet])
 
   const sendMessage = () => {
     if (inputMessage.trim()) {
@@ -58,12 +56,13 @@ export default function ChatPage() {
   }
 
   const addMessage = (text: string) => {
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { text, address: '', timestamp: dayjs().unix() },
-    ])
-
-    chat.put({ user: '赛博佛客', text, timestamp: Date.now() })
+    // if (wallet) {
+    // setMessages((prevMessages) => [
+    //   ...prevMessages,
+    //   { text, address: '', timestamp: dayjs().unix() },
+    // ])
+    // chat.put({ address: wallet.address, text, timestamp: Date.now() })
+    // }
   }
 
   return (
@@ -82,15 +81,15 @@ export default function ChatPage() {
       <FlatList
         data={messages}
         renderItem={({ item }) => (
-          <View style={[styles.messageContainer, item.isSender ? styles.sender : styles.receiver]}>
+          <View style={[styles.messageContainer, item.address ? styles.sender : styles.receiver]}>
             <Text
-              style={[styles.messageText, item.isSender ? styles.senderText : styles.receiverText]}
+              style={[styles.messageText, item.address ? styles.senderText : styles.receiverText]}
             >
               {item.text}
             </Text>
           </View>
         )}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => String(item.timestamp)}
         style={styles.messageList}
       />
       <SafeAreaView style={styles.safeArea}>
@@ -99,7 +98,7 @@ export default function ChatPage() {
             style={styles.input}
             value={inputMessage}
             onChangeText={setInputMessage}
-            placeholder="请输入消息..."
+            placeholder="说点什么..."
             placeholderTextColor="#888"
             onSubmitEditing={sendMessage}
           />

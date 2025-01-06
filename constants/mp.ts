@@ -6,9 +6,9 @@ import { createAvatar } from '@dicebear/core'
 import { botttsNeutral } from '@dicebear/collection'
 import { MostWallet, mostWallet } from '@/constants/MostWallet'
 
-const avatar = (username?: string, password?: string) => {
+const avatar = (username = 'most.box', password = '') => {
   const avatar = createAvatar(botttsNeutral, {
-    seed: 'most-people:' + (username || 'most.box') + (password || ''),
+    seed: 'most-people:' + username + password,
     flip: true,
   })
   return avatar.toString()
