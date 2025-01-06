@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { useUserStore } from '@/stores/userStore'
 import gun from '@/stores/gun'
@@ -8,35 +7,43 @@ interface Message {
   address: string
   timestamp: number
 }
+
 export const useChat = (topic: string) => {
-  const chat = gun.get(topic)
+  const chat = gun.get('most.box:' + topic)
   const wallet = useUserStore((state) => state.wallet)
 
-  const [messages, setMessages] = useState<Message[]>([
-    // { address: '', text: `大家好，今天闲聊的话题是：#${name}`, timestamp: 0 },
-    // { address: wallet?.address || '', text: '可以开始了', timestamp: 0 },
-  ])
+  const [messages, setMessages] = useState<Message[]>([])
 
   useEffect(() => {
-    // 模拟一个消息监听器
-    chat.on((data, key) => {
-      // 忽略内部标记
-      console.log('GUN:', key)
-      console.log('GUN:', data)
+    // 监听所有子节点的变化
+    chat.map().on((data, key) => {
+      if (data && key) {
+        setMessages((prevMessages) => {
+          // 检查是否已经存在，避免重复添加
+          if (prevMessages.some((msg) => msg.timestamp === data.timestamp)) {
+            return prevMessages
+          }
+          return [...prevMessages, data]
+        })
+      }
     })
   }, [chat])
 
-  // chat.put({ address: 'xx00', text: 'TEST', timestamp: Date.now() })
-
-  const addMessage = (text: string) => {
+  const send = (text: string) => {
     if (wallet) {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { text, address: '', timestamp: dayjs().unix() },
-      ])
-      chat.put({ address: wallet.address, text, timestamp: Date.now() })
+      const newMessage = {
+        text,
+        address: wallet.address,
+        timestamp: Date.now(),
+      }
+
+      // 更新本地状态
+      setMessages((prevMessages) => [...prevMessages, newMessage])
+
+      // 使用唯一键存储消息
+      chat.get(newMessage.timestamp.toString()).put(newMessage)
     }
   }
 
-  return { messages, addMessage }
+  return { messages, send }
 }

@@ -24,13 +24,13 @@ export default function ChatPage() {
   const styles = createStyles(theme)
   const toast = useToast()
   const topic = params.name as string
-  const [inputMessage, setInputMessage] = useState('')
-  const { messages, addMessage } = useChat(topic)
+  const [message, setMessage] = useState('')
+  const chat = useChat(topic)
 
-  const sendMessage = () => {
-    if (inputMessage.trim()) {
-      addMessage(inputMessage)
-      setInputMessage('')
+  const send = () => {
+    if (message.trim()) {
+      chat.send(message)
+      setMessage('')
     }
   }
 
@@ -48,7 +48,7 @@ export default function ChatPage() {
         }
       />
       <FlatList
-        data={messages}
+        data={chat.messages}
         renderItem={({ item }) => (
           <View style={[styles.messageContainer, item.address ? styles.sender : styles.receiver]}>
             <Text
@@ -65,13 +65,13 @@ export default function ChatPage() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            value={inputMessage}
-            onChangeText={setInputMessage}
+            value={message}
+            onChangeText={setMessage}
             placeholder="说点什么..."
             placeholderTextColor="#888"
-            onSubmitEditing={sendMessage}
+            onSubmitEditing={send}
           />
-          <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
+          <TouchableOpacity style={styles.sendButton} onPress={send}>
             <Text style={styles.sendButtonText}>发送</Text>
           </TouchableOpacity>
         </View>

@@ -7,9 +7,9 @@ const gun = new Gun({
   // 替换存储适配器
   store: asyncStore({ AsyncStorage }),
   peers: [
-    // 'https://gun-manhattan.herokuapp.com/gun',
+    'https://gun-manhattan.herokuapp.com/gun',
     // 本地
-    // 'http://localhost:1976/gun',
+    'http://localhost:1976/gun',
   ],
 })
 export default gun
