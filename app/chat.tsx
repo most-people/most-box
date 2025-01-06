@@ -17,11 +17,12 @@ import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 import { gun } from '@/stores/gun'
 import { useToast } from 'expo-toast'
+import dayjs from 'dayjs'
 
 interface Message {
-  id: string
   text: string
-  isSender: boolean
+  address: string
+  timestamp: number
 }
 
 export default function ChatPage() {
@@ -33,8 +34,8 @@ export default function ChatPage() {
   const name = params.name as string
 
   const [messages, setMessages] = useState<Message[]>([
-    { id: '1', text: `大家好，今天闲聊的话题是：#${name}`, isSender: false },
-    { id: '2', text: '可以开始了', isSender: true },
+    // { address: '', text: `大家好，今天闲聊的话题是：#${name}` },
+    // { address: '', text: '可以开始了' },
   ])
   const [inputMessage, setInputMessage] = useState('')
 
@@ -59,7 +60,7 @@ export default function ChatPage() {
   const addMessage = (text: string) => {
     setMessages((prevMessages) => [
       ...prevMessages,
-      { id: `${prevMessages.length + 1}`, text, isSender: true },
+      { text, address: '', timestamp: dayjs().unix() },
     ])
 
     chat.put({ user: '赛博佛客', text, timestamp: Date.now() })
