@@ -56,7 +56,13 @@ export const AppHeader = ({ title, leftContent, rightContent }: AppHeaderProps) 
           </TouchableOpacity>
         )}
       </ThemeView>
-      <ThemeText style={styles.title}>{title}</ThemeText>
+      <ThemeText
+        style={styles.title}
+        numberOfLines={1} // 限制文本为1行
+        ellipsizeMode="tail" // 当文字溢出时，尾部显示省略号
+      >
+        {title}
+      </ThemeText>
       <ThemeView style={styles.rightContainer}>{rightContent}</ThemeView>
     </ThemeView>
   )

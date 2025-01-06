@@ -10,6 +10,7 @@ const avatar = (username = 'most.box', password = '') => {
   const avatar = createAvatar(botttsNeutral, {
     seed: 'most-people:' + username + password,
     flip: true,
+    radius: 10,
   })
   return avatar.toString()
 }

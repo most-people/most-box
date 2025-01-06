@@ -2,9 +2,8 @@ import { StyleSheet, TouchableOpacity, useColorScheme } from 'react-native'
 import { useNoteStore } from '@/stores/noteStore'
 import { ThemeText, ThemeView } from '@/components/Theme'
 import PageTabView from '@/components/PageTabView'
-
 import { Icon } from '@/assets/icon'
-
+import { useToast } from 'expo-toast'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'
@@ -13,6 +12,8 @@ dayjs.locale('zh-cn')
 export default function NoteScreen() {
   const notes = useNoteStore((state) => state.notes)
   const theme = useColorScheme() ?? 'dark'
+  const toast = useToast()
+
   return (
     <PageTabView title="笔记">
       <ThemeText>今天</ThemeText>
@@ -22,6 +23,7 @@ export default function NoteScreen() {
           ...styles.camera,
           backgroundColor: theme === 'light' ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.14)',
         }}
+        onPress={() => toast.show('写笔记，开发中...')}
       >
         <Icon.Camera
           style={styles.cameraIcon}

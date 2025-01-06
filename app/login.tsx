@@ -65,6 +65,7 @@ export default function LoginPage() {
       <TextInput
         style={styles.input}
         placeholder="请输入用户名"
+        placeholderTextColor="#888"
         maxLength={36}
         value={username}
         onChangeText={setUsername}
@@ -74,6 +75,7 @@ export default function LoginPage() {
       <TextInput
         style={styles.input}
         placeholder="请输入密码"
+        placeholderTextColor="#888"
         maxLength={100}
         value={password}
         onChangeText={setPassword}

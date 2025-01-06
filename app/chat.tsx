@@ -22,6 +22,8 @@ import { useUserStore } from '@/stores/userStore'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'
+import { SvgXml } from 'react-native-svg'
+import mp from '@/constants/mp'
 dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
 
@@ -63,18 +65,26 @@ export default function ChatPage() {
         renderItem={({ item }) => (
           <View
             style={[
-              styles.messageContainer,
-              item.address === wallet?.address ? styles.sender : styles.receiver,
+              styles.messageBox,
+              item.address === wallet?.address ? styles.senderBox : styles.receiverBox,
             ]}
           >
-            <Text
+            <SvgXml xml={mp.avatar(item.address)} style={styles.avatar} />
+            <View
               style={[
-                styles.messageText,
-                item.address === wallet?.address ? styles.senderText : styles.receiverText,
+                styles.messageContainer,
+                item.address === wallet?.address ? styles.sender : styles.receiver,
               ]}
             >
-              {item.text}
-            </Text>
+              <Text
+                style={[
+                  styles.messageText,
+                  item.address === wallet?.address ? styles.senderText : styles.receiverText,
+                ]}
+              >
+                {item.text}
+              </Text>
+            </View>
           </View>
         )}
         keyExtractor={(item) => String(item.timestamp)}
@@ -89,6 +99,7 @@ export default function ChatPage() {
             placeholder="说点什么..."
             placeholderTextColor="#888"
             onSubmitEditing={send}
+            maxLength={300}
           />
           <TouchableOpacity style={styles.sendButton} onPress={send}>
             <Text style={styles.sendButtonText}>发送</Text>
@@ -109,6 +120,11 @@ const createStyles = (theme: 'light' | 'dark') => {
       paddingHorizontal: 10,
       paddingVertical: 5,
     },
+    messageBox: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 6,
+    },
     messageContainer: {
       padding: 10,
       marginVertical: 5,
@@ -116,18 +132,23 @@ const createStyles = (theme: 'light' | 'dark') => {
       maxWidth: '80%',
     },
     sender: {
-      alignSelf: 'flex-end',
       backgroundColor: Colors.sender,
     },
     senderText: {
       color: '#ffffff',
     },
+    senderBox: {
+      alignSelf: 'flex-end',
+      flexDirection: 'row-reverse',
+    },
     receiver: {
-      alignSelf: 'flex-start',
       backgroundColor: theme === 'dark' ? '#2C2C2C' : '#ffffff',
     },
     receiverText: {
       color: Colors[theme].text,
+    },
+    receiverBox: {
+      alignSelf: 'flex-start',
     },
     messageText: {
       fontSize: 16,
@@ -163,6 +184,10 @@ const createStyles = (theme: 'light' | 'dark') => {
     sendButtonText: {
       color: '#FFFFFF',
       fontSize: 16,
+    },
+    avatar: {
+      width: 32,
+      height: 32,
     },
   })
 }
