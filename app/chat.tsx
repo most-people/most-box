@@ -113,7 +113,7 @@ const createStyles = (theme: 'light' | 'dark') => {
   return StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: theme === 'dark' ? '#121212' : '#f5f5f5',
+      // backgroundColor: theme === 'dark' ? '#121212' : '#f5f5f5',
     },
     messageList: {
       flex: 1,

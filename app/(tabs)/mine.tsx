@@ -34,9 +34,21 @@ export default function ProfileScreen() {
   const headerTop = Platform.OS === 'ios' ? insets.top : StatusBar.currentHeight || 0
 
   const tabs: Tab[] = [
-    { name: '关于', pathname: '/about', icon: <Icon.About style={styles.icon} /> },
-    { name: '设置', pathname: '/setting', icon: <Icon.Setting style={styles.icon} /> },
-    { name: 'international', pathname: '/international', icon: <Icon.Join style={styles.icon} /> },
+    {
+      name: '关于',
+      pathname: '/about',
+      icon: <Icon.About style={styles.icon} fill={Colors[theme].color} />,
+    },
+    {
+      name: '设置',
+      pathname: '/setting',
+      icon: <Icon.Setting style={styles.icon} fill={Colors[theme].color} />,
+    },
+    {
+      name: '志同道合',
+      pathname: '/internationale',
+      icon: <Icon.Join style={styles.icon} fill={Colors[theme].color} />,
+    },
   ]
 
   return (
@@ -58,7 +70,7 @@ export default function ProfileScreen() {
 
       {/* 服务 */}
       <TouchableOpacity style={styles.menuItem} onPress={() => router.push('/web3')}>
-        <Icon.Web3 style={styles.icon} />
+        <Icon.Web3 style={styles.icon} fill={Colors[theme].color} />
         <Text style={styles.menuText}>Web3</Text>
         <Icon.Arrow color={Colors[theme].primary} />
       </TouchableOpacity>
@@ -81,7 +93,7 @@ export default function ProfileScreen() {
       {/* 设置 */}
 
       <TouchableOpacity style={styles.menuItem} onPress={exit}>
-        <Icon.Exit style={styles.icon} />
+        <Icon.Exit style={styles.icon} fill={Colors[theme].color} />
         <Text style={styles.menuText}>退出账户</Text>
         <Icon.Arrow color={Colors[theme].primary} />
       </TouchableOpacity>

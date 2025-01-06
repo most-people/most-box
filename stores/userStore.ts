@@ -22,7 +22,7 @@ export const useUserStore = create<State>((set: StoreApi<State>['setState']) => 
     asyncStorage.removeItem('token')
     asyncStorage.removeItem('tokenSecret')
     set({ wallet: undefined })
-    router.replace('/login')
+    router.push('/login')
   },
   async initWallet() {
     const token = await asyncStorage.getItem('token')

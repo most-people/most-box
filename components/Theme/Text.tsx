@@ -5,7 +5,7 @@ import { useColorScheme } from 'react-native'
 
 // Text
 type ThemeProps = TextProps & {
-  type?: 'default' | 'title' | 'subtitle' | 'link'
+  type?: 'default' | 'title' | 'subtitle' | 'link' | 'hide'
 }
 
 const ThemeText = ({ style, type = 'default', ...rest }: ThemeProps) => {
@@ -19,6 +19,7 @@ const ThemeText = ({ style, type = 'default', ...rest }: ThemeProps) => {
         type === 'title' ? styles.title : undefined,
         type === 'subtitle' ? styles.subtitle : undefined,
         type === 'link' ? styles.link : undefined,
+        type === 'hide' ? styles.hide : undefined,
         style,
       ]}
       {...rest}
@@ -31,7 +32,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
   },
-
+  hide: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: 'transparent',
+  },
   title: {
     fontSize: 32,
     fontWeight: 'bold',

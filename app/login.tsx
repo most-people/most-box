@@ -12,10 +12,11 @@ import {
   Platform,
   useColorScheme,
 } from 'react-native'
-import { Link, useRouter } from 'expo-router'
+import { Link, useNavigation, useRouter } from 'expo-router'
 import { useUserStore } from '@/stores/userStore'
 
 export default function LoginPage() {
+  const navigation = useNavigation()
   const theme = useColorScheme() ?? 'dark'
   const styles = createStyles(theme)
   const router = useRouter()
@@ -26,7 +27,11 @@ export default function LoginPage() {
 
   const toLogin = () => {
     if (username && password) {
-      router.replace('/')
+      if (navigation.canGoBack()) {
+        navigation.goBack()
+      } else {
+        router.replace('/')
+      }
       setTimeout(() => {
         const wallet = mp.login(username, password)
         if (wallet) {

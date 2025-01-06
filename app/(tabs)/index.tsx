@@ -1,9 +1,11 @@
-import { Link } from 'expo-router'
+import { Link, router, useRootNavigationState } from 'expo-router'
 import PageTabView from '@/components/PageTabView'
-import { TouchableOpacity, useColorScheme } from 'react-native'
+import { Platform, TouchableOpacity, useColorScheme } from 'react-native'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 import { ThemeText } from '@/components/Theme'
+import { useEffect } from 'react'
+
 export default function IndexScreen() {
   const theme = useColorScheme() ?? 'dark'
 
@@ -12,7 +14,19 @@ export default function IndexScreen() {
       name: '赛博佛客',
     },
   ]
-
+  const rootNavigationState = useRootNavigationState()
+  useEffect(() => {
+    // 确保 Root Layout 已挂载
+    if (Platform.OS === 'web' && rootNavigationState?.key) {
+      const hash = window.location.hash
+      if (hash) {
+        router.replace({
+          pathname: '/chat',
+          params: { name: hash },
+        })
+      }
+    }
+  }, [rootNavigationState?.key])
   return (
     <PageTabView
       title="聊天"

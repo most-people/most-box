@@ -3,7 +3,7 @@ import { ThemeText } from '@/components/Theme'
 
 export default function InternationalPage() {
   const Chorus = () => (
-    <ThemeText>
+    <ThemeText type="hide">
       这是最后的斗争，团结起来到明天，
       <br />
       英特纳雄耐尔，就一定要实现！
@@ -14,9 +14,9 @@ export default function InternationalPage() {
     </ThemeText>
   )
   return (
-    <PageView title={'international'}>
-      <ThemeText type="subtitle">国际歌</ThemeText>
-      <ThemeText>
+    <PageView title={'Internationale'}>
+      <ThemeText type="hide">国际歌</ThemeText>
+      <ThemeText type="hide">
         起来，饥寒交迫的奴隶！ <br />
         起来，全世界受苦的人！
         <br />
@@ -26,7 +26,7 @@ export default function InternationalPage() {
         <br />
         不要说我们一无所有，我们要做天下的主人！
       </ThemeText>
-      <ThemeText>
+      <ThemeText type="hide">
         从来就没有什么救世主，
         <br />
         也不靠神仙皇帝！
@@ -36,7 +36,7 @@ export default function InternationalPage() {
         <br />
         快把那炉火烧得通红，趁热打铁才能成功！
       </ThemeText>
-      <ThemeText>
+      <ThemeText type="hide">
         是谁创造了人类世界？
         <br />
         是我们劳动群众！

@@ -42,6 +42,7 @@ export const AppHeader = ({ title, rightContent }: AppHeaderProps) => {
         {
           height: headerHeight,
           paddingTop: insets.top,
+          borderBottomColor: Colors[theme].border,
         },
       ]}
     >
@@ -65,7 +66,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     justifyContent: 'space-between',
     borderBottomWidth: 1,
-    borderColor: 'rgb(39, 39, 41)',
   },
   title: {
     fontSize: 18,
