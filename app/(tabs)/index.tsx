@@ -1,4 +1,4 @@
-import { Link, router, useRootNavigationState } from 'expo-router'
+import { router, useRootNavigationState } from 'expo-router'
 import PageTabView from '@/components/PageTabView'
 import { Platform, TouchableOpacity, useColorScheme, View } from 'react-native'
 import { Icon } from '@/assets/icon'
@@ -14,30 +14,13 @@ export default function IndexScreen() {
   const rootNavigationState = useRootNavigationState()
   const topic = useTopic()
   const createTopicRef = useRef<any>()
-  const topicsDefault = [
-    {
-      name: '什么是去中心化',
-      timestamp: 0,
-    },
-    {
-      name: '❄️',
-      timestamp: 0,
-    },
-  ]
+
   const topics = useMemo(() => {
     return topic.topics.sort((a, b) => b.timestamp - a.timestamp)
   }, [topic.topics])
 
   const open = () => {
     createTopicRef.current.openModal()
-  }
-
-  const join = (name: string) => {
-    router.push({
-      pathname: '/chat',
-      params: { name },
-    })
-    topic.join(name)
   }
 
   useEffect(() => {
@@ -77,14 +60,20 @@ export default function IndexScreen() {
         </TouchableOpacity>
       }
     >
-      <ThemeText>话题</ThemeText>
+      {topics.length === 0 ? (
+        <>
+          <ThemeText>没有关注的话题？</ThemeText>
+          <TouchableOpacity onPress={() => router.push('/explore')}>
+            <ThemeText type="link">去探索</ThemeText>
+          </TouchableOpacity>
+        </>
+      ) : (
+        <ThemeText>话题</ThemeText>
+      )}
       {topics.map((item) => (
         <TopicItem key={String(item.timestamp)} {...item} />
       ))}
-      {topics.length === 0 &&
-        topicsDefault.map((item) => <TopicItem key={String(item.name)} {...item} />)}
-      {/* 引入全局弹窗组件 */}
-      <DialogPrompt ref={createTopicRef} title="加入话题" onConfirm={join} />
+      <DialogPrompt ref={createTopicRef} title="加入话题" onConfirm={topic.join} />
     </PageTabView>
   )
 }

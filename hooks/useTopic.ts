@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useUserStore } from '@/stores/userStore'
 import gun from '@/stores/gun'
+import { router } from 'expo-router'
 
 export interface Topic {
   name: string
@@ -54,6 +55,10 @@ export const useTopic = () => {
         user.get('topics').get(timestamp.toString()).put(data)
       }
     }
+    router.push({
+      pathname: '/chat',
+      params: { name },
+    })
   }
 
   const quit = (name: string) => {
