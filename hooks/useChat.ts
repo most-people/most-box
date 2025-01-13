@@ -19,8 +19,12 @@ export const useChat = (topic: string) => {
     chat.map().on((data, key) => {
       if (data && key) {
         setMessages((list) => {
-          // 检查是否已经存在，避免重复添加
+          // 如果消息已存在，不重复添加
           if (list.some((e) => e.timestamp === data.timestamp)) {
+            return list
+          }
+          // 如果是已删除的消息（内容被覆盖为空），则不显示
+          if (data.text === '' || data.address === '') {
             return list
           }
           return [...list, data]
@@ -48,5 +52,20 @@ export const useChat = (topic: string) => {
       chat.get(timestamp.toString()).put(newMessage)
     }
   }
-  return { messages, send }
+
+  const del = (timestamp: number) => {
+    // 用无意义数据覆盖原始消息内容
+    const empty = {
+      text: '',
+      address: '',
+      timestamp: timestamp, // 保留原始时间戳以便定位
+    }
+
+    // 更新 Gun 数据库
+    chat.get(timestamp.toString()).put(empty)
+
+    // 更新本地状态
+    setMessages((prevMessages) => prevMessages.filter((msg) => msg.timestamp !== timestamp))
+  }
+  return { messages, send, del }
 }

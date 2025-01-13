@@ -48,7 +48,7 @@ export default function ChatPage() {
   const [showDelete, setShowDelete] = useState(false)
   const [deleteItem, setDeleteItem] = useState<Message | null>(null)
   const deleteMessage = () => {
-    console.log('🌊', deleteItem)
+    if (deleteItem) chat.del(deleteItem?.timestamp)
   }
 
   return (
