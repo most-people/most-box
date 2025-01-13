@@ -15,7 +15,7 @@ import { AppHeader } from '@/components/AppHeader'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 import { useToast } from 'expo-toast'
-import { useChat } from '@/hooks/useChat'
+import { Message, useChat } from '@/hooks/useChat'
 import { useUserStore } from '@/stores/userStore'
 
 import dayjs from 'dayjs'
@@ -23,6 +23,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'
 import { SvgXml } from 'react-native-svg'
 import mp from '@/constants/mp'
+import { DialogConfirm } from '@/components/Dialog'
 dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
 
@@ -43,6 +44,12 @@ export default function ChatPage() {
   }
 
   const messages = chat.messages.sort((a, b) => b.timestamp - a.timestamp)
+
+  const [showDelete, setShowDelete] = useState(false)
+  const [deleteItem, setDeleteItem] = useState<Message | null>(null)
+  const deleteMessage = () => {
+    console.log('🌊', deleteItem)
+  }
 
   return (
     <KeyboardAvoidingView
@@ -68,12 +75,17 @@ export default function ChatPage() {
             ]}
           >
             <SvgXml xml={mp.avatar(item.address)} style={styles.avatar} />
-            <View
+            <TouchableOpacity
+              onPress={() => {
+                setShowDelete(true)
+                setDeleteItem(item)
+              }}
               style={[
                 styles.messageContainer,
                 item.address === wallet?.address ? styles.sender : styles.receiver,
               ]}
             >
+              {' '}
               <Text
                 style={[
                   styles.messageText,
@@ -82,7 +94,7 @@ export default function ChatPage() {
               >
                 {item.text}
               </Text>
-            </View>
+            </TouchableOpacity>
           </View>
         )}
         keyExtractor={(item) => String(item.timestamp)}
@@ -104,6 +116,13 @@ export default function ChatPage() {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
+      <DialogConfirm
+        visible={showDelete}
+        onClose={() => setShowDelete(false)}
+        onConfirmDelete={deleteMessage}
+        title={deleteItem?.text}
+        message="确定要删除这条聊天记录吗？删除后将无法恢复。"
+      />
     </KeyboardAvoidingView>
   )
 }
@@ -128,6 +147,7 @@ const createStyles = (theme: 'light' | 'dark') => {
       marginVertical: 5,
       borderRadius: 10,
       maxWidth: '80%',
+      cursor: 'pointer',
     },
     sender: {
       backgroundColor: Colors.sender,

@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react'
 import { useUserStore } from '@/stores/userStore'
 import gun from '@/stores/gun'
 
-interface Message {
+export interface Message {
   text: string
   address: string
   timestamp: number
