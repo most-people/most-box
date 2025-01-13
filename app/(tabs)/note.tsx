@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, useColorScheme } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import { useNoteStore } from '@/stores/noteStore'
 import { ThemeText, ThemeView } from '@/components/Theme'
 import PageTabView from '@/components/PageTabView'
@@ -7,11 +7,12 @@ import { useToast } from 'expo-toast'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'
+import { useUserStore } from '@/stores/userStore'
 dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
 export default function NoteScreen() {
   const notes = useNoteStore((state) => state.notes)
-  const theme = useColorScheme() ?? 'dark'
+  const { theme } = useUserStore()
   const toast = useToast()
 
   return (

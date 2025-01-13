@@ -14,12 +14,17 @@ import { Colors } from '@/constants/Colors'
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-  const theme = useColorScheme() ?? 'dark'
+  const systemTheme = useColorScheme() ?? 'dark'
+  const { theme, setTheme, initWallet } = useUserStore()
+
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   })
 
-  const initWallet = useUserStore((state) => state.initWallet)
+  useEffect(() => {
+    // 跟随系统主题
+    setTheme(systemTheme)
+  }, [systemTheme, setTheme])
 
   useEffect(() => {
     if (loaded) {
@@ -41,7 +46,7 @@ export default function RootLayout() {
         <Stack screenOptions={{ headerShown: false, headerTitleAlign: 'center' }}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false, title: '聊天' }} />
           <Stack.Screen name="+not-found" />
-          <Stack.Screen name="chat" options={{ title: '' }} />
+          <Stack.Screen name="chat" />
         </Stack>
         <StatusBar style="auto" />
       </ToastProvider>

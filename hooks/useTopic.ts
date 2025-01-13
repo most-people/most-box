@@ -9,7 +9,7 @@ export interface Topic {
 }
 
 export const useTopic = () => {
-  const wallet = useUserStore((state) => state.wallet)
+  const { wallet } = useUserStore()
   const user = useMemo(() => {
     if (wallet?.address) {
       return gun.get('most.box?' + wallet?.address)

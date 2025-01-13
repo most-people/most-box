@@ -9,6 +9,9 @@ interface UserStore {
   wallet?: MostWallet
   initWallet: () => Promise<void>
   exit: () => void
+  // theme
+  theme: 'light' | 'dark'
+  setTheme: (theme: 'light' | 'dark') => void
 }
 
 interface State extends UserStore {
@@ -16,9 +19,10 @@ interface State extends UserStore {
 }
 
 export const useUserStore = create<State>((set: StoreApi<State>['setState']) => ({
-  wallet: undefined,
   setItem: (key, value) => set((state) => ({ ...state, [key]: value })),
-
+  wallet: undefined,
+  theme: 'dark', // 默认为深色
+  setTheme: (theme) => set({ theme }),
   exit() {
     AsyncStorage.clear()
     set({ wallet: undefined })

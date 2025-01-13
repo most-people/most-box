@@ -10,17 +10,15 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  useColorScheme,
 } from 'react-native'
 import { Link, useNavigation, useRouter } from 'expo-router'
 import { useUserStore } from '@/stores/userStore'
 
 export default function LoginPage() {
   const navigation = useNavigation()
-  const theme = useColorScheme() ?? 'dark'
-  const styles = createStyles(theme)
   const router = useRouter()
-  const userStore = useUserStore()
+  const { setItem, theme } = useUserStore()
+  const styles = createStyles(theme)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -35,7 +33,7 @@ export default function LoginPage() {
       setTimeout(() => {
         const wallet = mp.login(username, password)
         if (wallet) {
-          userStore.setItem('wallet', wallet)
+          setItem('wallet', wallet)
         }
       }, 0)
     }

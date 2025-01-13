@@ -9,7 +9,6 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  useColorScheme,
   SafeAreaView,
 } from 'react-native'
 import { AppHeader } from '@/components/AppHeader'
@@ -29,13 +28,12 @@ dayjs.locale('zh-cn')
 
 export default function ChatPage() {
   const params = useLocalSearchParams()
-  const theme = useColorScheme() ?? 'dark'
-  const styles = createStyles(theme)
   const toast = useToast()
   const topic = params.name as string
   const [message, setMessage] = useState('')
   const chat = useChat(topic)
-  const wallet = useUserStore((state) => state.wallet)
+  const { wallet, theme } = useUserStore()
+  const styles = createStyles(theme)
 
   const send = () => {
     if (message.trim()) {

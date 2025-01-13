@@ -14,7 +14,6 @@ import {
   ScrollView,
   Platform,
   StatusBar,
-  useColorScheme,
 } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { SvgXml } from 'react-native-svg'
@@ -26,11 +25,9 @@ interface Tab {
   icon: ReactNode
 }
 export default function ProfileScreen() {
+  const { wallet, theme } = useUserStore()
   const toast = useToast()
-  const theme = useColorScheme() ?? 'dark'
   const styles = createStyles(theme)
-
-  const wallet = useUserStore((state) => state.wallet)
   const exit = useUserStore((state) => state.exit)
   const insets = useSafeAreaInsets()
   // 动态计算头部高度

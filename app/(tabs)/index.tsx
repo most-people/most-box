@@ -1,6 +1,6 @@
 import { router, useRootNavigationState } from 'expo-router'
 import PageTabView from '@/components/PageTabView'
-import { Platform, TouchableOpacity, useColorScheme, View } from 'react-native'
+import { Platform, TouchableOpacity, View } from 'react-native'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 import { ThemeText } from '@/components/Theme'
@@ -8,9 +8,10 @@ import { useEffect, useMemo, useRef } from 'react'
 import { DialogPrompt } from '@/components/Dialog'
 import { Topic, useTopic } from '@/hooks/useTopic'
 import React from 'react'
+import { useUserStore } from '@/stores/userStore'
 
 export default function IndexScreen() {
-  const theme = useColorScheme() ?? 'dark'
+  const { theme } = useUserStore()
   const rootNavigationState = useRootNavigationState()
   const topic = useTopic()
   const createTopicRef = useRef<any>()

@@ -6,7 +6,6 @@ import { Platform } from 'react-native'
 import { HapticTab } from '@/components/HapticTab'
 import TabBarBackground from '@/components/ui/TabBarBackground'
 import { Colors } from '@/constants/Colors'
-// import { useColorScheme } from 'react-native'
 import { Icon } from '@/assets/icon'
 // 定义图标组件
 const TabIcon: React.FC<{
@@ -21,8 +20,6 @@ const TabIcon: React.FC<{
 }
 
 export default function TabLayout() {
-  // const theme = useColorScheme() ?? 'dark'
-
   return (
     <Tabs
       screenOptions={{

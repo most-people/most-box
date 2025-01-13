@@ -1,7 +1,7 @@
 import PageView from '@/components/PageView'
 import { ThemeText } from '@/components/Theme'
 import React from 'react'
-import { View, Linking } from 'react-native'
+import { Linking } from 'react-native'
 
 const AboutPaperPage = () => {
   const handleLinkPress = (url: string) => {

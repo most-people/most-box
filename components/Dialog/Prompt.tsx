@@ -1,8 +1,9 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react'
-import { View, TextInput, Modal, StyleSheet, TouchableOpacity, useColorScheme } from 'react-native'
+import { View, TextInput, Modal, StyleSheet, TouchableOpacity } from 'react-native'
 import { AppHeader } from '../AppHeader'
 import { Colors } from '@/constants/Colors'
 import { ThemeText } from '@/components/Theme'
+import { useUserStore } from '@/stores/userStore'
 
 // 定义 props 类型
 interface DialogPromptProps {
@@ -13,7 +14,7 @@ interface DialogPromptProps {
 const DialogPrompt = forwardRef(({ onConfirm, title }: DialogPromptProps, ref) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [inputText, setInputText] = useState('')
-  const theme = useColorScheme() ?? 'dark'
+  const { theme } = useUserStore()
   const styles = createStyles(theme)
 
   // 暴露控制方法

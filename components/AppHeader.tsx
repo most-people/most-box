@@ -1,10 +1,11 @@
 import React, { ReactNode } from 'react'
-import { TouchableOpacity, StyleSheet, Platform, StatusBar, useColorScheme } from 'react-native'
+import { TouchableOpacity, StyleSheet, Platform, StatusBar } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Icon } from '@/assets/icon'
 import { ThemeText, ThemeView } from '@/components/Theme'
 import { Colors } from '@/constants/Colors'
+import { useUserStore } from '@/stores/userStore'
 
 interface AppHeaderProps {
   title: string | string[]
@@ -12,7 +13,7 @@ interface AppHeaderProps {
   rightContent?: ReactNode // 插槽，传入右侧自定义内容
 }
 export const AppHeader = ({ title, leftContent, rightContent }: AppHeaderProps) => {
-  const theme = useColorScheme() ?? 'dark'
+  const { theme } = useUserStore()
   const navigation = useNavigation()
   const route = useRoute()
   const insets = useSafeAreaInsets()

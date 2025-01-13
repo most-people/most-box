@@ -1,7 +1,7 @@
 import { Text, type TextProps, StyleSheet } from 'react-native'
 
 import { Colors } from '@/constants/Colors'
-import { useColorScheme } from 'react-native'
+import { useUserStore } from '@/stores/userStore'
 
 // Text
 type ThemeProps = TextProps & {
@@ -9,7 +9,7 @@ type ThemeProps = TextProps & {
 }
 
 const ThemeText = ({ style, type = 'default', ...rest }: ThemeProps) => {
-  const theme = useColorScheme() ?? 'dark'
+  const { theme } = useUserStore()
 
   return (
     <Text
