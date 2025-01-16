@@ -54,21 +54,21 @@ const AboutPaperPage = () => {
         type="link"
         onPress={() =>
           handleLinkPress(
-            'https://bafybeidhz74ng3w72nbi3obpvb2flfpnyhxc4gv3x5jtz5x5h4mlgyww54.ipfs.dweb.link',
+            'https://bafkreiaadupp3gal2nofg67vq67o4cbzl2ds34fnmlgjr7rdkxzg5upwxq.ipfs.dweb.link',
           )
         }
       >
-        https://bafybeidhz74ng3w72nbi3obpvb2flfpnyhxc4gv3x5jtz5x5h4mlgyww54.ipfs.dweb.link
+        https://bafkreiaadupp3gal2nofg67vq67o4cbzl2ds34fnmlgjr7rdkxzg5upwxq.ipfs.dweb.link
       </ThemeText>
       <ThemeText
         type="link"
         onPress={() =>
           handleLinkPress(
-            'https://bafybeidhz74ng3w72nbi3obpvb2flfpnyhxc4gv3x5jtz5x5h4mlgyww54.ipfs.flk-ipfs.xyz',
+            'https://bafkreiaadupp3gal2nofg67vq67o4cbzl2ds34fnmlgjr7rdkxzg5upwxq.ipfs.flk-ipfs.xyz',
           )
         }
       >
-        https://bafybeidhz74ng3w72nbi3obpvb2flfpnyhxc4gv3x5jtz5x5h4mlgyww54.ipfs.flk-ipfs.xyz
+        https://bafkreiaadupp3gal2nofg67vq67o4cbzl2ds34fnmlgjr7rdkxzg5upwxq.ipfs.flk-ipfs.xyz
       </ThemeText>
       <ThemeText>IPFS 全称（InterPlanetary File System）中文（星际文件系统）</ThemeText>
       <ThemeText>我们可以把任意文件（如图片、视频、网站…）想象成一本书。</ThemeText>
@@ -82,7 +82,7 @@ const AboutPaperPage = () => {
       <ThemeText>IPFS 网络负责告诉离你最近的书在哪里。</ThemeText>
       <ThemeText>
         IPFS 每个文件有一个 CID 就是文件的身份证号，上文中
-        bafybeidhz74ng3w72nbi3obpvb2flfpnyhxc4gv3x5jtz5x5h4mlgyww54 就是这个文件的
+        bafkreiaadupp3gal2nofg67vq67o4cbzl2ds34fnmlgjr7rdkxzg5upwxq 就是这个文件的
         CID，它的容量很大，大到足以给地球上的每一粒沙子发身份证号。
       </ThemeText>
 
