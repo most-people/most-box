@@ -32,7 +32,9 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
     <Modal animationType="none" transparent={true} visible={visible} onRequestClose={onClose}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <ThemeText style={styles.modalTitle}>{title}</ThemeText>
+          <ThemeText style={styles.modalTitle} numberOfLines={8}>
+            {title}
+          </ThemeText>
           <ThemeText style={styles.modalText}>{message}</ThemeText>
 
           <View style={styles.buttonContainer}>

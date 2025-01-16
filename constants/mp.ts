@@ -1,5 +1,5 @@
 import CryptoJS from 'crypto-js'
-import { toUtf8Bytes, sha256, encodeBase64, decodeBase64, toUtf8String } from 'ethers'
+import { toUtf8Bytes, sha256, encodeBase64, decodeBase64, toUtf8String, ZeroAddress } from 'ethers'
 import dayjs from 'dayjs'
 import asyncStorage from '@/stores/asyncStorage'
 import { createAvatar } from '@dicebear/core'
@@ -161,4 +161,5 @@ export default {
   createJWT,
   verifyJWT,
   login,
+  ZeroAddress,
 }

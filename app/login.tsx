@@ -52,12 +52,28 @@ export default function LoginPage() {
     }
   }, [username, password, defaultAvatar])
 
+  const back = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack()
+    } else {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: '(tabs)' as never }], // 将首页设置为目标页面，替换 'Home' 为你的首页路由名称
+      })
+    }
+  }
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
+      <TouchableOpacity onPress={back}>
+        <ThemeText type="link">游客</ThemeText>
+      </TouchableOpacity>
+
       <SvgXml xml={avatar} style={styles.avatar} />
+
       <Text style={styles.title}>欢迎登录</Text>
 
       <TextInput

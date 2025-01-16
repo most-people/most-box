@@ -40,6 +40,6 @@ export const useUserStore = create<State>((set: StoreApi<State>['setState']) => 
         console.error(error.message)
       }
     }
-    router.push('/login')
+    // router.push('/login')
   },
 }))

@@ -66,9 +66,11 @@ export default function ProfileScreen() {
           <SvgXml xml={mp.avatar(wallet?.address)} style={styles.avatar} />
         </TouchableOpacity>
         <ThemeView style={styles.infoContainer}>
-          <ThemeText style={styles.name}>{wallet?.username}</ThemeText>
+          <ThemeText style={styles.name}>{wallet?.username || 'most.box'}</ThemeText>
           <TouchableOpacity onPress={() => copy(wallet?.address)}>
-            <Text style={styles.account}>地址：{mp.formatAddress(wallet?.address)}</Text>
+            <Text style={styles.account}>
+              地址：{mp.formatAddress(wallet?.address || mp.ZeroAddress)}
+            </Text>
           </TouchableOpacity>
         </ThemeView>
 

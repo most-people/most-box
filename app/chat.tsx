@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router'
+import { router, useLocalSearchParams } from 'expo-router'
 import React, { useState } from 'react'
 import {
   View,
@@ -37,9 +37,11 @@ export default function ChatPage() {
   const styles = createStyles(theme)
 
   const send = () => {
+    if (!wallet) return router.push('/login')
     if (message.trim()) {
       chat.send(message)
       setMessage('')
+      setAutoHeight(40)
     }
   }
 
@@ -48,8 +50,11 @@ export default function ChatPage() {
   const [showDelete, setShowDelete] = useState(false)
   const [deleteItem, setDeleteItem] = useState<Message | null>(null)
   const deleteMessage = () => {
+    if (!wallet) return router.push('/login')
     if (deleteItem) chat.del(deleteItem?.timestamp)
   }
+
+  const [autoHeight, setAutoHeight] = useState(40)
 
   return (
     <KeyboardAvoidingView
@@ -76,7 +81,8 @@ export default function ChatPage() {
           >
             <SvgXml xml={mp.avatar(item.address)} style={styles.avatar} />
             <TouchableOpacity
-              onPress={() => {
+              onPress={() => setMessage(item.text)}
+              onLongPress={() => {
                 setShowDelete(true)
                 setDeleteItem(item)
               }}
@@ -85,7 +91,6 @@ export default function ChatPage() {
                 item.address === wallet?.address ? styles.sender : styles.receiver,
               ]}
             >
-              {' '}
               <Text
                 style={[
                   styles.messageText,
@@ -103,13 +108,21 @@ export default function ChatPage() {
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.inputContainer}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { height: Math.max(autoHeight, 40) }]}
             value={message}
             onChangeText={setMessage}
             placeholder="说点什么..."
             placeholderTextColor="#888"
             onSubmitEditing={send}
             maxLength={300}
+            multiline
+            onContentSizeChange={(event) => {
+              // 内容高度变化时触发
+              const h = event.nativeEvent.contentSize.height
+              if (h !== autoHeight) {
+                setTimeout(() => setAutoHeight(h), 0)
+              }
+            }}
           />
           <TouchableOpacity style={styles.sendButton} onPress={send}>
             <Text style={styles.sendButtonText}>发送</Text>
@@ -183,10 +196,10 @@ const createStyles = (theme: 'light' | 'dark') => {
     },
     input: {
       flex: 1,
-      height: 40,
       borderWidth: 1,
       borderColor: Colors[theme].input.border,
       borderRadius: 20,
+      paddingVertical: 6,
       paddingHorizontal: 15,
       backgroundColor: Colors[theme].input.background,
       color: Colors[theme].text,
