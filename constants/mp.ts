@@ -6,9 +6,9 @@ import { createAvatar } from '@dicebear/core'
 import { botttsNeutral } from '@dicebear/collection'
 import { MostWallet, mostWallet } from '@/constants/MostWallet'
 
-const avatar = (username = 'Most', password = '') => {
+const avatar = (address = 'Most') => {
   const avatar = createAvatar(botttsNeutral, {
-    seed: 'most.box@' + username + password,
+    seed: 'most.box@' + address,
     flip: true,
     radius: 10,
   })

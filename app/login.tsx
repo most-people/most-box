@@ -2,7 +2,7 @@ import { ThemeText } from '@/components/Theme'
 import { Colors } from '@/constants/Colors'
 import mp from '@/constants/mp'
 import { SvgXml } from 'react-native-svg'
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   StyleSheet,
   Text,
@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import { Link, useNavigation, useRouter } from 'expo-router'
 import { useUserStore } from '@/stores/userStore'
+import { mostAddress } from '@/constants/MostWallet'
 
 export default function LoginPage() {
   const navigation = useNavigation()
@@ -41,17 +42,6 @@ export default function LoginPage() {
 
   const disabled = !username || !password
 
-  const defaultAvatar = mp.avatar()
-  const [avatar, setAvatar] = useState(defaultAvatar)
-
-  useEffect(() => {
-    if (username) {
-      setAvatar(mp.avatar(username, password))
-    } else {
-      setAvatar(defaultAvatar)
-    }
-  }, [username, password, defaultAvatar])
-
   const back = () => {
     if (navigation.canGoBack()) {
       navigation.goBack()
@@ -72,7 +62,7 @@ export default function LoginPage() {
         <ThemeText type="link">游客</ThemeText>
       </TouchableOpacity>
 
-      <SvgXml xml={avatar} style={styles.avatar} />
+      <SvgXml xml={mp.avatar(mostAddress(username, password))} style={styles.avatar} />
 
       <Text style={styles.title}>欢迎登录</Text>
 
