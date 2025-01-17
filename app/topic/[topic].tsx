@@ -17,15 +17,9 @@ import { Colors } from '@/constants/Colors'
 import { useToast } from 'expo-toast'
 import { Message, useChat } from '@/hooks/useChat'
 import { useUserStore } from '@/stores/userStore'
-
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-import 'dayjs/locale/zh-cn'
+import DialogTopicMessage from '@/components/Dialog/TopicMessage'
 import { SvgXml } from 'react-native-svg'
 import mp from '@/constants/mp'
-import { DialogConfirm } from '@/components/Dialog'
-dayjs.extend(relativeTime)
-dayjs.locale('zh-cn')
 
 export default function TopicPage() {
   const params = useLocalSearchParams()
@@ -48,7 +42,7 @@ export default function TopicPage() {
   const messages = chat.messages.sort((a, b) => b.timestamp - a.timestamp)
 
   const [showDelete, setShowDelete] = useState(false)
-  const [deleteItem, setDeleteItem] = useState<Message | null>(null)
+  const [deleteItem, setDeleteItem] = useState<Message | undefined>(undefined)
   const deleteMessage = () => {
     if (!wallet) return router.push('/login')
     if (deleteItem) chat.del(deleteItem?.timestamp)
@@ -129,12 +123,11 @@ export default function TopicPage() {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
-      <DialogConfirm
+      <DialogTopicMessage
         visible={showDelete}
         onClose={() => setShowDelete(false)}
         onConfirmDelete={deleteMessage}
-        title={deleteItem?.text}
-        message="确定要删除这条聊天记录吗？删除后将无法恢复。"
+        item={deleteItem}
       />
     </KeyboardAvoidingView>
   )
@@ -166,14 +159,14 @@ const createStyles = (theme: 'light' | 'dark') => {
       backgroundColor: Colors.sender,
     },
     senderText: {
-      color: '#ffffff',
+      color: 'aliceblue',
     },
     senderBox: {
       alignSelf: 'flex-end',
       flexDirection: 'row-reverse',
     },
     receiver: {
-      backgroundColor: theme === 'dark' ? '#2C2C2C' : '#ffffff',
+      backgroundColor: theme === 'dark' ? '#2C2C2C' : 'aliceblue',
     },
     receiverText: {
       color: Colors[theme].text,
@@ -185,7 +178,7 @@ const createStyles = (theme: 'light' | 'dark') => {
       fontSize: 16,
     },
     safeArea: {
-      backgroundColor: theme === 'dark' ? '#1E1E1E' : '#ffffff',
+      backgroundColor: theme === 'dark' ? '#1E1E1E' : 'aliceblue',
     },
     inputContainer: {
       flexDirection: 'row',
@@ -213,7 +206,7 @@ const createStyles = (theme: 'light' | 'dark') => {
       paddingHorizontal: 15,
     },
     sendButtonText: {
-      color: '#FFFFFF',
+      color: 'aliceblue',
       fontSize: 16,
     },
     avatar: {

@@ -1,10 +1,14 @@
 import CryptoJS from 'crypto-js'
 import { toUtf8Bytes, sha256, encodeBase64, decodeBase64, toUtf8String, ZeroAddress } from 'ethers'
-import dayjs from 'dayjs'
 import asyncStorage from '@/stores/asyncStorage'
 import { createAvatar } from '@dicebear/core'
 import { botttsNeutral } from '@dicebear/collection'
 import { MostWallet, mostWallet } from '@/constants/MostWallet'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/zh-cn'
+dayjs.extend(relativeTime)
+dayjs.locale('zh-cn')
 
 const avatar = (address = 'Most') => {
   const avatar = createAvatar(botttsNeutral, {

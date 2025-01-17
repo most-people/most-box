@@ -3,22 +3,17 @@ import { View, Modal, TouchableOpacity, StyleSheet } from 'react-native'
 import { ThemeText } from '@/components/Theme'
 import { useUserStore } from '@/stores/userStore'
 import { Colors } from '@/constants/Colors'
+import { Message } from '@/hooks/useChat'
+import dayjs from 'dayjs'
 
-interface DeleteConfirmationModalProps {
+interface Props {
   visible: boolean
   onClose: () => void
   onConfirmDelete: () => void
-  title?: string
-  message?: string
+  item?: Message
 }
 
-const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
-  visible,
-  onClose,
-  onConfirmDelete,
-  title = '删除确认',
-  message = '确定要删除吗？',
-}) => {
+const DialogTopicMessageModal: React.FC<Props> = ({ visible, onClose, onConfirmDelete, item }) => {
   const handleDelete = () => {
     onConfirmDelete()
     onClose()
@@ -33,9 +28,11 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <ThemeText style={styles.modalTitle} numberOfLines={8}>
-            {title}
+            {item?.text}
           </ThemeText>
-          <ThemeText style={styles.modalText}>{message}</ThemeText>
+          <ThemeText style={styles.modalText}>
+            {dayjs(item?.timestamp).fromNow() + `\n确定要删除这条聊天记录吗？删除后将无法恢复。`}
+          </ThemeText>
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={[styles.button, styles.buttonCancel]} onPress={onClose}>
@@ -111,13 +108,13 @@ const createStyles = (theme: 'light' | 'dark') => {
       backgroundColor: Colors.tint,
     },
     textStyleCancel: {
-      color: isDark ? 'aliceblue' : 'black',
       textAlign: 'center',
     },
     textStyleDelete: {
+      color: 'aliceblue',
       textAlign: 'center',
     },
   })
 }
 
-export default DeleteConfirmationModal
+export default DialogTopicMessageModal

@@ -36,7 +36,7 @@ export const Colors = {
     primary: 'rgb(104,112,118)',
     background: 'rgb(21,23,24)',
     card: 'rgb(0,0,0)',
-    text: 'rgb(236,237,238)',
+    text: 'aliceblue',
     border: 'rgb(39, 39, 41)',
     notification: 'rgb(255, 69, 58)',
   },

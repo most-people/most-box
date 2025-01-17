@@ -4,12 +4,8 @@ import { ThemeText, ThemeView } from '@/components/Theme'
 import PageTabView from '@/components/PageTabView'
 import { Icon } from '@/assets/icon'
 import { useToast } from 'expo-toast'
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-import 'dayjs/locale/zh-cn'
 import { useUserStore } from '@/stores/userStore'
-dayjs.extend(relativeTime)
-dayjs.locale('zh-cn')
+import dayjs from 'dayjs'
 export default function NoteScreen() {
   const notes = useNoteStore((state) => state.notes)
   const { theme } = useUserStore()
