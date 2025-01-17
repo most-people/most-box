@@ -44,21 +44,18 @@ export const useTopic = () => {
     }
   }, [user])
 
-  const join = (name: string) => {
+  const join = (topic: string) => {
     if (user) {
-      if (!topics.some((e) => e.name === name)) {
+      if (!topics.some((e) => e.name === topic)) {
         const timestamp = Date.now()
-        const data: Topic = { name, timestamp }
+        const data: Topic = { name: topic, timestamp }
         // 更新本地状态
         setTopics((list) => [data, ...list])
         // 使用唯一键存储消息
         user.get('topics').get(timestamp.toString()).put(data)
       }
     }
-    router.push({
-      pathname: '/chat',
-      params: { name },
-    })
+    router.push({ pathname: '/topic/[topic]', params: { topic } })
   }
 
   const quit = (name: string) => {

@@ -46,13 +46,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: '聊天',
+          title: '探索',
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
               focused={focused}
               color={color}
-              icon={Icon.Chat}
-              activeIcon={Icon.ChatActive}
+              icon={Icon.Explore}
+              activeIcon={Icon.ExploreActive}
             />
           ),
         }}
@@ -74,15 +74,15 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="explore"
+        name="chat"
         options={{
-          title: '探索',
+          title: '聊天',
           tabBarIcon: ({ color, focused }) => (
             <TabIcon
               focused={focused}
               color={color}
-              icon={Icon.Explore}
-              activeIcon={Icon.ExploreActive}
+              icon={Icon.Chat}
+              activeIcon={Icon.ChatActive}
             />
           ),
         }}

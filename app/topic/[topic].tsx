@@ -27,10 +27,10 @@ import { DialogConfirm } from '@/components/Dialog'
 dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
 
-export default function ChatPage() {
+export default function TopicPage() {
   const params = useLocalSearchParams()
   const toast = useToast()
-  const topic = params.name as string
+  const topic = params.topic as string
   const [message, setMessage] = useState('')
   const chat = useChat(topic)
   const { wallet, theme } = useUserStore()

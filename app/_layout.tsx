@@ -46,7 +46,7 @@ export default function RootLayout() {
         <Stack screenOptions={{ headerShown: false, headerTitleAlign: 'center' }}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false, title: '聊天' }} />
           <Stack.Screen name="+not-found" />
-          <Stack.Screen name="chat" />
+          <Stack.Screen name="explore" />
         </Stack>
         <StatusBar style="auto" />
       </ToastProvider>
