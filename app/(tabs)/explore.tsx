@@ -11,7 +11,7 @@ export default function ExploreScreen() {
       timestamp: 0,
     },
     {
-      name: '❄️',
+      name: '❄',
       timestamp: 0,
     },
     {
