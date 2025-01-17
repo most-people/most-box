@@ -6,6 +6,7 @@ const gun = new Gun({
     'https://gun-manhattan.herokuapp.com/gun',
     // zh-cn gun
     'https://gun.most.red/gun',
+    'https://api.most.box/gun',
   ],
 })
 export default gun
