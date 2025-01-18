@@ -41,6 +41,8 @@ export const useTopic = () => {
       return () => {
         user.off()
       }
+    } else {
+      setTopics([])
     }
   }, [user])
 
