@@ -36,6 +36,12 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8811cfa9-324c-424e-9929-ef8342fc9f9f"
+      }
+    },
+    "owner": "app-most-box"
   }
 }
