@@ -4,8 +4,7 @@ import Gun from 'gun'
 const gun = new Gun({
   peers: [
     'https://gun-manhattan.herokuapp.com/gun',
-    // zh-cn gun
-    'https://gun.most.red/gun',
+    // fly.io
     'https://api.most.box/gun',
   ],
 })

@@ -1,17 +1,29 @@
-import { StyleSheet, TouchableOpacity } from 'react-native'
-
+import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
 import PageTabView from '@/components/PageTabView'
 import { ThemeText, ThemeView } from '@/components/Theme'
 import { useTopic } from '@/hooks/useTopic'
+import { router, useRootNavigationState } from 'expo-router'
+import { useEffect } from 'react'
 
 export default function ExploreScreen() {
+  const rootNavigationState = useRootNavigationState()
+  useEffect(() => {
+    // 确保 Root Layout 已挂载
+    if (Platform.OS === 'web' && rootNavigationState?.key) {
+      const hash = window.location.hash
+      if (hash) {
+        router.replace({ pathname: '/topic/[topic]', params: { topic: hash.slice(1) } })
+      }
+    }
+  }, [rootNavigationState?.key])
+
   const topics = [
     {
       name: '什么是去中心化',
       timestamp: 0,
     },
     {
-      name: '❄',
+      name: 'LYX',
       timestamp: 0,
     },
     {

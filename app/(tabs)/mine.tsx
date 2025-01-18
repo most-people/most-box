@@ -5,7 +5,6 @@ import mp from '@/constants/mp'
 import { useUserStore } from '@/stores/userStore'
 import { router } from 'expo-router'
 import { ReactNode } from 'react'
-import { setStringAsync } from 'expo-clipboard'
 import {
   View,
   Text,
@@ -18,6 +17,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { SvgXml } from 'react-native-svg'
 import { useToast } from 'expo-toast'
+import { useCopy } from '@/hooks/useCopy'
 
 interface Tab {
   name: string
@@ -27,6 +27,7 @@ interface Tab {
 export default function ProfileScreen() {
   const { wallet, theme } = useUserStore()
   const toast = useToast()
+  const copy = useCopy()
   const styles = createStyles(theme)
   const exit = useUserStore((state) => state.exit)
   const insets = useSafeAreaInsets()
@@ -51,26 +52,26 @@ export default function ProfileScreen() {
     },
   ]
 
-  const copy = (text?: string) => {
-    if (text) {
-      setStringAsync(text)
-      toast.show('复制成功')
-    }
-  }
-
   return (
     <ScrollView style={[styles.container, { paddingTop: headerTop }]}>
       {/* 头像和名称区域 */}
       <View style={styles.profileHeader}>
-        <TouchableOpacity onPress={() => toast.show('修改头像，开发中...')}>
+        <TouchableOpacity
+          onPress={() =>
+            router.push({
+              pathname: '/people/[address]',
+              params: { address: wallet?.address || '' },
+            })
+          }
+        >
           <SvgXml xml={mp.avatar(wallet?.address)} style={styles.avatar} />
         </TouchableOpacity>
         <ThemeView style={styles.infoContainer}>
           <ThemeText style={styles.name}>{wallet?.username || 'most.box'}</ThemeText>
           <TouchableOpacity onPress={() => copy(wallet?.address)}>
-            <Text style={styles.account}>
+            <ThemeText style={styles.account}>
               地址：{mp.formatAddress(wallet?.address || mp.ZeroAddress)}
-            </Text>
+            </ThemeText>
           </TouchableOpacity>
         </ThemeView>
 
@@ -102,7 +103,6 @@ export default function ProfileScreen() {
       </View>
 
       {/* 设置 */}
-
       <TouchableOpacity style={styles.menuItem} onPress={exit}>
         <Icon.Exit style={styles.icon} fill={Colors[theme].color} />
         <Text style={styles.menuText}>退出账户</Text>

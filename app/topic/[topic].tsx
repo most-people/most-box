@@ -73,7 +73,16 @@ export default function TopicPage() {
               item.address === wallet?.address ? styles.senderBox : styles.receiverBox,
             ]}
           >
-            <SvgXml xml={mp.avatar(item.address)} style={styles.avatar} />
+            <TouchableOpacity
+              onPress={() =>
+                router.push({
+                  pathname: '/people/[address]',
+                  params: { address: item.address },
+                })
+              }
+            >
+              <SvgXml xml={mp.avatar(item.address)} style={styles.avatar} />
+            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => setMessage(item.text)}
               onLongPress={() => {

@@ -1,10 +1,10 @@
-import { router, useRootNavigationState } from 'expo-router'
+import { router } from 'expo-router'
 import PageTabView from '@/components/PageTabView'
-import { Platform, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 import { ThemeText } from '@/components/Theme'
-import { useEffect, useMemo, useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { DialogPrompt } from '@/components/Dialog'
 import { Topic, useTopic } from '@/hooks/useTopic'
 import React from 'react'
@@ -12,7 +12,6 @@ import { useUserStore } from '@/stores/userStore'
 
 export default function ChatScreen() {
   const { theme } = useUserStore()
-  const rootNavigationState = useRootNavigationState()
   const topic = useTopic()
   const createTopicRef = useRef<any>()
 
@@ -23,16 +22,6 @@ export default function ChatScreen() {
   const open = () => {
     createTopicRef.current.openModal()
   }
-
-  useEffect(() => {
-    // 确保 Root Layout 已挂载
-    if (Platform.OS === 'web' && rootNavigationState?.key) {
-      const hash = window.location.hash
-      if (hash) {
-        router.replace({ pathname: '/topic/[topic]', params: { topic: hash.slice(1) } })
-      }
-    }
-  }, [rootNavigationState?.key])
 
   const TopicItem = (item: Topic) => (
     <View style={{ flexDirection: 'row', gap: '10%', justifyContent: 'space-between' }}>
