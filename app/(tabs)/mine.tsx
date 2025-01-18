@@ -52,26 +52,28 @@ export default function ProfileScreen() {
     },
   ]
 
+  const address = wallet?.address || mp.ZeroAddress
+
   return (
     <ScrollView style={[styles.container, { paddingTop: headerTop }]}>
       {/* 头像和名称区域 */}
       <View style={styles.profileHeader}>
         <TouchableOpacity
           onPress={() =>
-            router.push({
-              pathname: '/people/[address]',
-              params: { address: wallet?.address || '' },
-            })
+            wallet?.address
+              ? router.push({
+                  pathname: '/people/[address]',
+                  params: { address },
+                })
+              : router.push('/login')
           }
         >
           <SvgXml xml={mp.avatar(wallet?.address)} style={styles.avatar} />
         </TouchableOpacity>
         <ThemeView style={styles.infoContainer}>
           <ThemeText style={styles.name}>{wallet?.username || 'most.box'}</ThemeText>
-          <TouchableOpacity onPress={() => copy(wallet?.address)}>
-            <ThemeText style={styles.account}>
-              地址：{mp.formatAddress(wallet?.address || mp.ZeroAddress)}
-            </ThemeText>
+          <TouchableOpacity onPress={() => copy(address)}>
+            <ThemeText style={styles.account}>地址：{mp.formatAddress(address)}</ThemeText>
           </TouchableOpacity>
         </ThemeView>
 

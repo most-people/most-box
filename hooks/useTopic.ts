@@ -29,7 +29,7 @@ export const useTopic = () => {
           if (data && key) {
             setTopics((list) => {
               // 检查是否已经存在，避免重复添加
-              if (list.some((e) => e.timestamp === data.timestamp)) {
+              if (list.some((e) => e.name === data.name)) {
                 return list
               }
               return [...list, data]

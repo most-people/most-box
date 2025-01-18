@@ -2,20 +2,31 @@ import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
 import PageTabView from '@/components/PageTabView'
 import { ThemeText, ThemeView } from '@/components/Theme'
 import { useTopic } from '@/hooks/useTopic'
-import { router, useRootNavigationState } from 'expo-router'
+import { router, useLocalSearchParams, useRootNavigationState } from 'expo-router'
 import { useEffect } from 'react'
+import { isAddress } from 'ethers'
 
 export default function ExploreScreen() {
+  const params = useLocalSearchParams()
   const rootNavigationState = useRootNavigationState()
   useEffect(() => {
     // 确保 Root Layout 已挂载
     if (Platform.OS === 'web' && rootNavigationState?.key) {
+      for (const address of Object.keys(params)) {
+        if (isAddress(address)) {
+          return router.replace({
+            pathname: '/people/[address]',
+            params: { address },
+          })
+        }
+      }
+
       const hash = window.location.hash
       if (hash) {
-        router.replace({ pathname: '/topic/[topic]', params: { topic: hash.slice(1) } })
+        return router.replace({ pathname: '/topic/[topic]', params: { topic: hash.slice(1) } })
       }
     }
-  }, [rootNavigationState?.key])
+  }, [rootNavigationState?.key, params])
 
   const topics = [
     {

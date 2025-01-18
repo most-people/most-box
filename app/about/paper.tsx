@@ -9,9 +9,7 @@ const AboutPaperPage = () => {
   }
 
   return (
-    <PageView
-      title={'论如何利用 IPFS+Filiecoin+Gun.js+以太坊智能合约构建完全不需要后端的去中心化应用'}
-    >
+    <PageView title="IPFS + Filecoin + Fastify + Gun.js + Smart Contracts = Fully DApp">
       <ThemeText type="subtitle">
         论如何利用 IPFS+Filiecoin+Gun.js+以太坊智能合约构建完全不需要后端的去中心化应用
       </ThemeText>

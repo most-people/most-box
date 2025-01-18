@@ -18,7 +18,7 @@ export default function AboutPage() {
 
       <Link href="/about/paper">
         <ThemeText type="link">
-          《论如何利用 IPFS+Filiecoin+Gun.js+以太坊智能合约构建完全不需要后端的去中心化应用》
+          IPFS + Filecoin + Fastify + Gun.js + Smart Contracts = Fully DApp
         </ThemeText>
       </Link>
     </PageView>
