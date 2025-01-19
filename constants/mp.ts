@@ -11,12 +11,11 @@ dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
 
 const avatar = (address = 'Most') => {
-  const avatar = createAvatar(botttsNeutral, {
+  return createAvatar(botttsNeutral, {
     seed: 'most.box@' + address,
     flip: true,
     radius: 10,
-  })
-  return avatar.toString()
+  }).toString()
 }
 // 格式化时间
 const formatTime = (time: string) => {

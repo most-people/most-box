@@ -18,12 +18,11 @@ const getPrivateKey = (username: string, password: string) => {
 }
 
 export const mostAddress = (username: string, password: string) => {
-  if (username && password) {
-    const privateKey = getPrivateKey(username, password)
-    const mnemonic = Mnemonic.entropyToPhrase(getBytes(privateKey))
-    const wallet = HDNodeWallet.fromPhrase(mnemonic)
-    return wallet.address
-  }
+  if (!username || !password) return
+  const privateKey = getPrivateKey(username, password)
+  const mnemonic = Mnemonic.entropyToPhrase(getBytes(privateKey))
+  const wallet = HDNodeWallet.fromPhrase(mnemonic)
+  return wallet.address
 }
 export const mostWallet = (username: string, password: string): MostWallet => {
   const privateKey = getPrivateKey(username, password)

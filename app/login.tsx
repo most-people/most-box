@@ -2,7 +2,7 @@ import { ThemeText } from '@/components/Theme'
 import { Colors } from '@/constants/Colors'
 import mp from '@/constants/mp'
 import { SvgXml } from 'react-native-svg'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
   StyleSheet,
   Text,
@@ -144,7 +144,6 @@ const createStyles = (theme: 'light' | 'dark') => {
     avatar: {
       width: 100,
       height: 100,
-      borderRadius: 10,
     },
   })
 }
