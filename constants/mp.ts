@@ -99,7 +99,8 @@ const createJWT = (data: any, secret: string, exp = 60) => {
 const verifyJWT = (token: string, secret: string) => {
   const parts = token.split('.')
   if (parts.length !== 3) {
-    throw new Error('Invalid JWT format')
+    console.error('Invalid JWT format')
+    return null
   }
 
   const [encodedHeader, encodedPayload, encodedSignature] = parts
@@ -110,14 +111,16 @@ const verifyJWT = (token: string, secret: string) => {
   const validSignature = enBase64(signature.toString(CryptoJS.enc.Base64))
 
   if (validSignature !== encodedSignature) {
-    throw new Error('Invalid signature')
+    console.error('Invalid signature')
+    return null
   }
 
   // 检查是否过期
   const payload = JSON.parse(deBase64(encodedPayload))
   const now = Math.floor(Date.now() / 1000)
   if (payload.exp && now > payload.exp) {
-    throw new Error('Token has expired')
+    console.error('Token has expired')
+    return null
   }
 
   return payload

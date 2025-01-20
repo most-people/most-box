@@ -32,14 +32,10 @@ export const useUserStore = create<State>((set: StoreApi<State>['setState']) => 
     const token = await asyncStorage.getItem('token')
     const tokenSecret = await asyncStorage.getItem('tokenSecret')
     if (token && tokenSecret) {
-      try {
-        const { data } = mp.verifyJWT(token, tokenSecret) as { data: MostWallet }
-        set({ wallet: data })
-        return
-      } catch (error: any) {
-        console.error(error.message)
+      const wallet = mp.verifyJWT(token, tokenSecret) as MostWallet | null
+      if (wallet) {
+        set({ wallet })
       }
     }
-    // router.push('/login')
   },
 }))
