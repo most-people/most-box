@@ -33,6 +33,7 @@ export const GunProvider = () => {
       ],
       store: asyncStore({ AsyncStorage }),
     })
+
     setGun(gun)
   }, [setGun])
   return <PolyfillCrypto />

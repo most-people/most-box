@@ -19,13 +19,10 @@ export default function TopicPage() {
       <TouchableOpacity onPress={() => copy(address)}>
         <ThemeText style={styles.account}>地址：{address}</ThemeText>
       </TouchableOpacity>
-      <ThemeText>
-        people 页面正在开发，欢迎来
-        <TouchableOpacity onPress={() => router.push('/topic/用户反馈')}>
-          <ThemeText type="link">#用户反馈</ThemeText>
-        </TouchableOpacity>
-        话题联系我们
-      </ThemeText>
+      <ThemeText>页面正在开发，欢迎点击下面联系我们！</ThemeText>
+      <TouchableOpacity onPress={() => router.push('/topic/用户反馈')}>
+        <ThemeText type="link">#用户反馈</ThemeText>
+      </TouchableOpacity>
     </PageView>
   )
 }

@@ -11,7 +11,7 @@ export const GunProvider = () => {
         'https://api.most.box/gun',
       ],
     })
-    console.log('🌊', Gun.SEA)
+
     setGun(gun)
   }, [setGun])
   return <></>
