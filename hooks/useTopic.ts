@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useUserStore } from '@/stores/userStore'
-import gun from '@/stores/gun'
 import { router } from 'expo-router'
 
 export interface Topic {
@@ -9,12 +8,12 @@ export interface Topic {
 }
 
 export const useTopic = () => {
-  const { wallet } = useUserStore()
+  const { wallet, gun } = useUserStore()
   const user = useMemo(() => {
-    if (wallet?.address) {
+    if (wallet?.address && gun) {
       return gun.get('most.box?' + wallet?.address)
     }
-  }, [wallet?.address])
+  }, [wallet?.address, gun])
 
   const [topics, setTopics] = useState<Topic[]>([])
 

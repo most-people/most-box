@@ -5,7 +5,6 @@ import { useTopic } from '@/hooks/useTopic'
 import { router, useLocalSearchParams, useRootNavigationState } from 'expo-router'
 import { useEffect } from 'react'
 import { isAddress } from 'ethers'
-
 export default function ExploreScreen() {
   const params = useLocalSearchParams()
   const rootNavigationState = useRootNavigationState()

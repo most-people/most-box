@@ -4,6 +4,7 @@ import asyncStorage from '@/stores/asyncStorage'
 import mp from '@/constants/mp'
 import { router } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { type IGunInstance } from 'gun'
 
 interface UserStore {
   wallet?: MostWallet
@@ -12,6 +13,8 @@ interface UserStore {
   // theme
   theme: 'light' | 'dark'
   setTheme: (theme: 'light' | 'dark') => void
+  gun?: IGunInstance<any>
+  setGun: (gun: IGunInstance<any>) => void
 }
 
 interface State extends UserStore {
@@ -38,4 +41,6 @@ export const useUserStore = create<State>((set: StoreApi<State>['setState']) => 
       }
     }
   },
+  gun: undefined,
+  setGun: (gun) => set({ gun }),
 }))
