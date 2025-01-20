@@ -123,7 +123,7 @@ const verifyJWT = (token: string, secret: string) => {
     return null
   }
 
-  return payload
+  return payload.data
 }
 
 // 伪随机数，不安全
@@ -143,8 +143,8 @@ const login = (username: string, password: string): MostWallet | null => {
   const tokenSecret = randomKeyBase64(32)
   const token = createJWT(wallet, tokenSecret, time)
   try {
-    const { data } = verifyJWT(token, tokenSecret)
-    if (data.address === wallet.address) {
+    const data = verifyJWT(token, tokenSecret) as MostWallet | null
+    if (data?.address === wallet.address) {
       asyncStorage.setItem('token', token)
       asyncStorage.setItem('tokenSecret', tokenSecret)
       return wallet

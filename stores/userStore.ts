@@ -1,46 +1,33 @@
 import { MostWallet } from '@/constants/MostWallet'
 import { create, StoreApi } from 'zustand'
-import asyncStorage from '@/stores/asyncStorage'
-import mp from '@/constants/mp'
 import { router } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { type IGunInstance } from 'gun'
+import { type IGunInstanceRoot, type IGunUserInstance, type IGunInstance } from 'gun'
 
 interface UserStore {
   wallet?: MostWallet
-  initWallet: () => Promise<void>
-  exit: () => void
-  // theme
   theme: 'light' | 'dark'
-  setTheme: (theme: 'light' | 'dark') => void
   gun?: IGunInstance<any>
-  setGun: (gun: IGunInstance<any>) => void
+  user?: IGunUserInstance<any, any, any, IGunInstanceRoot<any, IGunInstance<any>>>
+  exit: () => void
 }
 
 interface State extends UserStore {
   setItem: <K extends keyof State>(key: K, value: State[K]) => void
 }
 
-export const useUserStore = create<State>((set: StoreApi<State>['setState']) => ({
-  setItem: (key, value) => set((state) => ({ ...state, [key]: value })),
-  wallet: undefined,
-  theme: 'dark', // 默认为深色
-  setTheme: (theme) => set({ theme }),
-  exit() {
-    AsyncStorage.clear()
-    set({ wallet: undefined })
-    router.push('/login')
-  },
-  async initWallet() {
-    const token = await asyncStorage.getItem('token')
-    const tokenSecret = await asyncStorage.getItem('tokenSecret')
-    if (token && tokenSecret) {
-      const wallet = mp.verifyJWT(token, tokenSecret) as MostWallet | null
-      if (wallet) {
-        set({ wallet })
-      }
-    }
-  },
-  gun: undefined,
-  setGun: (gun) => set({ gun }),
-}))
+export const useUserStore = create<State>(
+  (set: StoreApi<State>['setState'], get: StoreApi<State>['getState']) => ({
+    wallet: undefined,
+    setItem: (key, value) => set((state) => ({ ...state, [key]: value })),
+    theme: 'dark', // 默认为深色
+    gun: undefined,
+    user: undefined,
+    exit() {
+      AsyncStorage.clear()
+      get().gun?.user().leave()
+      set({ wallet: undefined, user: undefined })
+      router.push('/login')
+    },
+  }),
+)

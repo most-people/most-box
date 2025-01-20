@@ -23,18 +23,18 @@ import asyncStore from 'gun/lib/ras.js'
 /* eslint-enable import/first */
 
 export const GunProvider = () => {
-  const { setGun } = useUserStore()
+  const { setItem } = useUserStore()
   useEffect(() => {
     const gun = Gun({
       peers: [
-        'https://gun-manhattan.herokuapp.com/gun',
+        // 'https://gun-manhattan.herokuapp.com/gun',
         // fly.io
         'https://api.most.box/gun',
       ],
       store: asyncStore({ AsyncStorage }),
     })
 
-    setGun(gun)
-  }, [setGun])
+    setItem('gun', gun)
+  }, [setItem])
   return <PolyfillCrypto />
 }

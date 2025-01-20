@@ -2,7 +2,7 @@ import { ThemeText } from '@/components/Theme'
 import { Colors } from '@/constants/Colors'
 import mp from '@/constants/mp'
 import { SvgXml } from 'react-native-svg'
-import { useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   StyleSheet,
   Text,
@@ -18,7 +18,7 @@ import { mostAddress } from '@/constants/MostWallet'
 export default function LoginPage() {
   const navigation = useNavigation()
   const router = useRouter()
-  const { setItem, theme } = useUserStore()
+  const { setItem, theme, gun, wallet } = useUserStore()
   const styles = createStyles(theme)
 
   const [username, setUsername] = useState('')

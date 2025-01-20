@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useUserStore } from '@/stores/userStore'
 
 export const GunProvider = () => {
-  const { setGun } = useUserStore()
+  const { setItem } = useUserStore()
   useEffect(() => {
     const gun = Gun({
       peers: [
@@ -12,7 +12,7 @@ export const GunProvider = () => {
       ],
     })
 
-    setGun(gun)
-  }, [setGun])
+    setItem('gun', gun)
+  }, [setItem])
   return <></>
 }
