@@ -4,7 +4,7 @@ import Animated, { useAnimatedRef } from 'react-native-reanimated'
 
 import { ThemeView } from '@/components/Theme'
 import { AppHeader } from '@/components/AppHeader'
-import { useBottomTabOverflow } from '@/components/ui/TabBarBackground'
+import { useBottomTabOverflow } from '@/components/TabBarBackground'
 
 // 定义 PageTabView 的 props 类型
 interface PageTabViewProps {

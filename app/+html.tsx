@@ -2,8 +2,8 @@ import { ScrollViewStyleReset } from 'expo-router/html'
 import { type PropsWithChildren } from 'react'
 
 /**
- * This file is web-only and used to configure the root HTML for every web page during static rendering.
- * The contents of this function only run in Node.js environments and do not have access to the DOM or browser APIs.
+ * 此文件仅用于Web环境，用于在静态渲染期间配置每个网页的根HTML。
+ * 此函数的内容仅在Node.js环境中运行，无法访问DOM或浏览器API。
  */
 export default function Root({ children }: PropsWithChildren) {
   return (
@@ -12,28 +12,18 @@ export default function Root({ children }: PropsWithChildren) {
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
-        {/*
-          Disable body scrolling on web. This makes ScrollView components work closer to how they do on native.
-          However, body scrolling is often nice to have for mobile web. If you want to enable it, remove this line.
-        */}
+        {/* 在web端禁用body滚动。这使得ScrollView组件的行为更接近原生效果。然而，对移动端网页来说，body滚动通常是很好的功能。如果你想启用它，删除这行即可。 */}
         <ScrollViewStyleReset />
 
-        {/* Using raw CSS styles as an escape-hatch to ensure the background color never flickers in dark-mode. */}
+        {/* 使用原始 CSS 样式作为应急方案，确保在暗模式下背景色不会闪烁 */}
         <style dangerouslySetInnerHTML={{ __html: responsiveBackground }} />
-        {/* Add any additional <head> elements that you want globally available on web... */}
+        {/* 在这里添加任何你想在 web 端全局可用的 <head> 元素... */}
+        <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
       </head>
       <body>{children}</body>
     </html>
   )
 }
 
-const responsiveBackground = `
-body {
-  background-color: #fff;
-}
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #000;
-  }
-}`
+const responsiveBackground = `body {background-color: rgb(21,23,24)}`
