@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { Switch, TouchableOpacity } from 'react-native'
 
 export default function Web3Page() {
-  const { wallet, theme, setTheme } = useUserStore()
+  const { wallet, theme, setItem } = useUserStore()
   const [showMnemonic, setShowMnemonic] = useState(false) // 用于控制密码的显示/隐藏
 
   return (
@@ -21,7 +21,7 @@ export default function Web3Page() {
       >
         <ThemeText>{theme === 'dark' ? '深色' : '浅色'}</ThemeText>
         <Switch
-          onValueChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          onValueChange={() => setItem('theme', theme === 'dark' ? 'light' : 'dark')}
           value={theme === 'dark'}
         />
       </ThemeView>
