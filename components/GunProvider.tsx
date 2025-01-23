@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import PolyfillCrypto from 'react-native-webview-crypto'
+import { GunPeers } from '@/constants/Peers'
 import { useUserStore } from '@/stores/userStore'
 import * as Crypto from 'expo-crypto'
 
@@ -26,11 +27,7 @@ export const GunProvider = () => {
   const { setItem } = useUserStore()
   useEffect(() => {
     const gun = Gun({
-      peers: [
-        // 'https://gun-manhattan.herokuapp.com/gun',
-        // fly.io
-        'https://api.most.box/gun',
-      ],
+      peers: GunPeers,
       store: asyncStore({ AsyncStorage }),
     })
 

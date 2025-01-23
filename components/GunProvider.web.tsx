@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react'
 import { useUserStore } from '@/stores/userStore'
+import { GunPeers } from '@/constants/Peers'
 
 export const GunProvider = () => {
   const { setItem } = useUserStore()
   useEffect(() => {
     const gun = Gun({
-      peers: [
-        'https://gun-manhattan.herokuapp.com/gun',
-        // fly.io
-        'https://api.most.box/gun',
-      ],
+      peers: GunPeers,
     })
 
     setItem('gun', gun)
