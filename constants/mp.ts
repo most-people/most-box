@@ -1,4 +1,5 @@
 import CryptoJS from 'crypto-js'
+import { getRandomBytes } from 'expo-crypto'
 import { toUtf8Bytes, sha256, encodeBase64, decodeBase64, toUtf8String, ZeroAddress } from 'ethers'
 import asyncStorage from '@/stores/asyncStorage'
 import { createAvatar } from '@dicebear/core'
@@ -126,16 +127,11 @@ const verifyJWT = (token: string, secret: string) => {
   return payload.data
 }
 
-// 伪随机数，不安全
 const randomKeyBase64 = (bytes = 32) => {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-  let result = ''
-  for (let i = 0; i < bytes; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length)
-    result += characters[randomIndex]
-  }
-  return result
+  const buffer = getRandomBytes(bytes)
+  return encodeBase64(buffer)
 }
+
 const login = (username: string, password: string): MostWallet | null => {
   const time = dayjs(0).add(1, 'day').unix()
   const wallet = mostWallet(username, password)
