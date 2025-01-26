@@ -25,6 +25,7 @@ const DialogPrompt = forwardRef(({ onConfirm, title }: DialogPromptProps, ref) =
   // 完成按钮点击事件
   const confirm = () => {
     onConfirm(inputText) // 返回输入内容
+    setInputText('')
     setModalVisible(false) // 关闭弹窗
   }
 

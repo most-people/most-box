@@ -14,14 +14,13 @@ export default function ChatScreen() {
   const { theme } = useUserStore()
   const topic = useTopic()
   const createTopicRef = useRef<any>()
+  const open = () => {
+    createTopicRef.current.openModal()
+  }
 
   const topics = useMemo(() => {
     return topic.topics.sort((a, b) => b.timestamp - a.timestamp)
   }, [topic.topics])
-
-  const open = () => {
-    createTopicRef.current.openModal()
-  }
 
   const TopicItem = (item: Topic) => (
     <View style={{ flexDirection: 'row', gap: '10%', justifyContent: 'space-between' }}>

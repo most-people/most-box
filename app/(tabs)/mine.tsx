@@ -107,7 +107,7 @@ export default function ProfileScreen() {
       {/* 设置 */}
       <TouchableOpacity style={styles.menuItem} onPress={exit}>
         <Icon.Exit style={styles.icon} fill={Colors[theme].color} />
-        <Text style={styles.menuText}>退出账户</Text>
+        <Text style={styles.menuText}>{wallet ? '退出账户' : '去登录'}</Text>
         <Icon.Arrow color={Colors[theme].primary} />
       </TouchableOpacity>
     </ScrollView>

@@ -56,7 +56,10 @@ export const useTopic = () => {
         user.get('topics').get(timestamp.toString()).put(data)
       }
     }
-    router.push({ pathname: '/topic/[topic]', params: { topic } })
+
+    if (topic) {
+      router.push({ pathname: '/topic/[topic]', params: { topic } })
+    }
   }
 
   const quit = (name: string) => {

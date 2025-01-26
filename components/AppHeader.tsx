@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { TouchableOpacity, StyleSheet, Platform, StatusBar } from 'react-native'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Icon } from '@/assets/icon'
 import { ThemeText, ThemeView } from '@/components/Theme'
@@ -15,10 +15,7 @@ interface AppHeaderProps {
 export const AppHeader = ({ title, leftContent, rightContent }: AppHeaderProps) => {
   const { theme } = useUserStore()
   const navigation = useNavigation()
-  const route = useRoute()
   const insets = useSafeAreaInsets()
-
-  const tabs = ['index', 'note', 'explore', 'mine']
 
   // 动态计算头部高度
   const headerHeight =
@@ -49,9 +46,7 @@ export const AppHeader = ({ title, leftContent, rightContent }: AppHeaderProps) 
       ]}
     >
       <ThemeView style={styles.leftContainer}>
-        {tabs.includes(route.name) ? (
-          leftContent
-        ) : (
+        {leftContent || (
           <TouchableOpacity onPress={back}>
             <Icon.Back width={24} height={24} fill={Colors[theme].text} />
           </TouchableOpacity>
@@ -60,7 +55,6 @@ export const AppHeader = ({ title, leftContent, rightContent }: AppHeaderProps) 
       <ThemeText
         style={styles.title}
         numberOfLines={1} // 限制文本为1行
-        ellipsizeMode="tail" // 当文字溢出时，尾部显示省略号
       >
         {title}
       </ThemeText>

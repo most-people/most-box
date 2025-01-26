@@ -4,7 +4,6 @@ import nacl from 'tweetnacl'
 export interface MostWallet {
   username: string
   address: string
-  mnemonic: string
   public_key: string
   private_key: string
 }
@@ -17,13 +16,19 @@ const getPrivateKey = (username: string, password: string) => {
   return privateKey
 }
 
-export const mostAddress = (username: string, password: string) => {
-  if (!username || !password) return
+export const mostDanger = (username: string, password: string) => {
   const privateKey = getPrivateKey(username, password)
   const mnemonic = Mnemonic.entropyToPhrase(getBytes(privateKey))
   const wallet = HDNodeWallet.fromPhrase(mnemonic)
-  return wallet.address
+  return wallet
 }
+
+export const mostAddress = (username: string, password: string) => {
+  if (username && password) {
+    return mostDanger(username, password).address
+  }
+}
+
 export const mostWallet = (username: string, password: string): MostWallet => {
   const privateKey = getPrivateKey(username, password)
 
@@ -37,11 +42,11 @@ export const mostWallet = (username: string, password: string): MostWallet => {
   // wallet all in one
   const mnemonic = Mnemonic.entropyToPhrase(getBytes(privateKey))
   const wallet = HDNodeWallet.fromPhrase(mnemonic)
+  const address = wallet.address
 
   const mostWallet: MostWallet = {
     username,
-    address: wallet.address,
-    mnemonic,
+    address,
     public_key,
     private_key,
   }

@@ -21,6 +21,9 @@ export default function AboutPage() {
           IPFS + Filecoin + Fastify + Gun.js + Smart Contracts = Fully DApp
         </ThemeText>
       </Link>
+
+      <ThemeText type="subtitle">最后更新</ThemeText>
+      <ThemeText>2025-01-27 03:05:22</ThemeText>
     </PageView>
   )
 }

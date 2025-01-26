@@ -22,7 +22,7 @@ export default function PageTabView({
 
   return (
     <ThemeView style={styles.container}>
-      <AppHeader title={title} rightContent={rightContent} />
+      <AppHeader title={title} rightContent={rightContent} leftContent={<ThemeView></ThemeView>} />
 
       <Animated.ScrollView
         ref={scrollRef}

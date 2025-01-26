@@ -1,13 +1,43 @@
+import { DialogPrompt } from '@/components/Dialog'
 import PageView from '@/components/PageView'
 import { ThemeText, ThemeView } from '@/components/Theme'
 import { Colors } from '@/constants/Colors'
+import { mostDanger } from '@/constants/MostWallet'
 import { useUserStore } from '@/stores/userStore'
-import { useState } from 'react'
+import { useToast } from 'expo-toast'
+import { useRef, useState } from 'react'
 import { Switch, TouchableOpacity } from 'react-native'
 
 export default function Web3Page() {
   const { wallet, theme, setItem } = useUserStore()
-  const [showMnemonic, setShowMnemonic] = useState(false) // 用于控制密码的显示/隐藏
+  const [showMnemonic, setShowMnemonic] = useState(false)
+  const [mnemonic, setMnemonic] = useState('')
+  const toast = useToast()
+
+  const createTopicRef = useRef<any>()
+  const getMnemonic = (password: string) => {
+    if (wallet) {
+      const danger = mostDanger(wallet.username, password)
+      if (danger.address === wallet.address) {
+        setMnemonic(danger.mnemonic?.phrase || '')
+        setShowMnemonic(true)
+      } else {
+        toast.show('密码错误')
+      }
+    }
+  }
+  const toggle = () => {
+    if (wallet) {
+      if (showMnemonic) {
+        setMnemonic('')
+        setShowMnemonic(false)
+      } else {
+        createTopicRef.current.openModal()
+      }
+    } else {
+      toast.show('请先登录')
+    }
+  }
 
   return (
     <PageView title={'设置'}>
@@ -42,12 +72,14 @@ export default function Web3Page() {
             fontStyle: 'italic',
           }}
         >
-          {wallet?.mnemonic}
+          {mnemonic}
         </ThemeText>
       )}
-      <TouchableOpacity onPress={() => setShowMnemonic(!showMnemonic)}>
-        <ThemeText type="link">{showMnemonic ? '隐藏' : '显示'}</ThemeText>
+      <TouchableOpacity onPress={toggle}>
+        <ThemeText type="link">{showMnemonic ? '立刻删除' : '输入密码获取'}</ThemeText>
       </TouchableOpacity>
+
+      <DialogPrompt ref={createTopicRef} title="输入密码，获取私钥" onConfirm={getMnemonic} />
     </PageView>
   )
 }
