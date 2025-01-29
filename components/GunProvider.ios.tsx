@@ -3,7 +3,7 @@ import { Button } from 'react-native'
 import { WebView } from 'react-native-webview'
 
 export const GunProvider = () => {
-  const webviewRef = useRef(null)
+  const webviewRef = useRef<WebView>(null)
 
   // 定义要注入的 JavaScript 代码
   const injectScript = `
@@ -39,7 +39,6 @@ export const GunProvider = () => {
   `
 
   const handleWebViewLoad = () => {
-    // 在 WebView 加载完成后注入代码
     webviewRef.current?.injectJavaScript(injectScript)
   }
 
@@ -47,7 +46,7 @@ export const GunProvider = () => {
     <>
       <WebView
         ref={webviewRef}
-        source={{ uri: 'https://most-people.github.io/expo-webview-crypto/crypto' }}
+        source={{ uri: 'https://example.com' }}
         onMessage={(event) => {
           console.log(event.nativeEvent.data)
         }}
