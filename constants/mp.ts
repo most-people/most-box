@@ -100,7 +100,7 @@ const createJWT = (data: any, secret: string, exp = 60) => {
 const verifyJWT = (token: string, secret: string) => {
   const parts = token.split('.')
   if (parts.length !== 3) {
-    console.error('Invalid JWT format')
+    console.log('Invalid JWT format')
     return null
   }
 
@@ -112,7 +112,7 @@ const verifyJWT = (token: string, secret: string) => {
   const validSignature = enBase64(signature.toString(CryptoJS.enc.Base64))
 
   if (validSignature !== encodedSignature) {
-    console.error('Invalid signature')
+    console.log('Invalid signature')
     return null
   }
 
@@ -120,7 +120,7 @@ const verifyJWT = (token: string, secret: string) => {
   const payload = JSON.parse(deBase64(encodedPayload))
   const now = Math.floor(Date.now() / 1000)
   if (payload.exp && now > payload.exp) {
-    console.error('Token has expired')
+    console.log('Token has expired')
     return null
   }
 
@@ -146,7 +146,7 @@ const login = (username: string, password: string): MostWallet | null => {
       return wallet
     }
   } catch (error: any) {
-    console.error(error.message)
+    console.log(error.message)
   }
   return null
 }
