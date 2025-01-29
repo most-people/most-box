@@ -11,6 +11,16 @@ export default function NoteScreen() {
   const { theme } = useUserStore()
   const toast = useToast()
 
+  const upload = async () => {
+    // toast.show('写笔记，开发中...')
+    const res = await window.crypto.subtle.generateKey(
+      { name: 'ECDSA', namedCurve: 'P-256' },
+      true,
+      ['sign', 'verify'],
+    )
+    console.log('🌊', res)
+  }
+
   return (
     <PageTabView title="笔记">
       <ThemeText>今天</ThemeText>
@@ -20,7 +30,7 @@ export default function NoteScreen() {
           ...styles.camera,
           backgroundColor: theme === 'light' ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.14)',
         }}
-        onPress={() => toast.show('写笔记，开发中...')}
+        onPress={upload}
       >
         <Icon.Camera
           style={styles.cameraIcon}

@@ -1,9 +1,13 @@
 import React, { useRef } from 'react'
-import { Button } from 'react-native'
+import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
 
 export const GunProvider = () => {
   const webviewRef = useRef<WebView>(null)
+  const promiseRef = useRef<{
+    resolve: (value: CryptoKeyPair) => void
+    reject: (reason: any) => void
+  } | null>(null)
 
   // 定义要注入的 JavaScript 代码
   const injectScript = `
@@ -38,20 +42,42 @@ export const GunProvider = () => {
     true;
   `
 
-  const handleWebViewLoad = () => {
-    webviewRef.current?.injectJavaScript(injectScript)
+  window.crypto = {
+    subtle: {
+      // @ts-ignore
+      generateKey(...args): Promise<CryptoKeyPair> {
+        return new Promise((resolve, reject) => {
+          promiseRef.current = { resolve, reject }
+          webviewRef.current?.injectJavaScript(injectScript)
+        })
+      },
+    },
   }
 
   return (
-    <>
+    <View
+      style={{
+        // display: 'none',
+        position: 'absolute',
+
+        width: 0,
+        height: 0,
+
+        flexGrow: 0,
+        flexShrink: 1,
+      }}
+    >
       <WebView
         ref={webviewRef}
-        source={{ uri: 'https://example.com' }}
+        source={{ uri: 'https://most.box/crypto.html' }}
         onMessage={(event) => {
-          console.log(event.nativeEvent.data)
+          const data = JSON.parse(event.nativeEvent.data)
+          if (promiseRef.current) {
+            promiseRef.current.resolve(data)
+            promiseRef.current = null
+          }
         }}
       />
-      <Button title="Generate Key" onPress={handleWebViewLoad} />
-    </>
+    </View>
   )
 }
