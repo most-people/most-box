@@ -3,9 +3,9 @@ import { WebView } from 'react-native-webview'
 export const GunProvider = () => {
   return (
     <WebView
-      source={{ uri: 'https://file.most.box/download/test.html' }}
+      source={{ uri: 'https://most-people.github.io/expo-webview-crypto/' }}
       onMessage={(event) => {
-        alert(event.nativeEvent.data)
+        console.log(event.nativeEvent.data)
       }}
     />
   )
