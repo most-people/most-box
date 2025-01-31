@@ -8,11 +8,12 @@ import { useUserStore } from '@/stores/userStore'
 import dayjs from 'dayjs'
 export default function NoteScreen() {
   const notes = useNoteStore((state) => state.notes)
-  const { theme } = useUserStore()
+  const { theme, wallet, gun } = useUserStore()
   const toast = useToast()
 
   const upload = async () => {
     toast.show('写笔记，开发中...')
+    console.log('🌊', await window.login())
   }
 
   return (
