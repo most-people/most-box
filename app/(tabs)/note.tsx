@@ -12,7 +12,7 @@ export default function NoteScreen() {
   const toast = useToast()
 
   const upload = async () => {
-    // toast.show('写笔记，开发中...')
+    toast.show('写笔记，开发中...')
     const res = await window.crypto.subtle.generateKey(
       { name: 'ECDSA', namedCurve: 'P-256' },
       true,
