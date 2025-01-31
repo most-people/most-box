@@ -19,38 +19,11 @@ SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
   const systemTheme = useColorScheme() ?? 'dark'
-  const { theme, gun, wallet, setItem } = useUserStore()
+  const { theme, setItem } = useUserStore()
 
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   })
-
-  useEffect(() => {
-    const login = async () => {
-      if (wallet?.address && gun?.user) {
-        const user = gun.user()
-        user.leave()
-        const username = wallet.public_key
-        const password = wallet.private_key
-        user.auth(username, password, (ack) => {
-          if ('err' in ack) {
-            console.log('登录失败:', ack.err)
-            user.create(username, password, (ack) => {
-              if ('err' in ack) {
-                console.log('注册失败:', ack.err)
-              } else {
-                console.log('注册成功')
-              }
-            })
-          } else {
-            console.log('登录成功')
-          }
-        })
-      }
-    }
-
-    login()
-  }, [wallet?.address, gun, wallet?.public_key, wallet?.private_key])
 
   useEffect(() => {
     // 跟随系统主题
