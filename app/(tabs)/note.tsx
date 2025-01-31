@@ -13,55 +13,12 @@ export default function NoteScreen() {
 
   const upload = async () => {
     // toast.show('写笔记，开发中...')
-
-    try {
-      // 生成 AES 密钥
-      const aesKey = await window.crypto.subtle.generateKey(
-        {
-          name: 'AES-GCM',
-          length: 256,
-        },
-        true,
-        ['encrypt', 'decrypt'],
-      )
-
-      // 加密数据
-      const data = new TextEncoder().encode('Hello, World!')
-      const iv = window.crypto.getRandomValues(new Uint8Array(12))
-      const encrypted = await window.crypto.subtle.encrypt(
-        {
-          name: 'AES-GCM',
-          iv,
-        },
-        aesKey,
-        data,
-      )
-
-      console.log('🌊', encrypted)
-
-      // // 生成 ECDSA 密钥对并签名
-      // const keyPair = await window.crypto.subtle.generateKey(
-      //   {
-      //     name: 'ECDSA',
-      //     namedCurve: 'P-256',
-      //   },
-      //   true,
-      //   ['sign', 'verify'],
-      // )
-
-      // const signature = await window.crypto.subtle.sign(
-      //   {
-      //     name: 'ECDSA',
-      //     hash: { name: 'SHA-256' },
-      //   },
-      //   keyPair.privateKey,
-      //   data,
-      // )
-
-      // console.log('🌊', signature)
-    } catch (error) {
-      console.log('❌', error)
-    }
+    const res = await window.crypto.subtle.generateKey(
+      { name: 'ECDSA', namedCurve: 'P-256' },
+      true,
+      ['sign', 'verify'],
+    )
+    console.log('🌊', res)
   }
 
   return (
