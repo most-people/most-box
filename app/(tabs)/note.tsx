@@ -8,12 +8,16 @@ import { useUserStore } from '@/stores/userStore'
 import dayjs from 'dayjs'
 export default function NoteScreen() {
   const notes = useNoteStore((state) => state.notes)
-  const { theme, wallet, gun } = useUserStore()
+  const { theme, wallet } = useUserStore()
   const toast = useToast()
 
   const upload = async () => {
     toast.show('写笔记，开发中...')
-    console.log('🌊', await window.login())
+    if (wallet?.address) {
+      console.log('🌊', wallet.public_key, wallet.private_key)
+      const res = await window.user.login(wallet.public_key, wallet.private_key)
+      console.log('🌊', res)
+    }
   }
 
   return (
