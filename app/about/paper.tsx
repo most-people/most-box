@@ -83,7 +83,6 @@ const AboutPaperPage = () => {
         bafkreiaadupp3gal2nofg67vq67o4cbzl2ds34fnmlgjr7rdkxzg5upwxq 就是这个文件的
         CID，它的容量很大，大到足以给地球上的每一粒沙子发身份证号。
       </ThemeText>
-
       <ThemeText type="subtitle">Filecoin</ThemeText>
       <ThemeText>由于很少有人愿意无偿开设图书馆，于是出现了 IPFS 的激励层 Filecoin。</ThemeText>
       <ThemeText>
@@ -92,7 +91,6 @@ const AboutPaperPage = () => {
         Filcoin
         网络中喊一嗓子就有无数的图书馆馆长跳出来说他愿意帮你储存，你选一家最便宜的，只需要一笔很小的费用，而且这个馆长很心黑，别人从他这里借书也要收手续费，其他黑心馆长为了赚这个钱，纷纷保存这本书，供大家借阅。而由于馆长的增多，市场化的竞争只会让手续费越来越低。
       </ThemeText>
-
       <ThemeText type="subtitle">Gun.js</ThemeText>
       <ThemeText>
         想象一下每个人都有无数张画板，当你每画一笔，别人的画板上会立刻出现这一笔，同理别人画的每一笔也会出现的你的画板上。
@@ -103,7 +101,6 @@ const AboutPaperPage = () => {
         Gun.js
         就是帮大家立刻同步这一切的工具，有了它，一起吹牛、玩游戏、写文档、开会通通不再是问题😎
       </ThemeText>
-
       <ThemeText>不过任何事物都不是凭空得来的，如果免费那么肯定有人帮你承担了成本，</ThemeText>
       <ThemeText>回到最初那两个 IPFS 网址，为什么结尾</ThemeText>
       <ThemeText>.ipfs.flk-ipfs.xyz</ThemeText>
@@ -132,7 +129,13 @@ const AboutPaperPage = () => {
         节点都由于种种原因离线，那我们将无法访问，某些节点可以启动他的备份系统，来部署新的节点并通过智能合约推送到以太坊公链上。
       </ThemeText>
       <ThemeText>这样所有客户端刷新去链上查询，就可以重新恢复访问了。</ThemeText>
-
+      <ThemeText>
+        最好的方式当然是像 Filecoin 一样，给 Gun.js
+        也设计激励层，这样就可以实现去中心化网络的生生不息。
+      </ThemeText>
+      <ThemeText>
+        至此人类真正实现言论自由的时代即将到来，我们可以放心大胆地将黑暗和不公通过匿名的方式发表出来，让一切丑恶暴露在阳光下，让问题暴露出来是解决问题的第一步，为我们光明的未来干杯！
+      </ThemeText>
       <ThemeText type="subtitle">附录</ThemeText>
       <ThemeText>域名的去中心化 .box</ThemeText>
       <ThemeText>目前只有这个域名是通过加密货币直接购买的去中心化域名</ThemeText>
@@ -142,10 +145,9 @@ const AboutPaperPage = () => {
       <ThemeText>数据库 Gun.js</ThemeText>
       <ThemeText>智能合约 ETH</ThemeText>
       <ThemeText>以上是 most.box 的全部架构</ThemeText>
-
       <ThemeText>⅔ MOST.BOX</ThemeText>
       <ThemeText>最新文章收录在 most.box/about</ThemeText>
-      <ThemeText>2025 年 1 月 9 日</ThemeText>
+      <ThemeText>2025 年 2 月 5 日</ThemeText>
     </PageView>
   )
 }
