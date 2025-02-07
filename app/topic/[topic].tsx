@@ -45,7 +45,7 @@ export default function TopicPage() {
   const [deleteItem, setDeleteItem] = useState<Message | undefined>(undefined)
   const deleteMessage = () => {
     if (!wallet) return router.push('/login')
-    if (deleteItem) chat.del(deleteItem?.timestamp)
+    if (deleteItem) chat.del(deleteItem.timestamp)
   }
 
   const [autoHeight, setAutoHeight] = useState(40)

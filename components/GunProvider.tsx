@@ -1,10 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { WebView } from 'react-native-webview'
-import { GunPeers } from '@/constants/Peers'
 import { useUserStore } from '@/stores/userStore'
 
 import 'gun/lib/mobile'
-import Gun from 'gun'
+import Gun, { type IGunInstance } from 'gun'
 import 'gun/lib/radix.js'
 import 'gun/lib/radisk.js'
 import 'gun/lib/store.js'
@@ -20,6 +19,8 @@ interface GunRes {
 
 declare global {
   interface Window {
+    GunPeers: string[]
+    gun: IGunInstance<any>
     user: {
       is?: {
         pub: string
@@ -42,7 +43,7 @@ export const GunProvider = () => {
 
   useEffect(() => {
     const gun = Gun({
-      peers: GunPeers,
+      peers: window.GunPeers,
       store: asyncStore({ AsyncStorage }),
     })
 

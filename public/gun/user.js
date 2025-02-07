@@ -1,12 +1,12 @@
-const GunPeers = [
+window.GunPeers = [
   'https://gun-manhattan.herokuapp.com/gun',
   'https://api.most.box/gun',
   'https://gun.most.red/gun',
 ]
-const gun = window.Gun({
-  peers: GunPeers,
+window.gun = window.Gun({
+  peers: window.GunPeers,
 })
-window.user = gun.user()
+window.user = window.gun.user()
 window.user.login = async (username, password) => {
   window.user.leave()
   return new Promise((resolve) => {

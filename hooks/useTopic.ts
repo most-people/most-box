@@ -11,7 +11,7 @@ export const useTopic = () => {
   const { wallet, gun } = useUserStore()
   const user = useMemo(() => {
     if (wallet?.address && gun) {
-      return gun.get('most.box?' + wallet?.address)
+      return gun.get('most.box?' + wallet.address)
     }
   }, [wallet?.address, gun])
 
