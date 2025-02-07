@@ -12,7 +12,7 @@ export const useChat = (topic: string) => {
   // 使用 useMemo 确保 chat 只初始化一次
   const chat = useMemo(() => {
     if (gun) {
-      return gun.get('most.box.' + topic)
+      return gun.get('most.box/topic/' + topic)
     }
   }, [topic, gun])
   const [messages, setMessages] = useState<Message[]>([])
@@ -23,7 +23,6 @@ export const useChat = (topic: string) => {
     // 监听所有子节点的变化
     chat.map().on((data, key) => {
       if (timestampSet.has(key)) return
-
       if (data && key) {
         if (data.address && data.text) {
           if (!data.timestamp) {
@@ -34,7 +33,7 @@ export const useChat = (topic: string) => {
             setMessages((list) => [...list, data])
           }
         } else {
-          chat.get(key).put(null)
+          // chat.get(key).put(null)
         }
       }
     })

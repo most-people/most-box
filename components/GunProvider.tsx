@@ -1,6 +1,8 @@
+import { View, StyleSheet } from 'react-native'
 import { useEffect, useRef } from 'react'
 import { WebView } from 'react-native-webview'
 import { useUserStore } from '@/stores/userStore'
+import GunPeers from '@/public/gun/peers.js'
 
 import 'gun/lib/mobile'
 import Gun, { type IGunInstance } from 'gun'
@@ -43,7 +45,7 @@ export const GunProvider = () => {
 
   useEffect(() => {
     const gun = Gun({
-      peers: window.GunPeers,
+      peers: GunPeers,
       store: asyncStore({ AsyncStorage }),
     })
 
@@ -76,16 +78,31 @@ export const GunProvider = () => {
   }, [])
 
   return (
-    <WebView
-      ref={webviewRef}
-      onMessage={(event) => {
-        const data = JSON.parse(event.nativeEvent.data)
-        if (promiseRef.current) {
-          promiseRef.current.resolve(data)
-          promiseRef.current = null
-        }
-      }}
-      source={{ uri: 'https://most-people.github.io/expo-webview-crypto/gun.html' }}
-    />
+    <View style={styles.hide}>
+      <WebView
+        ref={webviewRef}
+        onMessage={(event) => {
+          const data = JSON.parse(event.nativeEvent.data)
+          if (promiseRef.current) {
+            promiseRef.current.resolve(data)
+            promiseRef.current = null
+          }
+        }}
+        source={{ uri: 'https://most.box/gun/' }}
+      />
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  hide: {
+    display: 'none',
+    position: 'absolute',
+
+    width: 0,
+    height: 0,
+
+    flexGrow: 0,
+    flexShrink: 1,
+  },
+})

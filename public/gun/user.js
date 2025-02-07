@@ -1,8 +1,3 @@
-window.GunPeers = [
-  'https://gun-manhattan.herokuapp.com/gun',
-  'https://api.most.box/gun',
-  'https://gun.most.red/gun',
-]
 window.gun = window.Gun({
   peers: window.GunPeers,
 })
@@ -12,7 +7,6 @@ window.user.login = async (username, password) => {
   return new Promise((resolve) => {
     window.user.auth(username, password, (ack) => {
       if (ack.err) {
-        resolve({ ok: false, message: '登录失败：' + ack.err })
         window.user.create(username, password, (ack) => {
           if (ack.err) {
             resolve({ ok: false, message: '注册失败：' + ack.err })

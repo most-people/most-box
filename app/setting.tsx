@@ -16,13 +16,14 @@ export default function Web3Page() {
 
   const createTopicRef = useRef<any>()
   const getMnemonic = (password: string) => {
+    if (!password) return toast.show('密码不能为空')
     if (wallet) {
       const danger = mostDanger(wallet.username, password)
       if (danger.address === wallet.address) {
         setMnemonic(danger.mnemonic?.phrase || '')
         setShowMnemonic(true)
       } else {
-        toast.show('密码错误')
+        return toast.show('密码错误')
       }
     }
   }
@@ -58,7 +59,7 @@ export default function Web3Page() {
       <ThemeText type="subtitle">令牌过期时间</ThemeText>
       <ThemeText>1天</ThemeText>
 
-      <ThemeText type="subtitle">私钥</ThemeText>
+      <ThemeText type="subtitle">助记词</ThemeText>
       <ThemeText>任何拥有您助记词的人都可以窃取您账户中的任何资产，切勿泄露！！！</ThemeText>
       {showMnemonic && (
         <ThemeText
@@ -79,7 +80,7 @@ export default function Web3Page() {
         <ThemeText type="link">{showMnemonic ? '立刻删除' : '输入密码获取'}</ThemeText>
       </TouchableOpacity>
 
-      <DialogPrompt ref={createTopicRef} title="输入密码，获取私钥" onConfirm={getMnemonic} />
+      <DialogPrompt ref={createTopicRef} title="输入密码获取" onConfirm={getMnemonic} />
     </PageView>
   )
 }
