@@ -20,9 +20,10 @@ export const useTopic = () => {
     if (gun && wallet?.address) {
       gun.get('~@' + wallet?.address).once((data) => {
         if (data) {
-          const [pub] = Object.keys(data._['>'])
+          const pub = Object.keys(data._['>'])[0]
+          console.log('Pub:', pub)
           gun
-            .user(pub.slice(1))
+            .get(pub)
             .get('test')
             .map()
             .once((data, key) => {
