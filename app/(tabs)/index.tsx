@@ -33,10 +33,6 @@ export default function ExploreScreen() {
       timestamp: 0,
     },
     {
-      name: 'LYX',
-      timestamp: 0,
-    },
-    {
       name: '星际文件系统',
       timestamp: 0,
     },

@@ -21,6 +21,11 @@ interface GunRes {
 declare global {
   interface Window {
     user: {
+      is?: {
+        pub: string
+        epub: string
+        alias: string
+      }
       login: (username: string, password: string) => Promise<GunRes>
     }
   }
@@ -46,11 +51,11 @@ export const GunProvider = () => {
 
   useEffect(() => {
     window.user = {
-      login(username: string, password: string) {
+      login(address: string, password: string) {
         const injectScript = `
           (async function() {
             try {
-              const res = await window.user.login('${username}','${password}');
+              const res = await window.user.login('${address.toLowerCase()}','${password}');
               window.ReactNativeWebView.postMessage(JSON.stringify(res));
             } catch (error) {
               window.ReactNativeWebView.postMessage(JSON.stringify({
