@@ -11,11 +11,11 @@ window.user.login = async (username, password) => {
           if (ack.err) {
             resolve({ ok: false, message: '注册失败：' + ack.err })
           } else {
-            resolve({ ok: true, message: '注册成功' })
+            resolve({ ok: true, message: '注册成功', data: ack.pub })
           }
         })
       } else {
-        resolve({ ok: true, message: '登录成功' })
+        resolve({ ok: true, message: '登录成功', data: ack.sea.pub })
       }
     })
   })

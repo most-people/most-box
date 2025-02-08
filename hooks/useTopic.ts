@@ -15,24 +15,24 @@ export const useTopic = () => {
   //   }
   // }, [wallet?.address, gun])
 
-  useEffect(() => {
-    // https://gun.eco/docs/User#getting-a-user-via-alias
-    if (gun && wallet?.address) {
-      gun.get('~@' + wallet?.address).once((data) => {
-        if (data) {
-          const pub = Object.keys(data._['>'])[0]
-          console.log('Pub:', pub)
-          gun
-            .get(pub)
-            .get('test')
-            .map()
-            .once((data, key) => {
-              console.log('Data:', data)
-            })
-        }
-      })
-    }
-  }, [gun, wallet?.address])
+  // useEffect(() => {
+  //   // https://gun.eco/docs/User#getting-a-user-via-alias
+  //   if (gun && wallet?.address) {
+  //     gun.get('~@' + wallet?.address).once((data) => {
+  //       if (data) {
+  //         const pub = Object.keys(data._['>'])[0]
+  //         console.log('🌊', pub)
+  //         // gun
+  //         //   .get(pub)
+  //         //   .get('test')
+  //         //   .map()
+  //         //   .once((data, key) => {
+  //         //     console.log('Data:', data)
+  //         //   })
+  //       }
+  //     })
+  //   }
+  // }, [gun, wallet?.address])
 
   const [topics, setTopics] = useState<Topic[]>([])
 

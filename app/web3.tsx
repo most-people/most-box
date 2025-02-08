@@ -5,7 +5,7 @@ import { useUserStore } from '@/stores/userStore'
 import { TouchableOpacity } from 'react-native'
 
 export default function Web3Page() {
-  const { wallet } = useUserStore()
+  const { wallet, pub } = useUserStore()
   const [showX25519, setShowX25519] = useState(false)
   return (
     <PageView title={'Web3'}>
@@ -15,6 +15,8 @@ export default function Web3Page() {
       </ThemeText>
       <ThemeText type="subtitle">ETH 地址</ThemeText>
       <ThemeText>{wallet?.address}</ThemeText>
+      <ThemeText type="subtitle">Gun Pub</ThemeText>
+      <ThemeText>{pub}</ThemeText>
       <ThemeText type="subtitle">x25519 公钥</ThemeText>
       <ThemeText>{wallet?.public_key}</ThemeText>
       <ThemeText type="subtitle">x25519 私钥</ThemeText>

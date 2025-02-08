@@ -6,6 +6,7 @@ import { type IGunInstance } from 'gun'
 
 interface UserStore {
   wallet?: MostWallet
+  pub: string
   theme: 'light' | 'dark'
   gun?: IGunInstance<any>
   exit: () => void
@@ -20,6 +21,7 @@ export const useUserStore = create<State>(
     wallet: undefined,
     setItem: (key, value) => set((state) => ({ ...state, [key]: value })),
     theme: 'dark', // 默认为深色
+    pub: '',
     gun: undefined,
     exit() {
       AsyncStorage.clear()

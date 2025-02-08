@@ -37,7 +37,11 @@ export default function RootLayout() {
       const wallet = mp.verifyJWT(token, tokenSecret) as MostWallet | null
       if (wallet) {
         setItem('wallet', wallet)
-        window.user.login(wallet.address, wallet.private_key).then(console.log)
+        window.user.login(wallet.address, wallet.private_key).then(res => {
+          if (res.ok) {
+            setItem('pub', res.data)
+          }
+        })
       }
     }
   }, [setItem])

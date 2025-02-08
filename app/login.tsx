@@ -35,7 +35,11 @@ export default function LoginPage() {
         const wallet = mp.login(username, password)
         if (wallet) {
           setItem('wallet', wallet)
-          window.user.login(wallet.address, wallet.private_key).then(console.log)
+          window.user.login(wallet.address, wallet.private_key).then(res => {
+            if (res.ok) {
+              setItem('pub', res.data)
+            }
+          })
         }
       }, 0)
     }
