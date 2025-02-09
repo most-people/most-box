@@ -48,4 +48,34 @@ window.most = {
       })
     })
   },
+  put(table, key, data) {
+    return new Promise((resolve) => {
+      const user = window.user
+      user
+        .get(table)
+        .get(key)
+        .put(data, (ack) => {
+          if (ack.err) {
+            resolve({ ok: false, message: '写入失败' })
+          } else {
+            resolve({ ok: true, message: '写入成功' })
+          }
+        })
+    })
+  },
+  del(table, key) {
+    return new Promise((resolve) => {
+      const user = window.user
+      user
+        .get(table)
+        .get(key)
+        .put(null, (ack) => {
+          if (ack.err) {
+            resolve({ ok: false, message: '删除失败' })
+          } else {
+            resolve({ ok: true, message: '删除成功' })
+          }
+        })
+    })
+  },
 }

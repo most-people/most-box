@@ -5,7 +5,7 @@ import { useUserStore } from '@/stores/userStore'
 import GunPeers from '@/public/gun/peers.js'
 
 import 'gun/lib/mobile'
-import Gun, { type IGunInstance } from 'gun'
+import Gun, { type IGunUserInstance, type IGunInstance, type IGunInstanceRoot } from 'gun'
 import 'gun/lib/radix.js'
 import 'gun/lib/radisk.js'
 import 'gun/lib/store.js'
@@ -23,16 +23,12 @@ declare global {
   interface Window {
     GunPeers: string[]
     gun: IGunInstance<any>
-    user: {
-      is?: {
-        pub: string
-        epub: string
-        alias: string
-      }
-    }
+    user: IGunUserInstance<any, any, any, IGunInstanceRoot<any, IGunInstance<any>>>
     most: {
       login: (username: string, password: string) => Promise<GunRes>
-      get: (key: string) => Promise<GunRes>
+      put: (table: string, key: string, data: any) => Promise<GunRes>
+      del: (table: string, key: string) => Promise<GunRes>
+      get: (table: string) => Promise<GunRes>
     }
   }
 }
@@ -62,15 +58,31 @@ export const GunProvider = () => {
       login(address: string, password: string) {
         return new Promise((resolve, reject) => {
           promiseRef.current = { resolve, reject }
-          webviewRef.current?.injectJavaScript(injectScript(`window.most.login('${address.toLowerCase()}','${password}')`))
+          webviewRef.current?.injectJavaScript(
+            injectScript(`window.most.login('${address.toLowerCase()}','${password}')`),
+          )
         })
       },
-      get(key: string) {
+      get(table: string) {
         return new Promise((resolve, reject) => {
           promiseRef.current = { resolve, reject }
-          webviewRef.current?.injectJavaScript(injectScript(`window.most.get('${key}')`))
+          webviewRef.current?.injectJavaScript(injectScript(`window.most.get('${table}')`))
         })
-      }
+      },
+      put(table: string, key: string, data: object) {
+        return new Promise((resolve, reject) => {
+          promiseRef.current = { resolve, reject }
+          webviewRef.current?.injectJavaScript(
+            injectScript(`window.most.put('${table}','${key}', '${JSON.stringify(data)}')`),
+          )
+        })
+      },
+      del(table: string, key: string) {
+        return new Promise((resolve, reject) => {
+          promiseRef.current = { resolve, reject }
+          webviewRef.current?.injectJavaScript(injectScript(`window.most.del('${table}','${key}')`))
+        })
+      },
     }
   }, [])
 
