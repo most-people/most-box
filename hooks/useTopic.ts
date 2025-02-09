@@ -15,8 +15,8 @@ export const useTopic = () => {
   // https://gun.eco/docs/User#getting-a-user-via-alias
   useEffect(() => {
     if (gun && pub) {
-      gun
-        .user(pub)
+      const user = gun.user(pub)
+      user
         .get('topics')
         .map()
         .on((data, key) => {
@@ -47,11 +47,8 @@ export const useTopic = () => {
         const data: Topic = { name, timestamp }
         // 使用唯一键存储消息
         if (gun && pub) {
-          gun
-            .get('~' + pub)
-            .get('topics')
-            .get(mp.getHash(name))
-            .put(data)
+          const user = gun.user(pub)
+          user.get('topics').get(mp.getHash(name)).put(data)
         }
       }
     }
@@ -61,14 +58,11 @@ export const useTopic = () => {
 
   const quit = (name: string) => {
     if (pub && gun) {
+      const user = gun.user(pub)
       const topic = topics.find((e) => e.name === name)
       if (topic) {
         // 使用唯一键删除消息
-        gun
-          .get('~' + pub)
-          .get('topics')
-          .get(mp.getHash(name))
-          .put(null)
+        user.get('topics').get(mp.getHash(name)).put(null)
       }
     }
   }

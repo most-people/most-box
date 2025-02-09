@@ -26,7 +26,7 @@ export const useUserStore = create<State>(
     exit() {
       AsyncStorage.clear()
       // get().gun?.user().leave()
-      set({ wallet: undefined })
+      set({ wallet: undefined, pub: '' })
       router.push('/login')
     },
   }),
