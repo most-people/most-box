@@ -29,11 +29,16 @@ declare global {
         epub: string
         alias: string
       }
+    }
+    most: {
       login: (username: string, password: string) => Promise<GunRes>
+      get: (key: string) => Promise<GunRes>
     }
   }
 }
 
+const injectScript = (func: string) =>
+  `(async()=>{try{const r=await ${func};window.ReactNativeWebView.postMessage(JSON.stringify(r))}catch(e){window.ReactNativeWebView.postMessage(JSON.stringify({ok:false,message:e.message}))}})();true`
 export const GunProvider = () => {
   const webviewRef = useRef<WebView>(null)
   const promiseRef = useRef<{
@@ -53,27 +58,19 @@ export const GunProvider = () => {
   }, [setItem])
 
   useEffect(() => {
-    window.user = {
+    window.most = {
       login(address: string, password: string) {
-        const injectScript = `
-          (async function() {
-            try {
-              const res = await window.user.login('${address.toLowerCase()}','${password}');
-              window.ReactNativeWebView.postMessage(JSON.stringify(res));
-            } catch (error) {
-              window.ReactNativeWebView.postMessage(JSON.stringify({
-                type: 'error',
-                message: error.message
-              }));
-            }
-          })();
-          true;
-        `
         return new Promise((resolve, reject) => {
           promiseRef.current = { resolve, reject }
-          webviewRef.current?.injectJavaScript(injectScript)
+          webviewRef.current?.injectJavaScript(injectScript(`window.most.login('${address.toLowerCase()}','${password}')`))
         })
       },
+      get(key: string) {
+        return new Promise((resolve, reject) => {
+          promiseRef.current = { resolve, reject }
+          webviewRef.current?.injectJavaScript(injectScript(`window.most.get('${key}')`))
+        })
+      }
     }
   }, [])
 

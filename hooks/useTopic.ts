@@ -12,32 +12,12 @@ export const useTopic = () => {
   const { gun, pub } = useUserStore()
   const [topics, setTopics] = useState<Topic[]>([])
 
-  // https://gun.eco/docs/User#getting-a-user-via-alias
-  useEffect(() => {
-    if (gun && pub) {
-      const user = gun.user(pub)
-      user
-        .get('topics')
-        .map()
-        .on((data, key) => {
-          if (data) {
-            // 添加
-            setTopics((list) => {
-              // 检查是否已经存在，避免重复添加
-              if (list.some((e) => e.name === data.name)) {
-                return list
-              }
-              return [...list, data]
-            })
-          } else {
-            // 删除
-            setTopics((list) => list.filter((e) => mp.getHash(e.name) !== key))
-          }
-        })
-    } else {
-      setTopics([])
+  const init = async () => {
+    const res = await window.most.get('topics')
+    if (res.ok) {
+      setTopics(res.data as Topic[])
     }
-  }, [gun, pub])
+  }
 
   const join = (name: string) => {
     if (pub) {
@@ -66,6 +46,15 @@ export const useTopic = () => {
       }
     }
   }
+
+  // https://gun.eco/docs/User#getting-a-user-via-alias
+  useEffect(() => {
+    if (gun && pub) {
+      init()
+    } else {
+      setTopics([])
+    }
+  }, [gun, pub])
 
   return { topics, join, quit }
 }
