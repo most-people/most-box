@@ -48,7 +48,14 @@ const formatTime = (time: string) => {
 }
 
 const getHash = (message: string) => {
-  return sha256(toUtf8Bytes(message))
+  // return sha256(toUtf8Bytes(message))
+  let hash = 0
+  for (let i = 0; i < message.length; i++) {
+    const char = message.charCodeAt(i)
+    hash = (hash << 5) - hash + char
+    hash = hash & hash // 转换为32位整数
+  }
+  return Math.abs(hash).toString(36) // 转换为36进制并取正数
 }
 
 const formatAddress = (address?: string) => {

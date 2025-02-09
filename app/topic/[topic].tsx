@@ -24,9 +24,9 @@ import mp from '@/constants/mp'
 export default function TopicPage() {
   const params = useLocalSearchParams()
   const toast = useToast()
-  const topic = params.topic as string
+  const topicName = params.topic as string
   const [message, setMessage] = useState('')
-  const chat = useChat(topic)
+  const chat = useChat(topicName)
   const { wallet, theme } = useUserStore()
   const styles = createStyles(theme)
 
@@ -56,7 +56,7 @@ export default function TopicPage() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <AppHeader
-        title={topic}
+        title={topicName}
         rightContent={
           <TouchableOpacity onPress={() => toast.show('更多操作，开发中...')}>
             <Icon.More width={20} height={20} fill={Colors[theme].text} />
