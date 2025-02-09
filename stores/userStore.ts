@@ -4,12 +4,18 @@ import { router } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { type IGunInstance } from 'gun'
 
+export interface Topic {
+  name: string
+  timestamp: number
+}
+
 interface UserStore {
   wallet?: MostWallet
   pub: string
   theme: 'light' | 'dark'
   gun?: IGunInstance<any>
   exit: () => void
+  topics: Topic[]
 }
 
 interface State extends UserStore {
@@ -29,5 +35,6 @@ export const useUserStore = create<State>(
       set({ wallet: undefined, pub: '' })
       router.push('/login')
     },
+    topics: [],
   }),
 )

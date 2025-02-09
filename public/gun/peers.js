@@ -1,6 +1,6 @@
 ;(function () {
   const peers = [
-    'https://gun-manhattan.herokuapp.com/gun',
+    'https://api.edgerunner.club/gun',
     'https://api.most.box/gun',
     'https://gun.most.red/gun',
   ]

@@ -20,6 +20,7 @@ import { useUserStore } from '@/stores/userStore'
 import DialogTopicMessage from '@/components/Dialog/TopicMessage'
 import { SvgXml } from 'react-native-svg'
 import mp from '@/constants/mp'
+import { useCopy } from '@/hooks/useCopy'
 
 export default function TopicPage() {
   const params = useLocalSearchParams()
@@ -29,6 +30,7 @@ export default function TopicPage() {
   const chat = useChat(topicName)
   const { wallet, theme } = useUserStore()
   const styles = createStyles(theme)
+  const copy = useCopy()
 
   const send = () => {
     if (!wallet) return router.push('/login')
@@ -84,7 +86,7 @@ export default function TopicPage() {
               <SvgXml xml={mp.avatar(item.address)} style={styles.avatar} />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => setMessage(item.text)}
+              onPress={() => copy(item.text)}
               onLongPress={() => {
                 setShowDelete(true)
                 setDeleteItem(item)

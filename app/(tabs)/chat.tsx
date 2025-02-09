@@ -19,7 +19,11 @@ export default function ChatScreen() {
   }
 
   const topics = useMemo(() => {
-    return topic.topics.sort((a, b) => b.timestamp - a.timestamp)
+    // 排序
+    const list = topic.topics.sort((a, b) => b.timestamp - a.timestamp)
+    // 去重
+    const map = new Map<string, Topic>(list.map((e) => [e.name, e]))
+    return map
   }, [topic.topics])
 
   const TopicItem = (item: Topic) => (
@@ -46,7 +50,7 @@ export default function ChatScreen() {
         </TouchableOpacity>
       }
     >
-      {topics.length === 0 ? (
+      {topics.size === 0 ? (
         <>
           <ThemeText>没有关注的话题？</ThemeText>
           <TouchableOpacity onPress={() => router.push('/')}>
@@ -56,8 +60,8 @@ export default function ChatScreen() {
       ) : (
         <ThemeText>话题</ThemeText>
       )}
-      {topics.map((item) => (
-        <TopicItem key={String(item.timestamp)} {...item} />
+      {Array.from(topics).map(([key, item]) => (
+        <TopicItem key={key} {...item} />
       ))}
       <DialogPrompt ref={createTopicRef} title="加入话题" onConfirm={topic.join} />
     </PageTabView>
