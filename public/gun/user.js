@@ -11,23 +11,26 @@ window.most = {
         if (ack.err) {
           window.user.create(username, password, (ack) => {
             if (ack.err) {
-              resolve({ ok: false, message: '注册失败：' + ack.err })
+              return resolve({ ok: false, message: '注册失败：' + ack.err })
             } else {
-              resolve({ ok: true, message: '注册成功', data: ack.pub })
+              return resolve({ ok: true, message: '注册成功', data: ack.pub })
             }
           })
         } else {
-          resolve({ ok: true, message: '登录成功', data: ack.sea.pub })
+          return resolve({ ok: true, message: '登录成功', data: ack.sea.pub })
         }
       })
     })
+  },
+  leave() {
+    window.user.leave()
   },
   get(table) {
     return new Promise((resolve) => {
       const user = window.user
       user.get(table).once((data) => {
         if (!data) {
-          resolve({ ok: false, message: '数据不存在' })
+          return resolve({ ok: false, message: '数据不存在' })
         }
         const len = Object.keys(data).length
         let i = 1
@@ -42,7 +45,7 @@ window.most = {
               list.push(data)
             }
             if (i === len) {
-              resolve({ ok: true, message: '获取成功', data: list })
+              return resolve({ ok: true, message: '获取成功', data: list })
             }
           })
       })
@@ -56,9 +59,9 @@ window.most = {
         .get(key)
         .put(data, (ack) => {
           if (ack.err) {
-            resolve({ ok: false, message: '写入失败' })
+            return resolve({ ok: false, message: '写入失败' })
           } else {
-            resolve({ ok: true, message: '写入成功' })
+            return resolve({ ok: true, message: '写入成功' })
           }
         })
     })
@@ -71,9 +74,9 @@ window.most = {
         .get(key)
         .put(null, (ack) => {
           if (ack.err) {
-            resolve({ ok: false, message: '删除失败' })
+            return resolve({ ok: false, message: '删除失败' })
           } else {
-            resolve({ ok: true, message: '删除成功' })
+            return resolve({ ok: true, message: '删除成功' })
           }
         })
     })

@@ -26,6 +26,7 @@ declare global {
     user: IGunUserInstance<any, any, any, IGunInstanceRoot<any, IGunInstance<any>>>
     most: {
       login: (username: string, password: string) => Promise<GunRes>
+      leave: () => void
       put: (table: string, key: string, data: any) => Promise<GunRes>
       del: (table: string, key: string) => Promise<GunRes>
       get: (table: string) => Promise<GunRes>
@@ -61,6 +62,12 @@ export const GunProvider = () => {
           webviewRef.current?.injectJavaScript(
             injectScript(`window.most.login('${address.toLowerCase()}','${password}')`),
           )
+        })
+      },
+      leave() {
+        return new Promise((resolve, reject) => {
+          promiseRef.current = { resolve, reject }
+          webviewRef.current?.injectJavaScript(injectScript('window.most.leave()'))
         })
       },
       get(table: string) {

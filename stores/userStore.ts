@@ -20,21 +20,37 @@ interface UserStore {
 
 interface State extends UserStore {
   setItem: <K extends keyof State>(key: K, value: State[K]) => void
+  pushItem: <K extends keyof State>(
+    key: K,
+    value: State[K] extends any[] ? (State[K] extends (infer T)[] ? T : never) : never,
+  ) => void
 }
 
 export const useUserStore = create<State>(
   (set: StoreApi<State>['setState'], get: StoreApi<State>['getState']) => ({
     wallet: undefined,
-    setItem: (key, value) => set((state) => ({ ...state, [key]: value })),
     theme: 'dark', // 默认为深色
     pub: '',
     gun: undefined,
     exit() {
       AsyncStorage.clear()
-      // get().gun?.user().leave()
+      window.most.leave()
       set({ wallet: undefined, pub: '' })
       router.push('/login')
     },
     topics: [],
+    setItem: (key, value) => set((state) => ({ ...state, [key]: value })),
+    pushItem: (key, value) =>
+      set((state) => {
+        const prev = state[key]
+        if (!Array.isArray(prev)) {
+          console.error(`${key} is not an array`)
+          return state
+        }
+        return {
+          ...state,
+          [key]: [...prev, value],
+        }
+      }),
   }),
 )
