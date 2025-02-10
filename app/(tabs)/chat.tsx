@@ -4,7 +4,7 @@ import { TouchableOpacity, View } from 'react-native'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 import { ThemeText } from '@/components/Theme'
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { DialogPrompt } from '@/components/Dialog'
 import { Topic, useTopic } from '@/hooks/useTopic'
 import React from 'react'
@@ -17,6 +17,14 @@ export default function ChatScreen() {
   const open = () => {
     createTopicRef.current.openModal()
   }
+
+  const topicsFilter = useMemo(() => {
+    // 排序
+    const list = topics.sort((a, b) => b.timestamp - a.timestamp)
+    // 去重
+    const map = new Map<string, Topic>(list.map((e) => [e.name, e]))
+    return Array.from(map.values())
+  }, [topics])
 
   const TopicItem = (item: Topic) => (
     <View style={{ flexDirection: 'row', gap: '10%', justifyContent: 'space-between' }}>
@@ -42,7 +50,7 @@ export default function ChatScreen() {
         </TouchableOpacity>
       }
     >
-      {topics.length === 0 ? (
+      {topicsFilter.length === 0 ? (
         <>
           <ThemeText>没有关注的话题？</ThemeText>
           <TouchableOpacity onPress={() => router.push('/')}>
@@ -52,7 +60,7 @@ export default function ChatScreen() {
       ) : (
         <ThemeText>话题</ThemeText>
       )}
-      {topics.map((item, i) => (
+      {topicsFilter.map((item, i) => (
         <TopicItem key={i} {...item} />
       ))}
       <DialogPrompt ref={createTopicRef} title="加入话题" onConfirm={topic.join} />

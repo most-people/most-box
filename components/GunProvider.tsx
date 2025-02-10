@@ -27,7 +27,7 @@ declare global {
     most: {
       login: (username: string, password: string) => Promise<GunRes>
       leave: () => void
-      put: (table: string, key: string, data: string) => Promise<GunRes>
+      put: (table: string, key: string, json: string) => Promise<GunRes>
       del: (table: string, key: string) => Promise<GunRes>
       get: (table: string) => Promise<GunRes>
     }
@@ -78,11 +78,11 @@ export const GunProvider = () => {
           webviewRef.current?.injectJavaScript(injectScript(`window.most.get('${table}')`))
         })
       },
-      put(table: string, key: string, data: string) {
+      put(table: string, key: string, json: string) {
         return new Promise((resolve, reject) => {
           promiseRef.current = { resolve, reject }
           webviewRef.current?.injectJavaScript(
-            injectScript(`window.most.put('${table}','${key}', '${JSON.stringify(data)}')`),
+            injectScript(`window.most.put('${table}','${key}', '${json}')`),
           )
         })
       },
@@ -111,7 +111,7 @@ export const GunProvider = () => {
       <WebView
         ref={webviewRef}
         onMessage={(event) => {
-          console.log('result', event.nativeEvent.data)
+          console.log('onMessage', event.nativeEvent.data)
           try {
             const data = JSON.parse(event.nativeEvent.data)
             if (promiseRef.current) {

@@ -91,9 +91,9 @@ export default function ProfileScreen() {
 
       {/* 菜单分组 */}
       <View style={styles.menuGroup}>
-        {tabs.map((tab, index) => (
+        {tabs.map((tab, i) => (
           <TouchableOpacity
-            key={index}
+            key={i}
             style={styles.menuItem}
             onPress={() => router.push(tab.pathname)}
           >

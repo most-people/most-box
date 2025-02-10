@@ -49,9 +49,9 @@ export default function ExploreScreen() {
       </ThemeView>
       <ThemeText>——开发中，之后会根据关注人数排序</ThemeText>
       <ThemeText>话题</ThemeText>
-      {topics.map((item) => (
+      {topics.map((item, i) => (
         <ThemeView
-          key={item.name}
+          key={i}
           style={{ flexDirection: 'row', gap: '10%', justifyContent: 'space-between' }}
         >
           <TouchableOpacity style={{ flex: 1 }} onPress={() => topic.join(item.name)}>

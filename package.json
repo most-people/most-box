@@ -23,7 +23,7 @@
     "eslint-config-expo": "^8.0.1",
     "eslint-plugin-expo": "^0.1.0",
     "eslint-plugin-react-hooks": "^5.1.0",
-    "expo": "~52.0.31",
+    "expo": "~52.0.32",
     "expo-blur": "~14.0.3",
     "expo-constants": "~17.0.4",
     "expo-font": "~13.0.3",

@@ -107,7 +107,7 @@ export default function TopicPage() {
             </TouchableOpacity>
           </View>
         )}
-        keyExtractor={(item) => String(item.timestamp)}
+        keyExtractor={(item, i) => String(i)}
         style={styles.messageList}
       />
       <SafeAreaView style={styles.safeArea}>
