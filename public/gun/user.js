@@ -4,7 +4,7 @@ window.gun = window.Gun({
 window.user = window.gun.user()
 // 登录
 window.most = {
-  login: async (username, password) => {
+  login(username, password) {
     window.user.leave()
     return new Promise((resolve) => {
       window.user.auth(username, password, (ack) => {
@@ -51,19 +51,24 @@ window.most = {
       })
     })
   },
-  put(table, key, data) {
+  put(table, key, json) {
     return new Promise((resolve) => {
-      const user = window.user
-      user
-        .get(table)
-        .get(key)
-        .put(data, (ack) => {
-          if (ack.err) {
-            return resolve({ ok: false, message: '写入失败' })
-          } else {
-            return resolve({ ok: true, message: '写入成功' })
-          }
-        })
+      try {
+        const data = JSON.parse(json)
+        const user = window.user
+        user
+          .get(table)
+          .get(key)
+          .put(data, (ack) => {
+            if (ack.err) {
+              return resolve({ ok: false, message: '写入失败' })
+            } else {
+              return resolve({ ok: true, message: '写入成功' })
+            }
+          })
+      } catch (error) {
+        return resolve({ ok: false, message: '写入失败：' + error?.message })
+      }
     })
   },
   del(table, key) {

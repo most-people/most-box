@@ -27,7 +27,7 @@ export const useTopic = () => {
         const timestamp = Date.now()
         const data: Topic = { name, timestamp }
         // 使用唯一键存储消息
-        window.most.put('topics', mp.getHash(name), data).then((res) => {
+        window.most.put('topics', mp.getHash(name), JSON.stringify(data)).then((res) => {
           if (res.ok) {
             pushItem('topics', data)
           }
@@ -64,5 +64,5 @@ export const useTopic = () => {
     }
   }, [pub])
 
-  return { topics, join, quit }
+  return { join, quit }
 }

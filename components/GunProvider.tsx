@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { WebView } from 'react-native-webview'
 import { useUserStore } from '@/stores/userStore'
 import GunPeers from '@/public/gun/peers.js'
@@ -27,7 +27,7 @@ declare global {
     most: {
       login: (username: string, password: string) => Promise<GunRes>
       leave: () => void
-      put: (table: string, key: string, data: any) => Promise<GunRes>
+      put: (table: string, key: string, data: string) => Promise<GunRes>
       del: (table: string, key: string) => Promise<GunRes>
       get: (table: string) => Promise<GunRes>
     }
@@ -43,7 +43,9 @@ export const GunProvider = () => {
     reject: (reason: any) => void
   } | null>(null)
 
-  const { setItem } = useUserStore()
+  const { wallet, setItem } = useUserStore()
+
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     const gun = Gun({
@@ -60,7 +62,7 @@ export const GunProvider = () => {
         return new Promise((resolve, reject) => {
           promiseRef.current = { resolve, reject }
           webviewRef.current?.injectJavaScript(
-            injectScript(`window.most.login('${address.toLowerCase()}','${password}')`),
+            injectScript(`window.most.login('${address}','${password}')`),
           )
         })
       },
@@ -76,7 +78,7 @@ export const GunProvider = () => {
           webviewRef.current?.injectJavaScript(injectScript(`window.most.get('${table}')`))
         })
       },
-      put(table: string, key: string, data: object) {
+      put(table: string, key: string, data: string) {
         return new Promise((resolve, reject) => {
           promiseRef.current = { resolve, reject }
           webviewRef.current?.injectJavaScript(
@@ -93,18 +95,35 @@ export const GunProvider = () => {
     }
   }, [])
 
+  useEffect(() => {
+    if (loaded && wallet) {
+      window.most.login(wallet.address, wallet.private_key).then((res) => {
+        console.log(res)
+        if (res.ok) {
+          setItem('pub', res.data)
+        }
+      })
+    }
+  }, [loaded, setItem, wallet])
+
   return (
     <View style={styles.hide}>
       <WebView
         ref={webviewRef}
         onMessage={(event) => {
-          const data = JSON.parse(event.nativeEvent.data)
-          if (promiseRef.current) {
-            promiseRef.current.resolve(data)
-            promiseRef.current = null
+          console.log('result', event.nativeEvent.data)
+          try {
+            const data = JSON.parse(event.nativeEvent.data)
+            if (promiseRef.current) {
+              promiseRef.current.resolve(data)
+              promiseRef.current = null
+            }
+          } catch (error) {
+            console.log(error)
           }
         }}
-        source={{ uri: 'https://most.box/gun/' }}
+        source={{ uri: 'https://most.box/gun/index.html' }}
+        onLoadEnd={() => setLoaded(true)}
       />
     </View>
   )
@@ -112,13 +131,7 @@ export const GunProvider = () => {
 
 const styles = StyleSheet.create({
   hide: {
-    display: 'none',
-    position: 'absolute',
-
     width: 0,
     height: 0,
-
-    flexGrow: 0,
-    flexShrink: 1,
   },
 })

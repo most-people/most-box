@@ -4,27 +4,19 @@ import { TouchableOpacity, View } from 'react-native'
 import { Icon } from '@/assets/icon'
 import { Colors } from '@/constants/Colors'
 import { ThemeText } from '@/components/Theme'
-import { useMemo, useRef } from 'react'
+import { useRef } from 'react'
 import { DialogPrompt } from '@/components/Dialog'
 import { Topic, useTopic } from '@/hooks/useTopic'
 import React from 'react'
 import { useUserStore } from '@/stores/userStore'
 
 export default function ChatScreen() {
-  const { theme } = useUserStore()
+  const { theme, topics } = useUserStore()
   const topic = useTopic()
   const createTopicRef = useRef<any>()
   const open = () => {
     createTopicRef.current.openModal()
   }
-
-  const topics = useMemo(() => {
-    // 排序
-    const list = topic.topics.sort((a, b) => b.timestamp - a.timestamp)
-    // 去重
-    // const map = new Map<string, Topic>(list.map((e) => [e.name, e]))
-    return list
-  }, [topic.topics])
 
   const TopicItem = (item: Topic) => (
     <View style={{ flexDirection: 'row', gap: '10%', justifyContent: 'space-between' }}>
@@ -60,8 +52,8 @@ export default function ChatScreen() {
       ) : (
         <ThemeText>话题</ThemeText>
       )}
-      {topics.map((item) => (
-        <TopicItem key={item.name} {...item} />
+      {topics.map((item, i) => (
+        <TopicItem key={i} {...item} />
       ))}
       <DialogPrompt ref={createTopicRef} title="加入话题" onConfirm={topic.join} />
     </PageTabView>
