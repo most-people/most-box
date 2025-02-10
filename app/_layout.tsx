@@ -8,7 +8,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
 import { useUserStore } from '@/stores/userStore'
-import { useColorScheme } from 'react-native'
+import { Platform, useColorScheme } from 'react-native'
 import { Colors } from '@/constants/Colors'
 import { GunProvider } from '@/components/GunProvider'
 import { MostWallet } from '@/constants/MostWallet'
@@ -37,6 +37,14 @@ export default function RootLayout() {
       const wallet = mp.verifyJWT(token, tokenSecret) as MostWallet | null
       if (wallet) {
         setItem('wallet', wallet)
+        if (Platform.OS === 'web') {
+          window.most.login(wallet.address, wallet.private_key).then((res) => {
+            console.log(res)
+            if (res.ok) {
+              setItem('pub', res.data)
+            }
+          })
+        }
       }
     }
   }, [setItem])

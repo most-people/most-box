@@ -49,7 +49,7 @@ export const useUserStore = create<State>(
         }
         return {
           ...state,
-          [key]: [...prev, value],
+          [key]: [value, ...prev],
         }
       }),
   }),
