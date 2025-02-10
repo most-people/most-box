@@ -26,7 +26,7 @@ declare global {
     user: IGunUserInstance<any, any, any, IGunInstanceRoot<any, IGunInstance<any>>>
     most: {
       login: (username: string, password: string) => Promise<GunRes>
-      leave: () => void
+      leave: () => Promise<GunRes>
       put: (table: string, key: string, json: string) => Promise<GunRes>
       del: (table: string, key: string) => Promise<GunRes>
       get: (table: string) => Promise<GunRes>

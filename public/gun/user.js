@@ -24,6 +24,13 @@ window.most = {
   },
   leave() {
     window.user.leave()
+    return new Promise((resolve) => {
+      if (window.user._.sea) {
+        return resolve({ ok: false, message: '注销失败', data: window.user._.sea })
+      } else {
+        return resolve({ ok: true, message: '注销成功' })
+      }
+    })
   },
   get(table) {
     return new Promise((resolve) => {
