@@ -26,9 +26,9 @@ window.most = {
     window.user.leave()
     return new Promise((resolve) => {
       if (window.user._.sea) {
-        return resolve({ ok: false, message: '注销失败', data: window.user._.sea })
+        return resolve({ ok: false, message: '退出失败', data: window.user._.sea })
       } else {
-        return resolve({ ok: true, message: '注销成功' })
+        return resolve({ ok: true, message: '退出成功' })
       }
     })
   },

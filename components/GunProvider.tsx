@@ -111,7 +111,7 @@ export const GunProvider = () => {
       <WebView
         ref={webviewRef}
         onMessage={(event) => {
-          console.log('onMessage', event.nativeEvent.data)
+          // console.log('onMessage', event.nativeEvent.data)
           try {
             const data = JSON.parse(event.nativeEvent.data)
             if (promiseRef.current) {
