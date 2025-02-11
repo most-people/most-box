@@ -1,78 +1,39 @@
-import { ThemeText } from '@/components/Theme'
 import { Colors } from '@/constants/Colors'
 import mp from '@/constants/mp'
 import { SvgXml } from 'react-native-svg'
-import { useState } from 'react'
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native'
-import { Link, useNavigation, useRouter } from 'expo-router'
+import { useEffect, useMemo, useState } from 'react'
+import { StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native'
 import { useUserStore } from '@/stores/userStore'
-import { mostAddress } from '@/constants/MostWallet'
+import { mostAddress, mostDanger } from '@/constants/MostWallet'
+import PageView from '@/components/PageView'
+import { ThemeText } from '@/components/Theme'
 
 export default function LoginPage() {
-  const navigation = useNavigation()
-  const router = useRouter()
-  const { setItem, theme } = useUserStore()
+  const { theme } = useUserStore()
   const styles = createStyles(theme)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [address, setAddress] = useState('')
+  const [mnemonic, setMnemonic] = useState('')
+  const [showMnemonic, setShowMnemonic] = useState(false)
 
-  const toLogin = () => {
+  useEffect(() => {
     if (username && password) {
-      if (navigation.canGoBack()) {
-        navigation.goBack()
-      } else {
-        router.replace('/')
-      }
-      setTimeout(() => {
-        const wallet = mp.login(username, password)
-        if (wallet) {
-          setItem('wallet', wallet)
-          if (Platform.OS === 'web') {
-            window.most.login(wallet.address, wallet.private_key).then((res) => {
-              console.log(res)
-              if (res.ok) {
-                setItem('pub', res.data)
-              }
-            })
-          }
-        }
-      }, 0)
-    }
-  }
-
-  const disabled = !username || !password
-
-  const back = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack()
+      const danger = mostDanger(username, password)
+      setAddress(danger.address)
+      setMnemonic(danger.mnemonic?.phrase || '')
     } else {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: '(tabs)' as never }], // 将首页设置为目标页面，替换 'Home' 为你的首页路由名称
-      })
+      setAddress('')
+      setMnemonic('')
     }
-  }
+  }, [username, password])
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
-      <TouchableOpacity onPress={back}>
-        <ThemeText type="link">游客</ThemeText>
-      </TouchableOpacity>
-
+    <PageView title={'Web3'}>
       <SvgXml xml={mp.avatar(mostAddress(username, password))} style={styles.avatar} />
 
-      <Text style={styles.title}>欢迎登录</Text>
+      <ThemeText style={styles.title}>助记词</ThemeText>
 
       <TextInput
         style={styles.input}
@@ -94,18 +55,16 @@ export default function LoginPage() {
         returnKeyType="next"
       />
 
-      <TouchableOpacity
-        style={[styles.button, disabled ? styles.buttonDisabled : null]}
-        onPress={toLogin}
-        disabled={disabled}
-      >
-        <Text style={styles.buttonText}>登录</Text>
+      <ThemeText style={styles.title}>ETH 地址：{address}</ThemeText>
+      <TouchableOpacity onPress={() => setShowMnemonic(!showMnemonic)}>
+        <ThemeText type="link">{showMnemonic ? '隐藏' : '显示'}</ThemeText>
       </TouchableOpacity>
-
-      <Link href="/about">
-        <ThemeText type="link">去中心化，无需注册，直接登录</ThemeText>
-      </Link>
-    </KeyboardAvoidingView>
+      <ThemeText style={styles.danger}>
+        {showMnemonic
+          ? mnemonic || ' '
+          : '任何拥有您助记词的人都可以窃取您账户中的任何资产，切勿泄露！！！'}
+      </ThemeText>
+    </PageView>
   )
 }
 
@@ -153,6 +112,15 @@ const createStyles = (theme: 'light' | 'dark') => {
       width: 100,
       height: 100,
       borderRadius: 10,
+    },
+    danger: {
+      color: Colors.tint,
+      backgroundColor: Colors[theme].disabled,
+      padding: 10,
+      fontSize: 16,
+      borderRadius: 10,
+      fontWeight: 'thin',
+      fontStyle: 'italic',
     },
   })
 }

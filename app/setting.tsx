@@ -6,10 +6,11 @@ import { mostDanger } from '@/constants/MostWallet'
 import { useUserStore } from '@/stores/userStore'
 import { useToast } from 'expo-toast'
 import { useRef, useState } from 'react'
-import { Switch, TouchableOpacity } from 'react-native'
+import { Switch, TouchableOpacity, StyleSheet } from 'react-native'
 
 export default function Web3Page() {
   const { wallet, theme, setItem } = useUserStore()
+  const styles = createStyles(theme)
   const [showMnemonic, setShowMnemonic] = useState(false)
   const [mnemonic, setMnemonic] = useState('')
   const toast = useToast()
@@ -61,21 +62,7 @@ export default function Web3Page() {
 
       <ThemeText type="subtitle">助记词</ThemeText>
       <ThemeText>任何拥有您助记词的人都可以窃取您账户中的任何资产，切勿泄露！！！</ThemeText>
-      {showMnemonic && (
-        <ThemeText
-          style={{
-            color: Colors.tint,
-            backgroundColor: Colors[theme].disabled,
-            padding: 10,
-            fontSize: 16,
-            borderRadius: 10,
-            fontWeight: 'thin',
-            fontStyle: 'italic',
-          }}
-        >
-          {mnemonic}
-        </ThemeText>
-      )}
+      {showMnemonic && <ThemeText style={styles.danger}>{mnemonic}</ThemeText>}
       <TouchableOpacity onPress={toggle}>
         <ThemeText type="link">{showMnemonic ? '立刻删除' : '输入密码获取'}</ThemeText>
       </TouchableOpacity>
@@ -83,4 +70,18 @@ export default function Web3Page() {
       <DialogPrompt ref={createTopicRef} title="输入密码获取" onConfirm={getMnemonic} />
     </PageView>
   )
+}
+
+const createStyles = (theme: 'light' | 'dark') => {
+  return StyleSheet.create({
+    danger: {
+      color: Colors.tint,
+      backgroundColor: Colors[theme].disabled,
+      padding: 10,
+      fontSize: 16,
+      borderRadius: 10,
+      fontWeight: 'thin',
+      fontStyle: 'italic',
+    },
+  })
 }

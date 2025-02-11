@@ -223,6 +223,7 @@ const createStyles = (theme: 'light' | 'dark') => {
     avatar: {
       width: 32,
       height: 32,
+      borderRadius: 10,
     },
   })
 }
