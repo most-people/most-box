@@ -1,12 +1,13 @@
 import { Colors } from '@/constants/Colors'
 import mp from '@/constants/mp'
 import { SvgXml } from 'react-native-svg'
-import { useEffect, useMemo, useState } from 'react'
-import { StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native'
+import QRCode from 'react-native-qrcode-svg'
+import { useEffect, useState } from 'react'
+import { StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import { useUserStore } from '@/stores/userStore'
 import { mostAddress, mostDanger } from '@/constants/MostWallet'
 import PageView from '@/components/PageView'
-import { ThemeText } from '@/components/Theme'
+import { ThemeText, ThemeView } from '@/components/Theme'
 
 export default function LoginPage() {
   const { theme } = useUserStore()
@@ -14,7 +15,7 @@ export default function LoginPage() {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [address, setAddress] = useState('')
+  const [address, setAddress] = useState(mp.ZeroAddress)
   const [mnemonic, setMnemonic] = useState('')
   const [showMnemonic, setShowMnemonic] = useState(false)
 
@@ -24,7 +25,7 @@ export default function LoginPage() {
       setAddress(danger.address)
       setMnemonic(danger.mnemonic?.phrase || '')
     } else {
-      setAddress('')
+      setAddress(mp.ZeroAddress)
       setMnemonic('')
     }
   }, [username, password])
@@ -56,6 +57,19 @@ export default function LoginPage() {
       />
 
       <ThemeText style={styles.title}>ETH 地址：{address}</ThemeText>
+
+      <ThemeView
+        style={{
+          padding: 15,
+          backgroundColor: '#fff',
+          borderRadius: 10,
+          width: 230,
+          height: 230,
+        }}
+      >
+        <QRCode value={address} size={200} />
+      </ThemeView>
+
       <TouchableOpacity onPress={() => setShowMnemonic(!showMnemonic)}>
         <ThemeText type="link">{showMnemonic ? '隐藏' : '显示'}</ThemeText>
       </TouchableOpacity>
