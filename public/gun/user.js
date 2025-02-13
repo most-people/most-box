@@ -1,5 +1,5 @@
 window.gun = window.Gun({
-  peers: window.GunPeers,
+  // peers: window.GunPeers,
 })
 window.user = window.gun.user()
 // 登录

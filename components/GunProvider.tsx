@@ -49,7 +49,7 @@ export const GunProvider = () => {
 
   useEffect(() => {
     const gun = Gun({
-      peers: GunPeers,
+      // peers: GunPeers,
       store: asyncStore({ AsyncStorage }),
     })
 

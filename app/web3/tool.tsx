@@ -17,6 +17,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [address, setAddress] = useState(mp.ZeroAddress)
   const [mnemonic, setMnemonic] = useState('')
+  const [showAddress, setShowAddress] = useState(true)
   const [showMnemonic, setShowMnemonic] = useState(false)
 
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function LoginPage() {
     <PageView title={'Web3'}>
       <SvgXml xml={mp.avatar(mostAddress(username, password))} style={styles.avatar} />
 
-      <ThemeText style={styles.title}>助记词</ThemeText>
+      <ThemeText style={styles.title}>账户查询</ThemeText>
 
       <TextInput
         style={styles.input}
@@ -56,28 +57,33 @@ export default function LoginPage() {
         returnKeyType="next"
       />
 
+      <TouchableOpacity onPress={() => setShowAddress(!showAddress)}>
+        <ThemeText type="link">{showAddress ? '隐藏' : '二维码'}</ThemeText>
+      </TouchableOpacity>
+
+      {showAddress && (
+        <ThemeView style={styles.qrCode}>
+          <QRCode value={address} size={200} />
+        </ThemeView>
+      )}
+
       <ThemeText style={styles.title}>ETH 地址：{address}</ThemeText>
 
-      <ThemeView
-        style={{
-          padding: 15,
-          backgroundColor: '#fff',
-          borderRadius: 10,
-          width: 230,
-          height: 230,
-        }}
-      >
-        <QRCode value={address} size={200} />
-      </ThemeView>
-
-      <TouchableOpacity onPress={() => setShowMnemonic(!showMnemonic)}>
-        <ThemeText type="link">{showMnemonic ? '隐藏' : '显示'}</ThemeText>
-      </TouchableOpacity>
       <ThemeText style={styles.danger}>
         {showMnemonic
           ? mnemonic || ' '
           : '任何拥有您助记词的人都可以窃取您账户中的任何资产，切勿泄露！！！'}
       </ThemeText>
+
+      <TouchableOpacity onPress={() => setShowMnemonic(!showMnemonic)}>
+        <ThemeText type="link">{showMnemonic ? '隐藏' : '显示'}</ThemeText>
+      </TouchableOpacity>
+
+      {showMnemonic && (
+        <ThemeView style={styles.qrCode}>
+          <QRCode value={mnemonic || ' '} size={200} />
+        </ThemeView>
+      )}
     </PageView>
   )
 }
@@ -107,21 +113,6 @@ const createStyles = (theme: 'light' | 'dark') => {
       color: Colors[theme].text,
       fontSize: 16,
     },
-    button: {
-      width: '100%',
-      height: 50,
-      backgroundColor: Colors.sender,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 10,
-    },
-    buttonText: {
-      color: '#fff',
-      fontSize: 18,
-    },
-    buttonDisabled: {
-      backgroundColor: Colors[theme].disabled,
-    },
     avatar: {
       width: 100,
       height: 100,
@@ -135,6 +126,13 @@ const createStyles = (theme: 'light' | 'dark') => {
       borderRadius: 10,
       fontWeight: 'thin',
       fontStyle: 'italic',
+    },
+    qrCode: {
+      padding: 15,
+      backgroundColor: '#fff',
+      borderRadius: 10,
+      width: 230,
+      height: 230,
     },
   })
 }
